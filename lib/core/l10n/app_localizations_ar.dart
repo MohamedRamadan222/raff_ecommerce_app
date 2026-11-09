@@ -11,4 +11,31 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get appTitle => 'رف';
+
+  @override
+  String get errorNetwork => 'تأكد من اتصالك بالإنترنت';
+
+  @override
+  String get errorTimeout => 'انتهت مهلة الاتصال';
+
+  @override
+  String get errorServer => 'خطأ من السيرفر';
+
+  @override
+  String get errorUnknown => 'حدث خطأ غير متوقع';
+
+  @override
+  String get navHome => 'الرئيسية';
+
+  @override
+  String get navCategories => 'الأقسام';
+
+  @override
+  String get navCart => 'السلة';
+
+  @override
+  String get navFavorites => 'المفضلة';
+
+  @override
+  String get navAccount => 'حسابي';
 }

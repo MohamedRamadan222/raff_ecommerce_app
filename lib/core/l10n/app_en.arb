@@ -1,4 +1,13 @@
 {
   "@@locale": "en",
-  "appTitle": "Raff"
+  "appTitle": "Raff",
+  "errorNetwork": "Check your internet connection",
+  "errorTimeout": "Connection timed out",
+  "errorServer": "Server error",
+  "errorUnknown": "An unexpected error occurred",
+  "navHome": "Home",
+  "navCategories": "Categories",
+  "navCart": "Cart",
+  "navFavorites": "Favorites",
+  "navAccount": "Account"
 }

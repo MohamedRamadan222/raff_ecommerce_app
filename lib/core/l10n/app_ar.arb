@@ -1,4 +1,13 @@
 {
   "@@locale": "ar",
-  "appTitle": "رف"
+  "appTitle": "رف",
+  "errorNetwork": "تأكد من اتصالك بالإنترنت",
+  "errorTimeout": "انتهت مهلة الاتصال",
+  "errorServer": "خطأ من السيرفر",
+  "errorUnknown": "حدث خطأ غير متوقع",
+  "navHome": "الرئيسية",
+  "navCategories": "الأقسام",
+  "navCart": "السلة",
+  "navFavorites": "المفضلة",
+  "navAccount": "حسابي"
 }

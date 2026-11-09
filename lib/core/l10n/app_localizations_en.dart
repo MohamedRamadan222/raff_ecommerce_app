@@ -11,4 +11,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appTitle => 'Raff';
+
+  @override
+  String get errorNetwork => 'Check your internet connection';
+
+  @override
+  String get errorTimeout => 'Connection timed out';
+
+  @override
+  String get errorServer => 'Server error';
+
+  @override
+  String get errorUnknown => 'An unexpected error occurred';
+
+  @override
+  String get navHome => 'Home';
+
+  @override
+  String get navCategories => 'Categories';
+
+  @override
+  String get navCart => 'Cart';
+
+  @override
+  String get navFavorites => 'Favorites';
+
+  @override
+  String get navAccount => 'Account';
 }
