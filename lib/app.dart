@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
     return BlocBuilder<SettingsCubit, SettingsState>(
       builder: (context, state) {
         return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           routerConfig: appRouter,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,

@@ -19,13 +19,22 @@ import 'package:raff_app/features/products/presentation/screens/products_screen.
 import 'package:raff_app/features/search/presentation/screens/search_screen.dart';
 import 'package:raff_app/features/splash/presentation/screens/splash_screen.dart';
 
+import '../widgets/design_system_screen.dart';
 import 'app_routes.dart';
 import 'main_shell.dart';
 
 final appRouter = GoRouter(
-  initialLocation: AppRoutes.splash,
+  initialLocation: '/design-system',
   routes: [
-    GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashScreen()),
+    GoRoute(
+      path: '/design-system',
+      builder: (_, _) => const DesignSystemScreen(),
+    ),
+    // باقي الـ routes زي ما هي
+    // final appRouter = GoRouter(
+    //   initialLocation: AppRoutes.splash,
+    //   routes: [
+    //     GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashScreen()),
     GoRoute(
       path: AppRoutes.onboarding,
       builder: (_, _) => const OnboardingScreen(),
