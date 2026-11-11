@@ -28,10 +28,8 @@ class SectionHeader extends StatelessWidget {
         // 1. العنوان الرئيسي
         Text(
           title,
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            color: textColor,
-            fontWeight: FontWeight.bold,
-          ),
+          style: Theme.of(context).textTheme.titleLarge
+              ?.copyWith(color: textColor, fontWeight: FontWeight.bold),
         ),
 
         // 2. الجزء الجانبي (حسب اللي هتبعته ليه)
@@ -45,9 +43,8 @@ class SectionHeader extends StatelessWidget {
               children: [
                 Text(
                   actionText!,
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: actionColor,
-                  ),
+                  style: Theme.of(context).textTheme.labelMedium
+                      ?.copyWith(color: actionColor),
                 ),
                 const SizedBox(width: 4),
                 // السهم (Directional عشان يقلب مع العربي والإنجليزي)

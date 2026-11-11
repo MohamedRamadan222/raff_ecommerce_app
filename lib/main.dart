@@ -8,7 +8,7 @@ import 'package:raff_app/features/settings/presentation/cubit/settings_state.dar
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  init();
+  await init();
 
   final prefsServices = sl<PreferencesService>();
   final savedTheme = await prefsServices.loadThemeMode();

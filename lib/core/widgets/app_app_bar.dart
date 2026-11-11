@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raff_app/core/theme/app_colors.dart';
+
 import 'app_back_button.dart';
 
 class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -38,24 +39,22 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: false,
       leading: leading ?? (showBackButton ? const AppBackButton() : null),
       title: _buildTitle(context, textColor, subtitleColor),
-      actions: [
-        ...?actions,
-        const SizedBox(width: 12),
-      ],
+      actions: [...?actions, const SizedBox(width: 12)],
     );
   }
 
-  Widget? _buildTitle(BuildContext context, Color textColor, Color subtitleColor) {
+  Widget? _buildTitle(
+    BuildContext context,
+    Color textColor,
+    Color subtitleColor,
+  ) {
     if (title == null) return null;
 
     if (subtitle == null && customSubtitle == null) {
       return Text(
         title!,
-        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-          color: textColor,
-          fontWeight: FontWeight.bold,
-
-        ),
+        style: Theme.of(context).textTheme.titleLarge
+            ?.copyWith(color: textColor, fontWeight: FontWeight.bold),
       );
     }
 
@@ -74,10 +73,8 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
         if (subtitle != null)
           Text(
             subtitle!,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: subtitleColor,
-              height: 1.5,
-            ),
+            style: Theme.of(context).textTheme.labelMedium
+                ?.copyWith(color: subtitleColor, height: 1.5),
           ),
         ?customSubtitle,
       ],
@@ -85,5 +82,7 @@ class AppAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(subtitle != null || customSubtitle != null ? 66 : kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(
+    subtitle != null || customSubtitle != null ? 66 : kToolbarHeight,
+  );
 }

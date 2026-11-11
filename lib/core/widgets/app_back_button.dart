@@ -13,16 +13,14 @@ class AppBackButton extends StatelessWidget {
     final iconColor = isDark ? AppColors.darkInk : AppColors.ink;
 
     return IconButton(
-      icon: Icon(
-        Icons.arrow_back_ios_new,
-        color: iconColor,
-        size: 20,
-      ),
-      onPressed: onPressed ?? () {
-        if (context.canPop()) {
-          context.pop();
-        }
-      },
+      icon: Icon(Icons.arrow_back_ios_new, color: iconColor, size: 20),
+      onPressed:
+          onPressed ??
+          () {
+            if (context.canPop()) {
+              context.pop();
+            }
+          },
     );
   }
 }

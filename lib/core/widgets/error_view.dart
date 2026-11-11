@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:raff_app/core/theme/app_colors.dart';
+
 import 'app_button.dart';
 
 class ErrorView extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
 
-  const ErrorView({
-    super.key,
-    required this.message,
-    this.onRetry,
-  });
+  const ErrorView({super.key, required this.message, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +26,15 @@ class ErrorView extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               message,
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: textColor,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.titleMedium
+                  ?.copyWith(color: textColor, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
             if (onRetry != null) ...[
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
-                child: AppButton(
-
-                  onPressed: onRetry, label: 'اعادة المحاولة',
-                ),
+                child: AppButton(onPressed: onRetry, label: 'اعادة المحاولة'),
               ),
             ],
           ],

@@ -97,7 +97,9 @@ class ProductCard extends StatelessWidget {
                     width: 35,
                     height: 35,
                     decoration: BoxDecoration(
-                      color: (isDark ? AppColors.darkSurface : AppColors.surface).withValues(alpha: 0.80),
+                      color:
+                          (isDark ? AppColors.darkSurface : AppColors.surface)
+                              .withValues(alpha: 0.80),
                       shape: BoxShape.circle,
                     ),
                     child: FavoriteButton(
@@ -114,7 +116,7 @@ class ProductCard extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 6.0,horizontal: 2),
+              padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 2),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -122,16 +124,16 @@ class ProductCard extends StatelessWidget {
                     category,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.labelMedium
-                    ?.copyWith(color: priceColor),
-              ),
+                    style: Theme.of(context).textTheme.labelMedium
+                        ?.copyWith(color: priceColor),
+                  ),
                   Text(
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.labelLarge
-                    ?.copyWith(color: textColor),
-              ),
+                    style: Theme.of(context).textTheme.labelLarge
+                        ?.copyWith(color: textColor),
+                  ),
 
                   const SizedBox(height: 8),
                   Row(
