@@ -1,14 +1,18 @@
-import 'package:raff_app/features/onboarding/data/datasources/onboarding_local_data_source.dart';
 import 'package:raff_app/features/onboarding/domain/repositories/onboarding_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingRepositoryImpl implements OnboardingRepository {
-  final OnboardingLocalDataSource _localDataSource;
+  final SharedPreferences _sharedPrefs;
 
-  const OnboardingRepositoryImpl(this._localDataSource);
-
-  @override
-  Future<void> setOnboardingSeen() => _localDataSource.cacheOnboardingSeen();
+  OnboardingRepositoryImpl({required this._sharedPrefs});
 
   @override
-  bool isOnboardingSeen() => _localDataSource.getOnboardingSeen();
+  Future<void> saveHasSeenOnboarding() async {
+    await _sharedPrefs.setBool('hasSeenOnboarding', true);
+  }
+
+  @override
+  Future<void> saveIsGuest() async {
+    await _sharedPrefs.setBool('isGuest', true);
+  }
 }

@@ -9,5 +9,17 @@
   "navCategories": "Categories",
   "navCart": "Cart",
   "navFavorites": "Favorites",
-  "navAccount": "Account"
+  "navAccount": "Account",
+  "splashTagline": "Everything your home needs, on one shelf",
+  "splashTapToContinue": "Tap to continue",
+  "onbSkip": "Skip",
+  "onbNext": "Next",
+  "onbStart": "Get started",
+  "onbGuest": "Browse as guest",
+  "onb1Title": "Pieces that make a home",
+  "onb1Body": "Ceramics, wood and linen from local makers, chosen to last you for years.",
+  "onb2Title": "Delivered to your door",
+  "onb2Body": "We deliver in 2-4 business days, free on orders over SAR 200.",
+  "onb3Title": "Hassle-free returns",
+  "onb3Body": "Piece not right? Return it within 14 days for a full refund."
 }

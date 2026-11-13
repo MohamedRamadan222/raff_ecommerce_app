@@ -1,30 +1,38 @@
+import 'dart:ui';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesService {
+  final SharedPreferences sharedPrefs;
+
+  PreferencesService({required this.sharedPrefs});
+
   static const String _themeKey = 'theme_mode';
   static const String _langKey = 'language_code';
 
   // save theme
   Future<void> saveThemeMode(String themeMode) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_themeKey, themeMode);
+    await sharedPrefs.setString(_themeKey, themeMode);
   }
 
   // load theme
   Future<String> loadThemeMode() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_themeKey) ?? 'system'; // => default
+    return sharedPrefs.getString(_themeKey) ?? 'system';
   }
 
-  // save language
   Future<void> saveLanguageCode(String code) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_langKey, code);
+    await sharedPrefs.setString(_langKey, code);
   }
 
   // load language
   Future<String> loadLanguageCode() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_langKey) ?? 'ar';
+    final savedLang = sharedPrefs.getString(_langKey);
+
+    if (savedLang != null) {
+      return savedLang;
+    }
+    // this is the first time getting the lang
+    final systemLang = PlatformDispatcher.instance.locale.languageCode;
+    return (systemLang == 'ar') ? 'ar' : 'en';
   }
 }

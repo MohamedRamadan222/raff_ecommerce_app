@@ -5,14 +5,18 @@ import 'package:raff_app/core/di/injection.dart';
 import 'package:raff_app/core/storage/preferences_service.dart';
 import 'package:raff_app/features/settings/presentation/cubit/settings_cubit.dart';
 import 'package:raff_app/features/settings/presentation/cubit/settings_state.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await init();
+  await setUpGetIt();
+  final prefs = sl<SharedPreferences>();
+  await prefs.clear();
 
   final prefsServices = sl<PreferencesService>();
   final savedTheme = await prefsServices.loadThemeMode();
   final savedLang = await prefsServices.loadLanguageCode();
+
   final initialState = SettingsState(
     locale: Locale(savedLang),
     themeMode: ThemeMode.values.byName(savedTheme),

@@ -1,5 +1,4 @@
 abstract class OnboardingRepository {
-  Future<void> setOnboardingSeen();
-
-  bool isOnboardingSeen();
+  Future<void> saveHasSeenOnboarding();
+  Future<void> saveIsGuest();
 }

@@ -157,6 +157,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Account'**
   String get navAccount;
+
+  /// No description provided for @splashTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything your home needs, on one shelf'**
+  String get splashTagline;
+
+  /// No description provided for @splashTapToContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to continue'**
+  String get splashTapToContinue;
+
+  /// No description provided for @onbSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onbSkip;
+
+  /// No description provided for @onbNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onbNext;
+
+  /// No description provided for @onbStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Get started'**
+  String get onbStart;
+
+  /// No description provided for @onbGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse as guest'**
+  String get onbGuest;
+
+  /// No description provided for @onb1Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Pieces that make a home'**
+  String get onb1Title;
+
+  /// No description provided for @onb1Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Ceramics, wood and linen from local makers, chosen to last you for years.'**
+  String get onb1Body;
+
+  /// No description provided for @onb2Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered to your door'**
+  String get onb2Title;
+
+  /// No description provided for @onb2Body.
+  ///
+  /// In en, this message translates to:
+  /// **'We deliver in 2-4 business days, free on orders over SAR 200.'**
+  String get onb2Body;
+
+  /// No description provided for @onb3Title.
+  ///
+  /// In en, this message translates to:
+  /// **'Hassle-free returns'**
+  String get onb3Title;
+
+  /// No description provided for @onb3Body.
+  ///
+  /// In en, this message translates to:
+  /// **'Piece not right? Return it within 14 days for a full refund.'**
+  String get onb3Body;
 }
 
 class _AppLocalizationsDelegate

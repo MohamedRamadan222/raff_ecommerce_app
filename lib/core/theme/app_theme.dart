@@ -159,6 +159,7 @@ class AppTheme {
         labelLarge: AppTextStyles.button.copyWith(color: onPrimary),
         labelMedium: AppTextStyles.sectionLabel.copyWith(color: text),
         labelSmall: AppTextStyles.badge.copyWith(color: text),
+        bodySmall: AppTextStyles.small.copyWith(color: muted),
       ),
     );
   }

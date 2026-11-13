@@ -35,14 +35,14 @@ abstract final class AppColors {
 
   // Dark backgrounds
   static const Color darkStage = Color(0xFF141512);
-  static const Color darkPaper = Color(0xFF1D1E1A);
+  static const Color darkPaper = Color(0xFF191917);
   static const Color darkSurface = Color(0xFF252620);
   static const Color darkSunken = Color(0xFF191A16);
 
   // Dark text
-  static const Color darkInk = Color(0xFFF2F1EC);
-  static const Color darkInkSecondary = Color(0xFFC1C1B8);
-  static const Color darkMuted = Color(0xFF92938A);
+  static const Color darkInk = Color(0xFFEDEDE8);
+  static const Color darkInkSecondary = Color(0xFFBDBDB5);
+  static const Color darkMuted = Color(0xFF8E8E86);
   static const Color darkOnInk = Color(0xFF22221F);
 
   // Dark borders

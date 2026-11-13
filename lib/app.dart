@@ -16,12 +16,15 @@ class MyApp extends StatelessWidget {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           routerConfig: appRouter,
+          // todo for test ar && light mode
+          themeMode: ThemeMode.light, // مؤقت للتغلير
+          locale: const Locale('ar'),
+          // locale: state.locale,
+          // themeMode: state.themeMode,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          locale: state.locale,
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
-          themeMode: state.themeMode,
         );
       },
     );

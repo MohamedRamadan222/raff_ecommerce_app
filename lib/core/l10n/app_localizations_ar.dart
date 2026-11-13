@@ -38,4 +38,43 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get navAccount => 'حسابي';
+
+  @override
+  String get splashTagline => 'كل ما يحتاجه بيتك، على رفّ واحد';
+
+  @override
+  String get splashTapToContinue => 'اضغط للمتابعة';
+
+  @override
+  String get onbSkip => 'تخطَّ';
+
+  @override
+  String get onbNext => 'التالي';
+
+  @override
+  String get onbStart => 'ابدأ الآن';
+
+  @override
+  String get onbGuest => 'تصفّح كضيف';
+
+  @override
+  String get onb1Title => 'قطع تصنع البيت';
+
+  @override
+  String get onb1Body =>
+      'فخار وخشب وكتّان من صنّاع محليين، مختارة بعناية لتعيش معك سنوات.';
+
+  @override
+  String get onb2Title => 'توصيل إلى بابك';
+
+  @override
+  String get onb2Body =>
+      'نوصل طلبك خلال ٢-٤ أيام عمل، ومجانًا للطلبات فوق ٢٠٠ ر.س.';
+
+  @override
+  String get onb3Title => 'إرجاع بلا تعقيد';
+
+  @override
+  String get onb3Body =>
+      'لم تناسبك القطعة؟ أرجعها خلال ١٤ يومًا واسترد المبلغ كاملًا.';
 }

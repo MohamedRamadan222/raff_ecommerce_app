@@ -1,4 +1,3 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:raff_app/features/account/presentation/screens/account_screen.dart';
 import 'package:raff_app/features/addresses/presentation/screens/addresses_screen.dart';
@@ -13,7 +12,6 @@ import 'package:raff_app/features/favorites/presentation/screens/favorites_scree
 import 'package:raff_app/features/home/presentation/screens/home_screen.dart';
 import 'package:raff_app/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:raff_app/features/onboarding/presentation/screens/onboarding_screen.dart';
-import 'package:raff_app/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:raff_app/features/orders/presentation/screens/orders_screen.dart';
 import 'package:raff_app/features/orders/presentation/screens/track_order_screen.dart';
 import 'package:raff_app/features/products/presentation/screens/product_details_screen.dart';
@@ -21,7 +19,6 @@ import 'package:raff_app/features/products/presentation/screens/products_screen.
 import 'package:raff_app/features/search/presentation/screens/search_screen.dart';
 import 'package:raff_app/features/splash/presentation/screens/splash_screen.dart';
 
-import '../di/injection.dart';
 import 'app_routes.dart';
 import 'main_shell.dart';
 
@@ -31,10 +28,7 @@ final appRouter = GoRouter(
     GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashScreen()),
     GoRoute(
       path: AppRoutes.onboarding,
-      builder: (_, _) => BlocProvider(
-        create: (_) => sl<OnboardingCubit>(),
-        child: const OnboardingScreen(),
-      ),
+      builder: (_, _) => const OnboardingScreen(),
     ),
     GoRoute(path: AppRoutes.login, builder: (_, _) => const LoginScreen()),
     GoRoute(
