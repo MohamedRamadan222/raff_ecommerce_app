@@ -8,12 +8,13 @@ abstract class Failure extends Equatable {
 }
 
 class ServerFailure extends Failure {
-  final int? statusCode;
+  final String message; // تم تغيير الاسم لـ message ليكون منطقياً
 
-  const ServerFailure([this.statusCode]);
+  // جعلناها إجبارية (Required) حتى لا ننسى تمرير الرسالة
+  const ServerFailure(this.message);
 
   @override
-  List<Object?> get props => [statusCode];
+  List<Object?> get props => [message];
 }
 
 class NetworkFailure extends Failure {

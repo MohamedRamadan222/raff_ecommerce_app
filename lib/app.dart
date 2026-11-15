@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routerConfig: appRouter,
           // todo for test ar && light mode
-          themeMode: ThemeMode.light, // مؤقت للتغلير
+          // themeMode: ThemeMode.light, // مؤقت للتغلير
           locale: const Locale('ar'),
           // locale: state.locale,
-          // themeMode: state.themeMode,
+          themeMode: state.themeMode,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
           theme: AppTheme.lightTheme,

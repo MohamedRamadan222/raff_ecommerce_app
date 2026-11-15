@@ -77,4 +77,78 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get onb3Body =>
       'Piece not right? Return it within 14 days for a full refund.';
+
+  @override
+  String get loginTitle => 'Welcome back';
+
+  @override
+  String get loginSubtitle => 'Log in to follow your orders and wishlist.';
+
+  @override
+  String get mobileNumber => 'Mobile number';
+
+  @override
+  String get password => 'Password';
+
+  @override
+  String get rememberMe => 'Remember me';
+
+  @override
+  String get forgotPassword => 'Forgot password?';
+
+  @override
+  String get loginButton => 'Log in';
+
+  @override
+  String get orDivider => 'or';
+
+  @override
+  String get continueWithApple => 'Continue with Apple';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get dontHaveAccount => 'New to Raff?';
+
+  @override
+  String get createAccount => 'Create account';
+
+  @override
+  String get fieldRequired => 'This field is required';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get registerSubtitle => 'Create your account in less than a minute.';
+
+  @override
+  String get fullName => 'Full name';
+
+  @override
+  String get fullNameHint => 'e.g. Sarah Al-Otaibi';
+
+  @override
+  String get emailOptional => 'Email (optional)';
+
+  @override
+  String get passwordMinHint => 'At least 8 characters';
+
+  @override
+  String get passwordHelper => 'Use at least 8 characters including a number.';
+
+  @override
+  String get agreeTerms =>
+      'I agree to the Terms & Conditions and Privacy Policy';
+
+  @override
+  String get acceptTermsRequired =>
+      'Please accept the terms & conditions to continue';
+
+  @override
+  String get alreadyHaveAccount => 'Already have an account?';
 }

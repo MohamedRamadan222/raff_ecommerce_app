@@ -77,4 +77,77 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get onb3Body =>
       'لم تناسبك القطعة؟ أرجعها خلال ١٤ يومًا واسترد المبلغ كاملًا.';
+
+  @override
+  String get loginTitle => 'مرحبًا بعودتك';
+
+  @override
+  String get loginSubtitle => 'سجّل دخولك لمتابعة طلباتك ومفضلتك.';
+
+  @override
+  String get mobileNumber => 'رقم الجوال';
+
+  @override
+  String get password => 'كلمة المرور';
+
+  @override
+  String get rememberMe => 'تذكّرني';
+
+  @override
+  String get forgotPassword => 'نسيت كلمة المرور؟';
+
+  @override
+  String get loginButton => 'تسجيل الدخول';
+
+  @override
+  String get orDivider => 'أو';
+
+  @override
+  String get continueWithApple => 'المتابعة مع Apple';
+
+  @override
+  String get continueWithGoogle => 'المتابعة مع Google';
+
+  @override
+  String get dontHaveAccount => 'ليس لديك حساب؟';
+
+  @override
+  String get createAccount => 'إنشاء حساب';
+
+  @override
+  String get fieldRequired => 'هذا الحقل مطلوب';
+
+  @override
+  String get loading => 'جاري التحميل...';
+
+  @override
+  String get email => 'البريد الإلكتروني';
+
+  @override
+  String get registerSubtitle => 'أنشئ حسابك في أقل من دقيقة.';
+
+  @override
+  String get fullName => 'الاسم الكامل';
+
+  @override
+  String get fullNameHint => 'مثال: سارة العتيبي';
+
+  @override
+  String get emailOptional => 'البريد الإلكتروني (اختياري)';
+
+  @override
+  String get passwordMinHint => '٨ أحرف على الأقل';
+
+  @override
+  String get passwordHelper => 'استخدم ٨ أحرف على الأقل تتضمن رقمًا.';
+
+  @override
+  String get agreeTerms => 'أوافق على الشروط والأحكام وسياسة الخصوصية';
+
+  @override
+  String get acceptTermsRequired =>
+      'يرجى الموافقة على الشروط والأحكام للمتابعة';
+
+  @override
+  String get alreadyHaveAccount => 'لديك حساب؟';
 }

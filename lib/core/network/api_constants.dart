@@ -1,3 +1,3 @@
 class ApiConstants {
-  static const String baseUrl = 'kkkkkkk';
+  static const String baseUrl = 'https://dummyjson.com/';
 }

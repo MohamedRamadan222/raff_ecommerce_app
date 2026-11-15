@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:raff_app/core/errors/failures.dart';
-import 'package:raff_app/core/l10n/app_localizations.dart';
+
+import '../l10n/app_localizations.dart';
+import 'failures.dart';
 
 extension FailureMessage on Failure {
   String message(BuildContext context) {
@@ -8,7 +9,7 @@ extension FailureMessage on Failure {
     return switch (this) {
       NetworkFailure() => l10n.errorNetwork,
       TimeoutFailure() => l10n.errorTimeout,
-      ServerFailure() => l10n.errorServer,
+      ServerFailure(message: final apiMessage) => apiMessage,
       _ => l10n.errorUnknown,
     };
   }

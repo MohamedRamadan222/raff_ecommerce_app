@@ -2,7 +2,6 @@ import 'package:go_router/go_router.dart';
 import 'package:raff_app/features/account/presentation/screens/account_screen.dart';
 import 'package:raff_app/features/addresses/presentation/screens/addresses_screen.dart';
 import 'package:raff_app/features/auth/presentation/screens/login_screen.dart';
-import 'package:raff_app/features/auth/presentation/screens/otp_screen.dart';
 import 'package:raff_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:raff_app/features/cart/presentation/screens/cart_screen.dart';
 import 'package:raff_app/features/categories/presentation/screens/categories_screen.dart';
@@ -35,7 +34,6 @@ final appRouter = GoRouter(
       path: AppRoutes.register,
       builder: (_, _) => const RegisterScreen(),
     ),
-    GoRoute(path: AppRoutes.otp, builder: (_, _) => const OtpScreen()),
 
     StatefulShellRoute.indexedStack(
       builder: (_, _, shell) => MainShell(shell: shell),

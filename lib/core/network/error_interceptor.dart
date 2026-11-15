@@ -15,7 +15,7 @@ class ErrorInterceptor extends Interceptor {
       case DioExceptionType.connectionError:
         failure = const NetworkFailure();
       case DioExceptionType.badResponse:
-        failure = ServerFailure(err.response?.statusCode);
+        failure = ServerFailure(err.toString());
       default:
         failure = const UnknownFailure();
     }

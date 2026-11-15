@@ -77,12 +77,26 @@ class _OnboardingViewState extends State<_OnboardingView> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Align(
+                    alignment: AlignmentDirectional.topStart,
+                    child: Text(
+                      'رَفّ',
+                      style: tt.headlineLarge!.copyWith(
+                        fontFamily: 'ReemKufi',
+                        fontSize: 32,
+                        height: 1.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
                   if (!_last)
                     TextButton(
                       onPressed: () => _go(_count - 1),
                       style: TextButton.styleFrom(
-                        foregroundColor: cs.onSurface.withOpacity(0.6),
+                        foregroundColor: cs.onSurface.withValues(alpha: 0.6),
                       ),
                       child: Text(
                         l10n.onbSkip,
@@ -91,16 +105,6 @@ class _OnboardingViewState extends State<_OnboardingView> {
                     )
                   else
                     const SizedBox(width: 60),
-
-                  Text(
-                    'رَفّ',
-                    style: tt.headlineLarge!.copyWith(
-                      fontFamily: 'ReemKufi',
-                      fontSize: 32,
-                      height: 1.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                 ],
               ),
               const SizedBox(height: 16),
@@ -111,7 +115,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
                   controller: _ctrl,
                   itemCount: _count,
                   onPageChanged: (i) => setState(() => _i = i),
-                  itemBuilder: (_, __) => Container(
+                  itemBuilder: (_, _) => Container(
                     margin: const EdgeInsets.symmetric(horizontal: 4),
                     decoration: BoxDecoration(
                       color: isDark
@@ -156,7 +160,7 @@ class _OnboardingViewState extends State<_OnboardingView> {
                               bodies[_i],
                               style: tt.bodyMedium!.copyWith(
                                 fontSize: 16,
-                                color: cs.onSurface.withOpacity(0.7),
+                                color: cs.onSurface.withValues(alpha: 0.7),
                                 height: 1.5,
                               ),
                             ),
