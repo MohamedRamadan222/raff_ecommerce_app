@@ -19,6 +19,18 @@ import 'package:raff_app/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import '../../features/catalog/data/datasources/catalog_remote_data_source.dart';
+import '../../features/catalog/data/repositories/catalog_repository_impl.dart';
+import '../../features/catalog/domain/repositories/catalog_repository.dart';
+import '../../features/catalog/domain/usecases/get_categories_use_case.dart';
+import '../../features/catalog/domain/usecases/get_product_details_use_case.dart';
+import '../../features/catalog/domain/usecases/get_products_by_category_use_case.dart';
+import '../../features/catalog/domain/usecases/get_products_use_case.dart';
+import '../../features/catalog/domain/usecases/search_products_use_case.dart';
+import '../../features/catalog/presentation/cubit/home_cubit.dart';
+import '../../features/catalog/presentation/cubit/product_details_cubit.dart';
+import '../../features/catalog/presentation/cubit/products_cubit.dart';
+import '../../features/catalog/presentation/cubit/search_cubit.dart';
 import '../storage/preferences_service.dart';
 
 final sl = GetIt.instance;
@@ -65,4 +77,39 @@ Future<void> setUpGetIt() async {
   );
   sl.registerLazySingleton<RegisterUseCase>(() => RegisterUseCase(sl()));
   sl.registerFactory<RegisterCubit>(() => RegisterCubit(sl()));
+
+  // ==================== Catalog Feature ====================
+
+  // Data Sources
+  sl.registerLazySingleton<CatalogRemoteDataSource>(
+    () => CatalogRemoteDataSourceImpl(sl()),
+  );
+
+  // Repositories
+  sl.registerLazySingleton<CatalogRepository>(
+    () => CatalogRepositoryImpl(sl()),
+  );
+
+  //  Use Cases
+  sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
+  sl.registerLazySingleton(() => GetProductsUseCase(sl()));
+  sl.registerLazySingleton(() => GetProductsByCategoryUseCase(sl()));
+  sl.registerLazySingleton(() => SearchProductsUseCase(sl()));
+  sl.registerLazySingleton(() => GetProductDetailsUseCase(sl()));
+
+  // 4. Cubits
+  sl.registerFactory(
+    () => HomeCubit(getProductsUseCase: sl(), getCategoriesUseCase: sl()),
+  );
+
+  sl.registerFactory(
+    () => ProductsCubit(
+      getProductsUseCase: sl(),
+      getProductsByCategoryUseCase: sl(),
+    ),
+  );
+
+  sl.registerFactory(() => SearchCubit(sl()));
+
+  sl.registerFactory(() => ProductDetailsCubit(sl()));
 }

@@ -151,4 +151,142 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get alreadyHaveAccount => 'Already have an account?';
+
+  @override
+  String get homeTitle => 'Raff';
+
+  @override
+  String get searchHint => 'Search for a product...';
+
+  @override
+  String get categories => 'Categories';
+
+  @override
+  String get seeAll => 'See All';
+
+  @override
+  String get featuredProducts => 'Featured Products';
+
+  @override
+  String get allProducts => 'All Products';
+
+  @override
+  String get searchProductsPrompt => 'Type a product name to search';
+
+  @override
+  String get noResultsFound => 'No matching products found';
+
+  @override
+  String get productDetails => 'Product Details';
+
+  @override
+  String get description => 'Description';
+
+  @override
+  String get inStock => 'In Stock';
+
+  @override
+  String get outOfStock => 'Out of Stock';
+
+  @override
+  String get brand => 'Brand';
+
+  @override
+  String get addToCart => 'Add to Cart';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get goodMorning => 'Good morning';
+
+  @override
+  String get goodEvening => 'Good evening';
+
+  @override
+  String get deliverTo => 'Deliver to';
+
+  @override
+  String get selectDeliveryAddress => 'Select delivery address';
+
+  @override
+  String get banner1Tag => 'Winter Collection';
+
+  @override
+  String get banner1Title => 'Warmth of\nLong\nEvenings';
+
+  @override
+  String get banner2Tag => 'Season Offers';
+
+  @override
+  String get banner2Title => 'Warm\nTouches for\nEvery Corner';
+
+  @override
+  String get shopNow => 'Shop now';
+
+  @override
+  String get newArrivals => 'New Arrivals';
+
+  @override
+  String get freeShippingTitle => 'Free shipping over SAR 200';
+
+  @override
+  String get freeShippingSubtitle => 'Delivered in 2-4 business days';
+
+  @override
+  String get bestSellers => 'Best Sellers';
+
+  @override
+  String get newBadge => 'New';
+
+  @override
+  String get currencySar => 'SAR';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get filter => 'Filter';
+
+  @override
+  String get sortBy => 'Sort by';
+
+  @override
+  String get sortPopular => 'Most Popular';
+
+  @override
+  String get sortPriceLow => 'Price: Low to High';
+
+  @override
+  String get sortPriceHigh => 'Price: High to Low';
+
+  @override
+  String get sortRating => 'Highest Rated';
+
+  @override
+  String get discountLabel => 'OFF';
+
+  @override
+  String get productUnit => 'products';
+
+  @override
+  String get discountsOnly => 'Discounts only';
+
+  @override
+  String get priceRange => 'Price range';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
+  String get recentSearches => 'Recent searches';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get mostSearched => 'Most searched';
 }

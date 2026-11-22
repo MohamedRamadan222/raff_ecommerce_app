@@ -1,10 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:raff_app/core/l10n/app_localizations.dart';
 import 'package:raff_app/core/theme/app_colors.dart';
-import 'package:raff_app/core/widgets/app_badge.dart';
 
 import 'favorite_button.dart';
-import 'add_button.dart';
 
 class ProductCard extends StatelessWidget {
   final String title;
@@ -30,19 +29,20 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final cardColor = Colors.transparent;
-    final textColor = isDark ? AppColors.darkInk : AppColors.ink;
-    final priceColor = isDark ? AppColors.darkMuted : AppColors.muted;
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final tt = theme.textTheme;
+    final l10n = AppLocalizations.of(context)!;
+
+    final cardBoxColor = Color.alphaBlend(
+      cs.onSurface.withValues(alpha: 0.14),
+      cs.surface,
+    );
 
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        width: 160,
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(16),
-        ),
+      child: SizedBox(
+        width: 156,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -50,56 +50,44 @@ class ProductCard extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  height: 165,
+                  height: 150,
                   width: double.infinity,
+                  padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(15),
-                    ),
+                    color: cardBoxColor,
+                    borderRadius: BorderRadius.circular(18),
                   ),
                   child: imageUrl.isNotEmpty
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Center(
+                      ? CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          fit: BoxFit.contain,
+                          placeholder: (_, _) => Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: isDark
-                                    ? AppColors.darkLineStrong
-                                    : AppColors.lineStrong,
+                                color: cs.outline,
                               ),
                             ),
-                            errorWidget: (context, url, error) => Icon(
-                              Icons.image_outlined,
-                              size: 40,
-                              color: isDark
-                                  ? AppColors.darkLineStrong
-                                  : AppColors.lineStrong,
-                            ),
+                          ),
+                          errorWidget: (_, _, _) => Icon(
+                            Icons.image_outlined,
+                            size: 36,
+                            color: cs.outline,
                           ),
                         )
-                      : Icon(
-                          Icons.image_outlined,
-                          size: 40,
-                          color: isDark
-                              ? AppColors.darkLineStrong
-                              : AppColors.lineStrong,
-                        ),
+                      : Icon(Icons.image_outlined, size: 36, color: cs.outline),
                 ),
 
                 PositionedDirectional(
-                  top: 8,
-                  end: 8,
+                  top: 10,
+                  end: 10,
                   child: Container(
-                    width: 35,
-                    height: 35,
+                    width: 32,
+                    height: 32,
                     decoration: BoxDecoration(
-                      color:
-                          (isDark ? AppColors.darkSurface : AppColors.surface)
-                              .withValues(alpha: 0.80),
+                      color: cs.surface.withValues(alpha: 0.85),
                       shape: BoxShape.circle,
                     ),
                     child: FavoriteButton(
@@ -108,47 +96,81 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 ),
+
                 PositionedDirectional(
-                  top: 13,
-                  start: 8,
-                  child: AppBadge(text: 'جديد'),
+                  top: 10,
+                  start: 10,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.hero.withValues(alpha: 0.88),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      l10n.newBadge,
+                      style: tt.labelSmall?.copyWith(
+                        color: AppColors.heroInk,
+                        fontSize: 10.5,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 2),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    category,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.labelMedium
-                        ?.copyWith(color: priceColor),
-                  ),
-                  Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.labelLarge
-                        ?.copyWith(color: textColor),
-                  ),
-
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '$price  ر.س',
-                        style: Theme.of(context).textTheme.labelLarge
-                            ?.copyWith(color: priceColor),
-                      ),
-                      AddButton(onTap: onAddTap),
-                    ],
-                  ),
-                ],
+            const SizedBox(height: 8),
+            Text(
+              category,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: tt.bodySmall?.copyWith(
+                fontSize: 11.5,
+                color: cs.onSurface.withValues(alpha: 0.55),
               ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: tt.titleMedium?.copyWith(
+                fontSize: 13.5,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '$price ${l10n.currencySar}',
+                  style: tt.titleMedium?.copyWith(
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                InkWell(
+                  onTap: onAddTap,
+                  borderRadius: BorderRadius.circular(9),
+                  child: Container(
+                    width: 30,
+                    height: 30,
+                    decoration: BoxDecoration(
+                      color: cs.surface,
+                      borderRadius: BorderRadius.circular(9),
+                      border: Border.all(color: cs.outlineVariant),
+                    ),
+                    child: Icon(
+                      Icons.add_rounded,
+                      size: 18,
+                      color: cs.onSurface,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

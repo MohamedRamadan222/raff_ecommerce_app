@@ -150,4 +150,142 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get alreadyHaveAccount => 'لديك حساب؟';
+
+  @override
+  String get homeTitle => 'رَفّ';
+
+  @override
+  String get searchHint => 'ابحث عن منتج...';
+
+  @override
+  String get categories => 'التصنيفات';
+
+  @override
+  String get seeAll => 'عرض الكل';
+
+  @override
+  String get featuredProducts => 'أحدث المنتجات';
+
+  @override
+  String get allProducts => 'جميع المنتجات';
+
+  @override
+  String get searchProductsPrompt => 'اكتب اسم المنتج للبحث';
+
+  @override
+  String get noResultsFound => 'لا توجد نتائج مطابقة لبحثك';
+
+  @override
+  String get productDetails => 'تفاصيل المنتج';
+
+  @override
+  String get description => 'الوصف';
+
+  @override
+  String get inStock => 'متوفر في المخزون';
+
+  @override
+  String get outOfStock => 'غير متوفر حالياً';
+
+  @override
+  String get brand => 'الماركة';
+
+  @override
+  String get addToCart => 'أضف إلى السلة';
+
+  @override
+  String get retry => 'إعادة المحاولة';
+
+  @override
+  String get goodMorning => 'صباح الخير';
+
+  @override
+  String get goodEvening => 'مساء الخير';
+
+  @override
+  String get deliverTo => 'التوصيل إلى';
+
+  @override
+  String get selectDeliveryAddress => 'اختر عنوان التوصيل';
+
+  @override
+  String get banner1Tag => 'مجموعة الشتاء';
+
+  @override
+  String get banner1Title => 'دفء\nالأمسيات\nالطويلة';
+
+  @override
+  String get banner2Tag => 'عروض الموسم';
+
+  @override
+  String get banner2Title => 'لمسات\nدافئة\nلكل زاوية';
+
+  @override
+  String get shopNow => 'تسوق الآن';
+
+  @override
+  String get newArrivals => 'وصل حديثًا';
+
+  @override
+  String get freeShippingTitle => 'شحن مجاني فوق ٢٠٠ ر.س';
+
+  @override
+  String get freeShippingSubtitle => 'وتصلك خلال ٢-٤ أيام عمل';
+
+  @override
+  String get bestSellers => 'الأكثر مبيعًا';
+
+  @override
+  String get newBadge => 'جديد';
+
+  @override
+  String get currencySar => 'ر.س';
+
+  @override
+  String get all => 'الكل';
+
+  @override
+  String get filter => 'تصفية';
+
+  @override
+  String get sortBy => 'الترتيب حسب';
+
+  @override
+  String get sortPopular => 'الأكثر شيوعًا';
+
+  @override
+  String get sortPriceLow => 'السعر: من الأقل للأعلى';
+
+  @override
+  String get sortPriceHigh => 'السعر: من الأعلى للأقل';
+
+  @override
+  String get sortRating => 'الأعلى تقييمًا';
+
+  @override
+  String get discountLabel => 'خصم';
+
+  @override
+  String get productUnit => 'منتج';
+
+  @override
+  String get discountsOnly => 'العروض والخصومات فقط';
+
+  @override
+  String get priceRange => 'نطاق السعر';
+
+  @override
+  String get apply => 'تطبيق';
+
+  @override
+  String get reset => 'إعادة ضبط';
+
+  @override
+  String get recentSearches => 'عمليات البحث الأخيرة';
+
+  @override
+  String get clear => 'مسح';
+
+  @override
+  String get mostSearched => 'الأكثر طلبًا';
 }
