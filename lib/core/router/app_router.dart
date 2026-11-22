@@ -114,9 +114,14 @@ final appRouter = GoRouter(
         final productId = state.extra is int
             ? state.extra as int
             : int.tryParse(state.pathParameters['id'] ?? '') ?? 0;
-        return BlocProvider(
-          create: (_) =>
-              sl<ProductDetailsCubit>()..loadProductDetails(productId),
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (_) =>
+                  sl<ProductDetailsCubit>()..loadProductDetails(productId),
+            ),
+            BlocProvider(create: (_) => sl<HomeCubit>()..loadHomeData()),
+          ],
           child: const ProductDetailsScreen(),
         );
       },

@@ -91,5 +91,20 @@
   "reset": "Reset",
   "recentSearches": "Recent searches",
   "clear": "Clear",
-  "mostSearched": "Most searched"
+  "mostSearched": "Most searched",
+  "vatIncluded": "Price includes VAT",
+  "colorLabel": "Color",
+  "quantityLabel": "Quantity",
+  "deliveryDaysTitle": "2-4 days delivery",
+  "freeOver200": "Free over SAR 200",
+  "freeReturnTitle": "Free return",
+  "within14Days": "Within 14 days",
+  "aboutProduct": "About product",
+  "availability": "Availability",
+  "ratingsTitle": "Ratings",
+  "ratingUnit": "ratings",
+  "youMayAlsoLike": "You may also like",
+  "totalLabel": "Total",
+  "addedToCartMessage": "Added to cart",
+  "categoryLabel": "Category"
 }

@@ -14,10 +14,10 @@ import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_state.dart';
 import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/free_shipping_banner.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/home_banner_carousel.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/home_category_item.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/home_header.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/home/free_shipping_banner.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/home/home_banner_carousel.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/home/home_category_item.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/home/home_header.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

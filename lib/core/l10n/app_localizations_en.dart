@@ -289,4 +289,49 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mostSearched => 'Most searched';
+
+  @override
+  String get vatIncluded => 'Price includes VAT';
+
+  @override
+  String get colorLabel => 'Color';
+
+  @override
+  String get quantityLabel => 'Quantity';
+
+  @override
+  String get deliveryDaysTitle => '2-4 days delivery';
+
+  @override
+  String get freeOver200 => 'Free over SAR 200';
+
+  @override
+  String get freeReturnTitle => 'Free return';
+
+  @override
+  String get within14Days => 'Within 14 days';
+
+  @override
+  String get aboutProduct => 'About product';
+
+  @override
+  String get availability => 'Availability';
+
+  @override
+  String get ratingsTitle => 'Ratings';
+
+  @override
+  String get ratingUnit => 'ratings';
+
+  @override
+  String get youMayAlsoLike => 'You may also like';
+
+  @override
+  String get totalLabel => 'Total';
+
+  @override
+  String get addedToCartMessage => 'Added to cart';
+
+  @override
+  String get categoryLabel => 'Category';
 }

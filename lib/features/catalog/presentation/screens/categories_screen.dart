@@ -11,8 +11,8 @@ import 'package:raff_app/features/catalog/domain/entities/category_entity.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_state.dart';
 import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/category_grid_card.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/featured_category_card.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/categories/category_grid_card.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/categories/featured_category_card.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});

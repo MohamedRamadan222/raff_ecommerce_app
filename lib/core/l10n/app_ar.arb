@@ -91,5 +91,20 @@
   "reset": "إعادة ضبط",
   "recentSearches": "عمليات البحث الأخيرة",
   "clear": "مسح",
-  "mostSearched": "الأكثر طلبًا"
+  "mostSearched": "الأكثر طلبًا",
+  "vatIncluded": "السعر شامل ضريبة القيمة المضافة",
+  "colorLabel": "اللون",
+  "quantityLabel": "الكمية",
+  "deliveryDaysTitle": "توصيل ٢-٤ أيام",
+  "freeOver200": "مجاني فوق ٢٠٠ ر.س",
+  "freeReturnTitle": "إرجاع مجاني",
+  "within14Days": "خلال ١٤ يومًا",
+  "aboutProduct": "عن المنتج",
+  "availability": "التوفر",
+  "ratingsTitle": "التقييمات",
+  "ratingUnit": "تقييم",
+  "youMayAlsoLike": "قد يعجبك أيضًا",
+  "totalLabel": "الإجمالي",
+  "addedToCartMessage": "تمت إضافة المنتج إلى السلة",
+  "categoryLabel": "القسم"
 }

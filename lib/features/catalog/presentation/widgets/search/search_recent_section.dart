@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../../../../core/l10n/app_localizations.dart';
+import '../../../../../core/l10n/app_localizations.dart';
 
 class SearchRecentSection extends StatelessWidget {
   final List<String> searches;

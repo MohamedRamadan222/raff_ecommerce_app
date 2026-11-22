@@ -288,4 +288,49 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get mostSearched => 'الأكثر طلبًا';
+
+  @override
+  String get vatIncluded => 'السعر شامل ضريبة القيمة المضافة';
+
+  @override
+  String get colorLabel => 'اللون';
+
+  @override
+  String get quantityLabel => 'الكمية';
+
+  @override
+  String get deliveryDaysTitle => 'توصيل ٢-٤ أيام';
+
+  @override
+  String get freeOver200 => 'مجاني فوق ٢٠٠ ر.س';
+
+  @override
+  String get freeReturnTitle => 'إرجاع مجاني';
+
+  @override
+  String get within14Days => 'خلال ١٤ يومًا';
+
+  @override
+  String get aboutProduct => 'عن المنتج';
+
+  @override
+  String get availability => 'التوفر';
+
+  @override
+  String get ratingsTitle => 'التقييمات';
+
+  @override
+  String get ratingUnit => 'تقييم';
+
+  @override
+  String get youMayAlsoLike => 'قد يعجبك أيضًا';
+
+  @override
+  String get totalLabel => 'الإجمالي';
+
+  @override
+  String get addedToCartMessage => 'تمت إضافة المنتج إلى السلة';
+
+  @override
+  String get categoryLabel => 'القسم';
 }

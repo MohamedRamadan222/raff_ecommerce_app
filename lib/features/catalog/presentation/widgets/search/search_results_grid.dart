@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/product_grid_card.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/categories/product_grid_card.dart';
 
 class SearchResultsGrid extends StatelessWidget {
   final ScrollController controller;

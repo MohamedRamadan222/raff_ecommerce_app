@@ -15,10 +15,10 @@ import 'package:raff_app/features/catalog/presentation/cubit/home_state.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/products_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/products_state.dart';
 import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/product_grid_card.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/products_filter_bar.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/products_header.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/products_sheets.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/categories/product_grid_card.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/products/products_filter_bar.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/products/products_header.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/products/products_sheets.dart';
 
 class ProductsScreen extends StatefulWidget {
   final String? initialCategorySlug;

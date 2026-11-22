@@ -649,6 +649,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Most searched'**
   String get mostSearched;
+
+  /// No description provided for @vatIncluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Price includes VAT'**
+  String get vatIncluded;
+
+  /// No description provided for @colorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Color'**
+  String get colorLabel;
+
+  /// No description provided for @quantityLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity'**
+  String get quantityLabel;
+
+  /// No description provided for @deliveryDaysTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'2-4 days delivery'**
+  String get deliveryDaysTitle;
+
+  /// No description provided for @freeOver200.
+  ///
+  /// In en, this message translates to:
+  /// **'Free over SAR 200'**
+  String get freeOver200;
+
+  /// No description provided for @freeReturnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Free return'**
+  String get freeReturnTitle;
+
+  /// No description provided for @within14Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Within 14 days'**
+  String get within14Days;
+
+  /// No description provided for @aboutProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'About product'**
+  String get aboutProduct;
+
+  /// No description provided for @availability.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get availability;
+
+  /// No description provided for @ratingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ratings'**
+  String get ratingsTitle;
+
+  /// No description provided for @ratingUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'ratings'**
+  String get ratingUnit;
+
+  /// No description provided for @youMayAlsoLike.
+  ///
+  /// In en, this message translates to:
+  /// **'You may also like'**
+  String get youMayAlsoLike;
+
+  /// No description provided for @totalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get totalLabel;
+
+  /// No description provided for @addedToCartMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to cart'**
+  String get addedToCartMessage;
+
+  /// No description provided for @categoryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Category'**
+  String get categoryLabel;
 }
 
 class _AppLocalizationsDelegate

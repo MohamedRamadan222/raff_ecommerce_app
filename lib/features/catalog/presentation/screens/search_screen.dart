@@ -16,9 +16,9 @@ import 'package:raff_app/features/catalog/presentation/cubit/home_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_state.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/search_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/search_state.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/search_popular_section.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/search_recent_section.dart';
-import 'package:raff_app/features/catalog/presentation/widgets/search_results_grid.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/search/search_popular_section.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/search/search_recent_section.dart';
+import 'package:raff_app/features/catalog/presentation/widgets/search/search_results_grid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchScreen extends StatefulWidget {
