@@ -11,6 +11,7 @@ class ProductCard extends StatelessWidget {
   final String price;
   final String imageUrl;
   final bool isFavorite;
+  final bool isInCart;
   final VoidCallback onFavoriteTap;
   final VoidCallback onAddTap;
   final VoidCallback onTap;
@@ -22,6 +23,7 @@ class ProductCard extends StatelessWidget {
     required this.price,
     required this.imageUrl,
     this.isFavorite = false,
+    this.isInCart = false,
     required this.onFavoriteTap,
     required this.onAddTap,
     required this.onTap,
@@ -59,27 +61,26 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: imageUrl.isNotEmpty
                       ? CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          fit: BoxFit.contain,
-                          placeholder: (_, _) => Center(
-                            child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: cs.outline,
-                              ),
-                            ),
-                          ),
-                          errorWidget: (_, _, _) => Icon(
-                            Icons.image_outlined,
-                            size: 36,
-                            color: cs.outline,
-                          ),
-                        )
+                    imageUrl: imageUrl,
+                    fit: BoxFit.contain,
+                    placeholder: (_, _) => Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: cs.outline,
+                        ),
+                      ),
+                    ),
+                    errorWidget: (_, _, _) => Icon(
+                      Icons.image_outlined,
+                      size: 36,
+                      color: cs.outline,
+                    ),
+                  )
                       : Icon(Icons.image_outlined, size: 36, color: cs.outline),
                 ),
-
                 PositionedDirectional(
                   top: 10,
                   end: 10,
@@ -96,7 +97,6 @@ class ProductCard extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 PositionedDirectional(
                   top: 10,
                   start: 10,
@@ -159,14 +159,16 @@ class ProductCard extends StatelessWidget {
                     width: 30,
                     height: 30,
                     decoration: BoxDecoration(
-                      color: cs.surface,
+                      color: isInCart ? cs.inverseSurface : cs.surface,
                       borderRadius: BorderRadius.circular(9),
-                      border: Border.all(color: cs.outlineVariant),
+                      border: Border.all(
+                        color: isInCart ? cs.inverseSurface : cs.outlineVariant,
+                      ),
                     ),
                     child: Icon(
                       Icons.add_rounded,
                       size: 18,
-                      color: cs.onSurface,
+                      color: isInCart ? cs.onInverseSurface : cs.onSurface,
                     ),
                   ),
                 ),

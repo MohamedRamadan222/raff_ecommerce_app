@@ -18,6 +18,11 @@ import 'package:raff_app/features/catalog/presentation/widgets/home/free_shippin
 import 'package:raff_app/features/catalog/presentation/widgets/home/home_banner_carousel.dart';
 import 'package:raff_app/features/catalog/presentation/widgets/home/home_category_item.dart';
 import 'package:raff_app/features/catalog/presentation/widgets/home/home_header.dart';
+import 'package:raff_app/features/favorites/presentation/cubit/favorites_cubit.dart';
+import 'package:raff_app/features/favorites/presentation/cubit/favorites_state.dart';
+import 'package:raff_app/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
+import 'package:raff_app/features/cart/presentation/utils/cart_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -217,30 +222,44 @@ class _ProductsHorizontalList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 245,
-      child: ListView.separated(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        scrollDirection: Axis.horizontal,
-        itemCount: products.length,
-        separatorBuilder: (_, _) => const Gap(14),
-        itemBuilder: (context, index) {
-          final product = products[index];
-          return ProductCard(
-            title: product.title,
-            category: CatalogHelper.localizeCategory(
-              context,
-              slug: product.category,
-            ),
-            price: product.discountPercentage.toStringAsFixed(0),
-            imageUrl: product.thumbnail,
-            onFavoriteTap: () {},
-            onAddTap: () {},
-            onTap: () =>
-                context.push(AppRoutes.productDetails, extra: product.id),
-          );
-        },
-      ),
+    return BlocBuilder<FavoritesCubit, FavoritesState>(
+      builder: (context, favState) {
+        return BlocBuilder<CartCubit, CartState>(
+          builder: (context, cartState) {
+            return SizedBox(
+              height: 245,
+              child: ListView.separated(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                scrollDirection: Axis.horizontal,
+                itemCount: products.length,
+                separatorBuilder: (_, _) => const Gap(14),
+                itemBuilder: (context, index) {
+                  final product = products[index];
+                  return ProductCard(
+                    title: product.title,
+                    category: CatalogHelper.localizeCategory(
+                      context,
+                      slug: product.category,
+                    ),
+                    price: product.price.toStringAsFixed(0),
+                    imageUrl: product.thumbnail,
+                    isFavorite: favState.isFavorite(product.id),
+                    isInCart: cartState.isInCart(product.id),
+                    onFavoriteTap: () =>
+                        context.read<FavoritesCubit>().toggleFavorite(product),
+                    onAddTap: () =>
+                        CartHelper.addWithFeedback(context, product),
+                    onTap: () => context.push(
+                      AppRoutes.productDetails,
+                      extra: product.id,
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

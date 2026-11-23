@@ -10,6 +10,7 @@ import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart
 class ProductGridCard extends StatelessWidget {
   final ProductEntity product;
   final bool isFavorite;
+  final bool isInCart;
   final VoidCallback onFavoriteTap;
   final VoidCallback onAddTap;
   final VoidCallback onTap;
@@ -18,6 +19,7 @@ class ProductGridCard extends StatelessWidget {
     super.key,
     required this.product,
     this.isFavorite = false,
+    this.isInCart = false,
     required this.onFavoriteTap,
     required this.onAddTap,
     required this.onTap,
@@ -38,9 +40,9 @@ class ProductGridCard extends StatelessWidget {
     final imageBg = isDark
         ? cs.outline
         : Color.alphaBlend(
-            cs.outlineVariant.withValues(alpha: 0.72),
-            cs.surface,
-          );
+      cs.outlineVariant.withValues(alpha: 0.72),
+      cs.surface,
+    );
 
     return GestureDetector(
       onTap: onTap,
@@ -59,27 +61,26 @@ class ProductGridCard extends StatelessWidget {
                   ),
                   child: product.thumbnail.isNotEmpty
                       ? CachedNetworkImage(
-                          imageUrl: product.thumbnail,
-                          fit: BoxFit.contain,
-                          placeholder: (_, _) => Center(
-                            child: SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: cs.outline,
-                              ),
-                            ),
-                          ),
-                          errorWidget: (_, _, _) => Icon(
-                            Icons.image_outlined,
-                            size: 36,
-                            color: cs.outline,
-                          ),
-                        )
+                    imageUrl: product.thumbnail,
+                    fit: BoxFit.contain,
+                    placeholder: (_, _) => Center(
+                      child: SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color: cs.outline,
+                        ),
+                      ),
+                    ),
+                    errorWidget: (_, _, _) => Icon(
+                      Icons.image_outlined,
+                      size: 36,
+                      color: cs.outline,
+                    ),
+                  )
                       : Icon(Icons.image_outlined, size: 36, color: cs.outline),
                 ),
-
                 PositionedDirectional(
                   top: 10,
                   end: 10,
@@ -96,7 +97,6 @@ class ProductGridCard extends StatelessWidget {
                     ),
                   ),
                 ),
-
                 PositionedDirectional(
                   top: 10,
                   start: 10,
@@ -109,15 +109,15 @@ class ProductGridCard extends StatelessWidget {
                       color: hasDiscount
                           ? cs.inverseSurface
                           : (isDark
-                                ? AppColors.hero.withValues(alpha: 0.88)
-                                : cs.surface.withValues(alpha: 0.92)),
+                          ? AppColors.hero.withValues(alpha: 0.88)
+                          : cs.surface.withValues(alpha: 0.92)),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       hasDiscount
                           ? (isAr
-                                ? '${l10n.discountLabel} $discount%'
-                                : '$discount% ${l10n.discountLabel}')
+                          ? '${l10n.discountLabel} $discount%'
+                          : '$discount% ${l10n.discountLabel}')
                           : l10n.newBadge,
                       style: tt.labelSmall!.copyWith(
                         fontSize: 10.5,
@@ -183,11 +183,17 @@ class ProductGridCard extends StatelessWidget {
                   width: 32,
                   height: 32,
                   decoration: BoxDecoration(
-                    color: cs.surface,
+                    color: isInCart ? cs.inverseSurface : cs.surface,
                     borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: cs.outlineVariant),
+                    border: Border.all(
+                      color: isInCart ? cs.inverseSurface : cs.outlineVariant,
+                    ),
                   ),
-                  child: Icon(Icons.add_rounded, size: 18, color: cs.onSurface),
+                  child: Icon(
+                    Icons.add_rounded,
+                    size: 18,
+                    color: isInCart ? cs.onInverseSurface : cs.onSurface,
+                  ),
                 ),
               ),
             ],

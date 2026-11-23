@@ -9,11 +9,16 @@ import 'package:raff_app/core/router/app_routes.dart';
 import 'package:raff_app/core/widgets/error_view.dart';
 import 'package:raff_app/core/widgets/loading_view.dart';
 import 'package:raff_app/core/widgets/product_card.dart';
+import 'package:raff_app/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
+import 'package:raff_app/features/cart/presentation/utils/cart_helper.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_state.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/product_details_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/product_details_state.dart';
 import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart';
+import 'package:raff_app/features/favorites/presentation/cubit/favorites_cubit.dart';
+import 'package:raff_app/features/favorites/presentation/cubit/favorites_state.dart';
 
 import '../widgets/details/product_details_bottom_bar.dart';
 import '../widgets/details/product_details_gallery.dart';
@@ -30,7 +35,8 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int _selectedColorIndex = 0;
   int _quantity = 1;
-  bool _isFavorite = false;
+
+  static const _swatchHexCodes = ['#B5A495', '#EAE8E3', '#5A5651'];
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +74,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           bottomNavigationBar: ProductDetailsBottomBar(
             totalPrice: product.price * _quantity,
             onAddToCart: () {
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(
-                  SnackBar(
-                    content: Text(l10n.addedToCartMessage),
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
+              CartHelper.addWithFeedback(
+                context,
+                product,
+                quantity: _quantity,
+                colorHex: _swatchHexCodes[_selectedColorIndex],
+              );
             },
           ),
           body: SingleChildScrollView(
@@ -83,20 +87,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // 1. معرض الصور العلوي
-                ProductDetailsGallery(
-                  images: galleryImages,
-                  selectedIndex: state.selectedImageIndex,
-                  isFavorite: _isFavorite,
-                  onPageChanged: (index) =>
-                      context.read<ProductDetailsCubit>().selectImage(index),
-                  onFavoriteTap: () =>
-                      setState(() => _isFavorite = !_isFavorite),
-                  onShareTap: () =>
-                      Clipboard.setData(ClipboardData(text: product.title)),
+                BlocBuilder<FavoritesCubit, FavoritesState>(
+                  builder: (context, favState) {
+                    return ProductDetailsGallery(
+                      images: galleryImages,
+                      selectedIndex: state.selectedImageIndex,
+                      isFavorite: favState.isFavorite(product.id),
+                      onPageChanged: (index) => context
+                          .read<ProductDetailsCubit>()
+                          .selectImage(index),
+                      onFavoriteTap: () => context
+                          .read<FavoritesCubit>()
+                          .toggleFavorite(product),
+                      onShareTap: () =>
+                          Clipboard.setData(ClipboardData(text: product.title)),
+                    );
+                  },
                 ),
 
-                // 2. تفاصيل المنتج والمواصفات والتقييمات
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 18, 20, 0),
                   child: Column(
@@ -129,7 +137,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 const Gap(24),
 
-                // 3. قسم قد يعجبك أيضًا
                 BlocBuilder<HomeCubit, HomeState>(
                   builder: (context, homeState) {
                     if (homeState is! HomeSuccess) {
@@ -141,48 +148,71 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         .toList();
                     if (related.isEmpty) return const SizedBox.shrink();
 
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            l10n.youMayAlsoLike,
-                            style: tt.titleMedium!.copyWith(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        const Gap(12),
-                        SizedBox(
-                          height: 245,
-                          child: ListView.separated(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            scrollDirection: Axis.horizontal,
-                            itemCount: related.length,
-                            separatorBuilder: (_, _) => const Gap(14),
-                            itemBuilder: (context, index) {
-                              final item = related[index];
-                              return ProductCard(
-                                title: item.title,
-                                category: CatalogHelper.localizeCategory(
-                                  context,
-                                  slug: item.category,
+                    return BlocBuilder<FavoritesCubit, FavoritesState>(
+                      builder: (context, favState) {
+                        return BlocBuilder<CartCubit, CartState>(
+                          builder: (context, cartState) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                  ),
+                                  child: Text(
+                                    l10n.youMayAlsoLike,
+                                    style: tt.titleMedium!.copyWith(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
-                                price: item.price.toStringAsFixed(0),
-                                imageUrl: item.thumbnail,
-                                onFavoriteTap: () {},
-                                onAddTap: () {},
-                                onTap: () => context.push(
-                                  AppRoutes.productDetails,
-                                  extra: item.id,
+                                const Gap(12),
+                                SizedBox(
+                                  height: 245,
+                                  child: ListView.separated(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                    ),
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: related.length,
+                                    separatorBuilder: (_, _) => const Gap(14),
+                                    itemBuilder: (context, index) {
+                                      final item = related[index];
+                                      return ProductCard(
+                                        title: item.title,
+                                        category:
+                                            CatalogHelper.localizeCategory(
+                                              context,
+                                              slug: item.category,
+                                            ),
+                                        price: item.price.toStringAsFixed(0),
+                                        imageUrl: item.thumbnail,
+                                        isFavorite: favState.isFavorite(
+                                          item.id,
+                                        ),
+                                        isInCart: cartState.isInCart(item.id),
+                                        onFavoriteTap: () => context
+                                            .read<FavoritesCubit>()
+                                            .toggleFavorite(item),
+                                        onAddTap: () =>
+                                            CartHelper.addWithFeedback(
+                                              context,
+                                              item,
+                                            ),
+                                        onTap: () => context.push(
+                                          AppRoutes.productDetails,
+                                          extra: item.id,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+                              ],
+                            );
+                          },
+                        );
+                      },
                     );
                   },
                 ),

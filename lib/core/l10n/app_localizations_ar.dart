@@ -275,9 +275,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get priceRange => 'نطاق السعر';
 
   @override
-  String get apply => 'تطبيق';
-
-  @override
   String get reset => 'إعادة ضبط';
 
   @override
@@ -333,4 +330,77 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get categoryLabel => 'القسم';
+
+  @override
+  String get pieceUnit => 'قطع';
+
+  @override
+  String get emptyFavoritesTitle => 'مفضلتك فارغة';
+
+  @override
+  String get emptyFavoritesSubtitle =>
+      'اضغط على القلب في أي منتج لحفظه هنا\nومتابعة سعره.';
+
+  @override
+  String get startShopping => 'ابدأ التسوّق';
+
+  @override
+  String get removedFromFavorites => 'أُزيلت من المفضلة';
+
+  @override
+  String get addedToFavorites => 'أُضيفت إلى المفضلة';
+
+  @override
+  String get freeShippingUnlocked => 'حصلت على الشحن المجاني';
+
+  @override
+  String addMoreForFreeShipping(Object amount) {
+    return 'أضف $amount ر.س للشحن المجاني';
+  }
+
+  @override
+  String get promoCodeHint => 'رمز الخصم';
+
+  @override
+  String get apply => 'تطبيق';
+
+  @override
+  String get promoCodeHelper => 'جرّب الرمز RAFF10 لخصم ١٠٪.';
+
+  @override
+  String get invalidPromoCode => 'رمز الخصم غير صحيح';
+
+  @override
+  String get promoApplied => 'تم تطبيق خصم ١٠٪';
+
+  @override
+  String get subtotalLabel => 'المجموع الفرعي';
+
+  @override
+  String get shippingLabel => 'الشحن';
+
+  @override
+  String get freeLabel => 'مجاني';
+
+  @override
+  String get discountRowLabel => 'الخصم (١٠٪)';
+
+  @override
+  String get checkoutButton => 'إتمام الطلب';
+
+  @override
+  String get removedFromCart => 'أُزيلت من السلة';
+
+  @override
+  String get addedToCart => 'أُضيفت إلى السلة';
+
+  @override
+  String get viewCart => 'عرض السلة';
+
+  @override
+  String get emptyCartTitle => 'سلتك فارغة';
+
+  @override
+  String get emptyCartSubtitle =>
+      'لم تُضف أي منتجات إلى السلة بعد.\nتصفّح المجموعة واختر ما يناسبك.';
 }

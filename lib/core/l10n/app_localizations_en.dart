@@ -276,9 +276,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get priceRange => 'Price range';
 
   @override
-  String get apply => 'Apply';
-
-  @override
   String get reset => 'Reset';
 
   @override
@@ -334,4 +331,77 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get categoryLabel => 'Category';
+
+  @override
+  String get pieceUnit => 'items';
+
+  @override
+  String get emptyFavoritesTitle => 'Your wishlist is empty';
+
+  @override
+  String get emptyFavoritesSubtitle =>
+      'Tap the heart on any product to save it here\nand track its price.';
+
+  @override
+  String get startShopping => 'Start shopping';
+
+  @override
+  String get removedFromFavorites => 'Removed from favorites';
+
+  @override
+  String get addedToFavorites => 'Added to favorites';
+
+  @override
+  String get freeShippingUnlocked => 'You unlocked free shipping';
+
+  @override
+  String addMoreForFreeShipping(Object amount) {
+    return 'Add SAR $amount for free shipping';
+  }
+
+  @override
+  String get promoCodeHint => 'Promo code';
+
+  @override
+  String get apply => 'Apply';
+
+  @override
+  String get promoCodeHelper => 'Try code RAFF10 for 10% off.';
+
+  @override
+  String get invalidPromoCode => 'Invalid promo code';
+
+  @override
+  String get promoApplied => '10% discount applied';
+
+  @override
+  String get subtotalLabel => 'Subtotal';
+
+  @override
+  String get shippingLabel => 'Shipping';
+
+  @override
+  String get freeLabel => 'Free';
+
+  @override
+  String get discountRowLabel => 'Discount (10%)';
+
+  @override
+  String get checkoutButton => 'Checkout';
+
+  @override
+  String get removedFromCart => 'Removed from cart';
+
+  @override
+  String get addedToCart => 'Added to cart';
+
+  @override
+  String get viewCart => 'View cart';
+
+  @override
+  String get emptyCartTitle => 'Your cart is empty';
+
+  @override
+  String get emptyCartSubtitle =>
+      'You haven\'t added any items yet.\nBrowse our collection and pick your favorites.';
 }

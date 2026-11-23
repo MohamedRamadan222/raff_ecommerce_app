@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:hive_ce/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:raff_app/core/network/dio_clint.dart';
 import 'package:raff_app/features/auth/data/datasources/login_remote_data_source.dart';
 import 'package:raff_app/features/auth/data/datasources/register_remote_data_source.dart';
@@ -19,6 +21,15 @@ import 'package:raff_app/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import '../../features/cart/data/datasources/cart_local_data_source.dart';
+import '../../features/cart/data/repositories/cart_repository_impl.dart';
+import '../../features/cart/domain/repositories/cart_repository.dart';
+import '../../features/cart/domain/usecases/add_to_cart_use_case.dart';
+import '../../features/cart/domain/usecases/clear_cart_use_case.dart';
+import '../../features/cart/domain/usecases/get_cart_items_use_case.dart';
+import '../../features/cart/domain/usecases/remove_from_cart_use_case.dart';
+import '../../features/cart/domain/usecases/update_cart_quantity_use_case.dart';
+import '../../features/cart/presentation/cubit/cart_cubit.dart';
 import '../../features/catalog/data/datasources/catalog_remote_data_source.dart';
 import '../../features/catalog/data/repositories/catalog_repository_impl.dart';
 import '../../features/catalog/domain/repositories/catalog_repository.dart';
@@ -31,6 +42,12 @@ import '../../features/catalog/presentation/cubit/home_cubit.dart';
 import '../../features/catalog/presentation/cubit/product_details_cubit.dart';
 import '../../features/catalog/presentation/cubit/products_cubit.dart';
 import '../../features/catalog/presentation/cubit/search_cubit.dart';
+import '../../features/favorites/data/datasources/favorites_local_data_source.dart';
+import '../../features/favorites/data/repositories/favorites_repository_impl.dart';
+import '../../features/favorites/domain/repositories/favorites_repository.dart';
+import '../../features/favorites/domain/usecases/get_favorites_use_case.dart';
+import '../../features/favorites/domain/usecases/toggle_favorite_use_case.dart';
+import '../../features/favorites/presentation/cubit/favorites_cubit.dart';
 import '../storage/preferences_service.dart';
 
 final sl = GetIt.instance;
@@ -112,4 +129,50 @@ Future<void> setUpGetIt() async {
   sl.registerFactory(() => SearchCubit(sl()));
 
   sl.registerFactory(() => ProductDetailsCubit(sl()));
+
+  // Local Storage (Hive)
+  final appDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDir.path);
+
+  final favoritesBox = await Hive.openBox<String>('favorites_box');
+  sl.registerLazySingleton<Box<String>>(
+    () => favoritesBox,
+    instanceName: 'favoritesBox',
+  );
+
+  final cartBox = await Hive.openBox<String>('cart_box');
+  sl.registerLazySingleton<Box<String>>(() => cartBox, instanceName: 'cartBox');
+  // ==================== Favorites Feature ====================
+  sl.registerLazySingleton<FavoritesLocalDataSource>(
+    () => FavoritesLocalDataSourceImpl(sl(instanceName: 'favoritesBox')),
+  );
+  sl.registerLazySingleton<FavoritesRepository>(
+    () => FavoritesRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton(() => GetFavoritesUseCase(sl()));
+  sl.registerLazySingleton(() => ToggleFavoriteUseCase(sl()));
+  sl.registerFactory(
+    () =>
+        FavoritesCubit(getFavoritesUseCase: sl(), toggleFavoriteUseCase: sl()),
+  );
+
+  // ===> Cart Feature
+  sl.registerLazySingleton<CartLocalDataSource>(
+    () => CartLocalDataSourceImpl(sl(instanceName: 'cartBox')),
+  );
+  sl.registerLazySingleton<CartRepository>(() => CartRepositoryImpl(sl()));
+  sl.registerLazySingleton(() => GetCartItemsUseCase(sl()));
+  sl.registerLazySingleton(() => AddToCartUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateCartQuantityUseCase(sl()));
+  sl.registerLazySingleton(() => RemoveFromCartUseCase(sl()));
+  sl.registerLazySingleton(() => ClearCartUseCase(sl()));
+  sl.registerFactory(
+    () => CartCubit(
+      getCartItemsUseCase: sl(),
+      addToCartUseCase: sl(),
+      updateCartQuantityUseCase: sl(),
+      removeFromCartUseCase: sl(),
+      clearCartUseCase: sl(),
+    ),
+  );
 }

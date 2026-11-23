@@ -620,12 +620,6 @@ abstract class AppLocalizations {
   /// **'Price range'**
   String get priceRange;
 
-  /// No description provided for @apply.
-  ///
-  /// In en, this message translates to:
-  /// **'Apply'**
-  String get apply;
-
   /// No description provided for @reset.
   ///
   /// In en, this message translates to:
@@ -739,6 +733,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Category'**
   String get categoryLabel;
+
+  /// No description provided for @pieceUnit.
+  ///
+  /// In en, this message translates to:
+  /// **'items'**
+  String get pieceUnit;
+
+  /// No description provided for @emptyFavoritesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your wishlist is empty'**
+  String get emptyFavoritesTitle;
+
+  /// No description provided for @emptyFavoritesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the heart on any product to save it here\nand track its price.'**
+  String get emptyFavoritesSubtitle;
+
+  /// No description provided for @startShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Start shopping'**
+  String get startShopping;
+
+  /// No description provided for @removedFromFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from favorites'**
+  String get removedFromFavorites;
+
+  /// No description provided for @addedToFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to favorites'**
+  String get addedToFavorites;
+
+  /// No description provided for @freeShippingUnlocked.
+  ///
+  /// In en, this message translates to:
+  /// **'You unlocked free shipping'**
+  String get freeShippingUnlocked;
+
+  /// No description provided for @addMoreForFreeShipping.
+  ///
+  /// In en, this message translates to:
+  /// **'Add SAR {amount} for free shipping'**
+  String addMoreForFreeShipping(Object amount);
+
+  /// No description provided for @promoCodeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Promo code'**
+  String get promoCodeHint;
+
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
+  /// No description provided for @promoCodeHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Try code RAFF10 for 10% off.'**
+  String get promoCodeHelper;
+
+  /// No description provided for @invalidPromoCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid promo code'**
+  String get invalidPromoCode;
+
+  /// No description provided for @promoApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'10% discount applied'**
+  String get promoApplied;
+
+  /// No description provided for @subtotalLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Subtotal'**
+  String get subtotalLabel;
+
+  /// No description provided for @shippingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Shipping'**
+  String get shippingLabel;
+
+  /// No description provided for @freeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Free'**
+  String get freeLabel;
+
+  /// No description provided for @discountRowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount (10%)'**
+  String get discountRowLabel;
+
+  /// No description provided for @checkoutButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkoutButton;
+
+  /// No description provided for @removedFromCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from cart'**
+  String get removedFromCart;
+
+  /// No description provided for @addedToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to cart'**
+  String get addedToCart;
+
+  /// No description provided for @viewCart.
+  ///
+  /// In en, this message translates to:
+  /// **'View cart'**
+  String get viewCart;
+
+  /// No description provided for @emptyCartTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get emptyCartTitle;
+
+  /// No description provided for @emptyCartSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You haven\'t added any items yet.\nBrowse our collection and pick your favorites.'**
+  String get emptyCartSubtitle;
 }
 
 class _AppLocalizationsDelegate

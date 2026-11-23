@@ -44,9 +44,9 @@ class ProductDetailsInfoSection extends StatelessWidget {
     final cardSurface = isDark
         ? Color.alphaBlend(cs.onSurface.withValues(alpha: 0.05), cs.surface)
         : Color.alphaBlend(
-      cs.outlineVariant.withValues(alpha: 0.32),
-      cs.surface,
-    );
+            cs.outlineVariant.withValues(alpha: 0.32),
+            cs.surface,
+          );
 
     final categoryLabel = CatalogHelper.localizeCategory(
       context,
@@ -107,9 +107,10 @@ class ProductDetailsInfoSection extends StatelessWidget {
                   const Gap(4),
                   Text(
                     product.rating.toStringAsFixed(1),
-                    style: tt.labelLarge!.copyWith(
+                    style: tt.bodySmall!.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
+                      color: cs.onSurface,
                     ),
                   ),
                   const Gap(3),
@@ -117,7 +118,7 @@ class ProductDetailsInfoSection extends StatelessWidget {
                     '(${product.stock})',
                     style: tt.bodySmall!.copyWith(
                       fontSize: 11,
-                      color: cs.onSurface.withValues(alpha: 0.55),
+                      color: cs.onSurface.withValues(alpha: 0.65),
                     ),
                   ),
                 ],

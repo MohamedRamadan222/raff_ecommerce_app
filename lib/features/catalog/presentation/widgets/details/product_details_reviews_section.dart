@@ -25,9 +25,9 @@ class ProductDetailsReviewsSection extends StatelessWidget {
     final cardSurface = isDark
         ? Color.alphaBlend(cs.onSurface.withValues(alpha: 0.05), cs.surface)
         : Color.alphaBlend(
-      cs.outlineVariant.withValues(alpha: 0.32),
-      cs.surface,
-    );
+            cs.outlineVariant.withValues(alpha: 0.32),
+            cs.surface,
+          );
 
     const bars = [
       (star: 5, ratio: 0.78),
@@ -39,41 +39,37 @@ class ProductDetailsReviewsSection extends StatelessWidget {
 
     final reviews = isAr
         ? const [
-      (
-      initial: 'ن',
-      name: 'نورة',
-      time: 'قبل أسبوع',
-      stars: 5,
-      comment:
-      'الجودة أعلى مما توقعت، والتغليف كان ممتازًا. وصلت في يومين فقط.',
-      ),
-      (
-      initial: 'خ',
-      name: 'خالد',
-      time: 'قبل ٣ أسابيع',
-      stars: 4,
-      comment:
-      'اللون أفتح قليلًا من الصورة لكنه جميل جدًا في الإضاءة الطبيعية.',
-      ),
-    ]
+            (
+              initial: 'ن',
+              name: 'نورة',
+              time: 'قبل أسبوع',
+              stars: 5,
+              comment: 'الجودة أعلى مما توقعت، والتغليف كان ممتازًا. وصلت في يومين فقط.',
+            ),
+            (
+              initial: 'خ',
+              name: 'خالد',
+              time: 'قبل ٣ أسابيع',
+              stars: 4,
+              comment: 'اللون أفتح قليلًا من الصورة لكنه جميل جدًا في الإضاءة الطبيعية.',
+            ),
+          ]
         : const [
-      (
-      initial: 'N',
-      name: 'Noura',
-      time: '1 week ago',
-      stars: 5,
-      comment:
-      'Quality exceeded my expectations and packaging was great. Arrived in 2 days.',
-      ),
-      (
-      initial: 'K',
-      name: 'Khaled',
-      time: '3 weeks ago',
-      stars: 4,
-      comment:
-      'Slightly lighter than the photos, yet looks wonderful in natural light.',
-      ),
-    ];
+            (
+              initial: 'N',
+              name: 'Noura',
+              time: '1 week ago',
+              stars: 5,
+              comment: 'Quality exceeded my expectations and packaging was great. Arrived in 2 days.',
+            ),
+            (
+              initial: 'K',
+              name: 'Khaled',
+              time: '3 weeks ago',
+              stars: 4,
+              comment: 'Slightly lighter than the photos, yet looks wonderful in natural light.',
+            ),
+          ];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

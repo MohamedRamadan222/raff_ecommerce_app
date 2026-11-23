@@ -32,9 +32,9 @@ class ProductDetailsGallery extends StatelessWidget {
     final galleryBg = isDark
         ? Color.alphaBlend(cs.onSurface.withValues(alpha: 0.14), cs.surface)
         : Color.alphaBlend(
-      cs.outlineVariant.withValues(alpha: 0.72),
-      cs.surface,
-    );
+            cs.outlineVariant.withValues(alpha: 0.72),
+            cs.surface,
+          );
 
     return Container(
       height: 350,
@@ -45,7 +45,6 @@ class ProductDetailsGallery extends StatelessWidget {
       ),
       child: Stack(
         children: [
-          // صور المنتج
           PageView.builder(
             itemCount: images.length,
             onPageChanged: onPageChanged,
@@ -55,26 +54,25 @@ class ProductDetailsGallery extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(32, 68, 32, 42),
                 child: url.isNotEmpty
                     ? CachedNetworkImage(
-                  imageUrl: url,
-                  fit: BoxFit.contain,
-                  placeholder: (_, _) => Center(
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: cs.primary,
-                    ),
-                  ),
-                  errorWidget: (_, _, _) => Icon(
-                    Icons.image_outlined,
-                    size: 64,
-                    color: cs.outline,
-                  ),
-                )
+                        imageUrl: url,
+                        fit: BoxFit.contain,
+                        placeholder: (_, _) => Center(
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: cs.primary,
+                          ),
+                        ),
+                        errorWidget: (_, _, _) => Icon(
+                          Icons.image_outlined,
+                          size: 64,
+                          color: cs.outline,
+                        ),
+                      )
                     : Icon(Icons.image_outlined, size: 64, color: cs.outline),
               );
             },
           ),
 
-          // الأزرار العلوية (رجوع + مشاركة + مفضلة)
           SafeArea(
             bottom: false,
             child: Padding(
@@ -86,10 +84,13 @@ class ProductDetailsGallery extends StatelessWidget {
                     onTap: () {
                       if (context.canPop()) context.pop();
                     },
-                    child: Icon(
-                      Icons.arrow_back_ios_new_rounded,
-                      size: 17,
-                      color: cs.onSurface,
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.only(end: 2),
+                      child: Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        size: 17,
+                        color: cs.onSurface,
+                      ),
                     ),
                   ),
                   Row(
@@ -116,7 +117,6 @@ class ProductDetailsGallery extends StatelessWidget {
             ),
           ),
 
-          // مؤشر النقاط السفلي
           Positioned(
             bottom: 14,
             left: 0,

@@ -8,9 +8,8 @@ abstract class Failure extends Equatable {
 }
 
 class ServerFailure extends Failure {
-  final String message; // تم تغيير الاسم لـ message ليكون منطقياً
+  final String message;
 
-  // جعلناها إجبارية (Required) حتى لا ننسى تمرير الرسالة
   const ServerFailure(this.message);
 
   @override

@@ -19,6 +19,12 @@ import 'package:raff_app/features/catalog/presentation/widgets/categories/produc
 import 'package:raff_app/features/catalog/presentation/widgets/products/products_filter_bar.dart';
 import 'package:raff_app/features/catalog/presentation/widgets/products/products_header.dart';
 import 'package:raff_app/features/catalog/presentation/widgets/products/products_sheets.dart';
+import 'package:raff_app/features/favorites/presentation/cubit/favorites_cubit.dart';
+import 'package:raff_app/features/favorites/presentation/cubit/favorites_state.dart';
+
+import '../../../cart/presentation/cubit/cart_cubit.dart';
+import '../../../cart/presentation/cubit/cart_state.dart';
+import '../../../cart/presentation/utils/cart_helper.dart';
 
 class ProductsScreen extends StatefulWidget {
   final String? initialCategorySlug;
@@ -226,12 +232,27 @@ class _ProductsScreenState extends State<ProductsScreen> {
               ),
               delegate: SliverChildBuilderDelegate((context, index) {
                 final product = products[index];
-                return ProductGridCard(
-                  product: product,
-                  onFavoriteTap: () {},
-                  onAddTap: () {},
-                  onTap: () =>
-                      context.push(AppRoutes.productDetails, extra: product.id),
+                return BlocBuilder<FavoritesCubit, FavoritesState>(
+                  builder: (context, favState) {
+                    return BlocBuilder<CartCubit, CartState>(
+                      builder: (context, cartState) {
+                        return ProductGridCard(
+                          product: product,
+                          isFavorite: favState.isFavorite(product.id),
+                          isInCart: cartState.isInCart(product.id),
+                          onFavoriteTap: () => context
+                              .read<FavoritesCubit>()
+                              .toggleFavorite(product),
+                          onAddTap: () =>
+                              CartHelper.addWithFeedback(context, product),
+                          onTap: () => context.push(
+                            AppRoutes.productDetails,
+                            extra: product.id,
+                          ),
+                        );
+                      },
+                    );
+                  },
                 );
               }, childCount: products.length),
             ),
