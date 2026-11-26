@@ -10,12 +10,10 @@ class PreferencesService {
   static const String _themeKey = 'theme_mode';
   static const String _langKey = 'language_code';
 
-  // save theme
   Future<void> saveThemeMode(String themeMode) async {
     await sharedPrefs.setString(_themeKey, themeMode);
   }
 
-  // load theme
   Future<String> loadThemeMode() async {
     return sharedPrefs.getString(_themeKey) ?? 'system';
   }
@@ -24,7 +22,6 @@ class PreferencesService {
     await sharedPrefs.setString(_langKey, code);
   }
 
-  // load language
   Future<String> loadLanguageCode() async {
     final savedLang = sharedPrefs.getString(_langKey);
 

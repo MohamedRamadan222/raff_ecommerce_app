@@ -40,9 +40,9 @@ class ProductGridCard extends StatelessWidget {
     final imageBg = isDark
         ? cs.outline
         : Color.alphaBlend(
-      cs.outlineVariant.withValues(alpha: 0.72),
-      cs.surface,
-    );
+            cs.outlineVariant.withValues(alpha: 0.72),
+            cs.surface,
+          );
 
     return GestureDetector(
       onTap: onTap,
@@ -61,24 +61,24 @@ class ProductGridCard extends StatelessWidget {
                   ),
                   child: product.thumbnail.isNotEmpty
                       ? CachedNetworkImage(
-                    imageUrl: product.thumbnail,
-                    fit: BoxFit.contain,
-                    placeholder: (_, _) => Center(
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: cs.outline,
-                        ),
-                      ),
-                    ),
-                    errorWidget: (_, _, _) => Icon(
-                      Icons.image_outlined,
-                      size: 36,
-                      color: cs.outline,
-                    ),
-                  )
+                          imageUrl: product.thumbnail,
+                          fit: BoxFit.contain,
+                          placeholder: (_, _) => Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: cs.outline,
+                              ),
+                            ),
+                          ),
+                          errorWidget: (_, _, _) => Icon(
+                            Icons.image_outlined,
+                            size: 36,
+                            color: cs.outline,
+                          ),
+                        )
                       : Icon(Icons.image_outlined, size: 36, color: cs.outline),
                 ),
                 PositionedDirectional(
@@ -109,15 +109,15 @@ class ProductGridCard extends StatelessWidget {
                       color: hasDiscount
                           ? cs.inverseSurface
                           : (isDark
-                          ? AppColors.hero.withValues(alpha: 0.88)
-                          : cs.surface.withValues(alpha: 0.92)),
+                                ? AppColors.hero.withValues(alpha: 0.88)
+                                : cs.surface.withValues(alpha: 0.92)),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       hasDiscount
                           ? (isAr
-                          ? '${l10n.discountLabel} $discount%'
-                          : '$discount% ${l10n.discountLabel}')
+                                ? '${l10n.discountLabel} $discount%'
+                                : '$discount% ${l10n.discountLabel}')
                           : l10n.newBadge,
                       style: tt.labelSmall!.copyWith(
                         fontSize: 10.5,

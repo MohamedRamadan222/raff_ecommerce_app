@@ -61,7 +61,6 @@ class ProductDetailsInfoSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 1. الماركة + العنوان + شارة التقييم
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -128,7 +127,6 @@ class ProductDetailsInfoSection extends StatelessWidget {
         ),
         const Gap(12),
 
-        // 2. السعر + السعر القديم + بادج الخصم
         Wrap(
           spacing: 8,
           runSpacing: 6,
@@ -185,7 +183,6 @@ class ProductDetailsInfoSection extends StatelessWidget {
         Divider(height: 1, color: cs.outlineVariant),
         const Gap(16),
 
-        // 3. اللون + الكمية
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -282,7 +279,6 @@ class ProductDetailsInfoSection extends StatelessWidget {
         ),
         const Gap(18),
 
-        // 4. كارت الشحن والإرجاع
         Container(
           decoration: BoxDecoration(
             color: cardSurface,
@@ -307,7 +303,6 @@ class ProductDetailsInfoSection extends StatelessWidget {
         ),
         const Gap(20),
 
-        // 5. عن المنتج + جدول المواصفات
         Text(
           l10n.aboutProduct,
           style: tt.titleMedium!.copyWith(

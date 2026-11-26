@@ -403,4 +403,379 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get emptyCartSubtitle =>
       'لم تُضف أي منتجات إلى السلة بعد.\nتصفّح المجموعة واختر ما يناسبك.';
+
+  @override
+  String get guestUser => 'ضيف';
+
+  @override
+  String get statOrders => 'طلبات';
+
+  @override
+  String get statFavorites => 'في المفضلة';
+
+  @override
+  String get statPoints => 'نقطة';
+
+  @override
+  String get myAccount => 'حسابي';
+
+  @override
+  String get myOrders => 'طلباتي';
+
+  @override
+  String get ordersSubtitle => 'تابع حالة طلباتك وراجعها';
+
+  @override
+  String get addresses => 'العناوين';
+
+  @override
+  String get addressesSubtitle => 'إدارة عناوين التوصيل';
+
+  @override
+  String get paymentMethods => 'طرق الدفع';
+
+  @override
+  String get paymentMethodsSubtitle => 'Apple Pay والبطاقات';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get preferences => 'التفضيلات';
+
+  @override
+  String get language => 'اللغة';
+
+  @override
+  String get darkMode => 'الوضع الليلي';
+
+  @override
+  String get support => 'الدعم';
+
+  @override
+  String get helpCenter => 'مركز المساعدة';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get logout => 'تسجيل الخروج';
+
+  @override
+  String get logoutTitle => 'تسجيل الخروج؟';
+
+  @override
+  String get logoutMessage =>
+      'ستحتاج إلى تسجيل الدخول مرة أخرى لإتمام طلبات جديدة.';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get appVersion => 'الإصدار';
+
+  @override
+  String get comingSoon => 'قريبًا';
+
+  @override
+  String get pointsMessage => 'اجمع النقاط مع كل طلب';
+
+  @override
+  String get arabic => 'العربية';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get addAddress => 'أضف عنوانًا جديدًا';
+
+  @override
+  String get editAddress => 'تعديل العنوان';
+
+  @override
+  String get addressLabel => 'نوع العنوان';
+
+  @override
+  String get labelHome => 'المنزل';
+
+  @override
+  String get labelWork => 'العمل';
+
+  @override
+  String get labelOther => 'أخرى';
+
+  @override
+  String get addressDetails => 'تفاصيل العنوان';
+
+  @override
+  String get addressDetailsHint => 'الشارع والمبنى والشقة والحي';
+
+  @override
+  String get phoneNumber => 'رقم الجوال';
+
+  @override
+  String get setAsDefault => 'تعيين كافتراضي';
+
+  @override
+  String get defaultBadge => 'افتراضي';
+
+  @override
+  String get saveAddress => 'حفظ العنوان';
+
+  @override
+  String get addressSaved => 'تم حفظ العنوان';
+
+  @override
+  String get addressDeleted => 'تم حذف العنوان';
+
+  @override
+  String get emptyAddressesTitle => 'لا توجد عناوين بعد';
+
+  @override
+  String get emptyAddressesSubtitle =>
+      'أضف عنوانك الأول لإتمام طلباتك بسرعة أكبر';
+
+  @override
+  String get checkoutTitle => 'إتمام الطلب';
+
+  @override
+  String get stepAddress => 'العنوان';
+
+  @override
+  String get stepDelivery => 'التوصيل';
+
+  @override
+  String get stepPayment => 'الدفع';
+
+  @override
+  String get stepReview => 'المراجعة';
+
+  @override
+  String get continueButton => 'متابعة';
+
+  @override
+  String get placeOrder => 'تأكيد الطلب';
+
+  @override
+  String get whereDeliver => 'أين نوصل طلبك؟';
+
+  @override
+  String get howDeliver => 'طريقة التوصيل';
+
+  @override
+  String get deliveryStandard => 'توصيل عادي';
+
+  @override
+  String get deliveryStandardSub => 'خلال ٣-٥ أيام';
+
+  @override
+  String get deliveryExpress => 'توصيل سريع';
+
+  @override
+  String get deliveryExpressSub => 'خلال يوم أو يومين';
+
+  @override
+  String get deliveryPickup => 'استلام من الفرع';
+
+  @override
+  String get deliveryPickupSub => 'جاهز خلال ٢٤ ساعة';
+
+  @override
+  String get courierNote => 'ملاحظة للمندوب';
+
+  @override
+  String get courierNoteHint => 'اختياري';
+
+  @override
+  String get howPay => 'طريقة الدفع';
+
+  @override
+  String get payAppleSub => 'دفع سريع وآمن';
+
+  @override
+  String get payCard => 'بطاقة بنكية';
+
+  @override
+  String get paySplit => 'قسّمها على ٤ دفعات';
+
+  @override
+  String get paySplitSub => 'بدون فوائد';
+
+  @override
+  String get payCod => 'الدفع عند الاستلام';
+
+  @override
+  String get payCodSub => 'تُطبق رسوم إضافية';
+
+  @override
+  String get securePay => 'كل المدفوعات مشفرة وآمنة';
+
+  @override
+  String get reviewOrder => 'راجع طلبك';
+
+  @override
+  String get editButton => 'تعديل';
+
+  @override
+  String get orderPlaced => 'تم استلام طلبك!';
+
+  @override
+  String get orderPlacedSub => 'هنبعتلك تحديثات طلبك أول بأول';
+
+  @override
+  String get orderNumber => 'رقم الطلب';
+
+  @override
+  String get eta => 'التوصيل المتوقع';
+
+  @override
+  String get etaValue => '٣-٥ أيام';
+
+  @override
+  String get trackOrder => 'تتبع الطلب';
+
+  @override
+  String get continueShopping => 'متابعة التسوق';
+
+  @override
+  String get codFeeLabel => 'رسوم الدفع عند الاستلام';
+
+  @override
+  String get itemsLabel => 'المنتجات';
+
+  @override
+  String get currentTab => 'الحالية';
+
+  @override
+  String get pastTab => 'السابقة';
+
+  @override
+  String get statusPlaced => 'تم استلام الطلب';
+
+  @override
+  String get statusConfirmed => 'تم التأكيد';
+
+  @override
+  String get statusShipped => 'تم الشحن';
+
+  @override
+  String get statusOut => 'خرج للتوصيل';
+
+  @override
+  String get statusDelivered => 'تم التوصيل';
+
+  @override
+  String get statusCancelled => 'ملغي';
+
+  @override
+  String get emptyOrdersTitle => 'لا توجد طلبات بعد';
+
+  @override
+  String get emptyOrdersSubtitle => 'طلباتك هتظهر هنا';
+
+  @override
+  String get orderNotFound => 'الطلب غير موجود';
+
+  @override
+  String get deliveredOn => 'تم التوصيل في';
+
+  @override
+  String get pendingLabel => 'قيد الانتظار';
+
+  @override
+  String get shipTo => 'عنوان التوصيل';
+
+  @override
+  String itemsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count منتج',
+      many: '$count منتجًا',
+      few: '$count منتجات',
+      two: 'منتجان',
+      one: 'منتج واحد',
+      zero: 'لا توجد منتجات',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifOrderPlacedTitle => 'تم استلام طلبك';
+
+  @override
+  String get notifOrderPlacedBody => 'طلبك بيتم تجهيزه دلوقتي';
+
+  @override
+  String get notifPromoTitle => 'خصم ١٠٪';
+
+  @override
+  String get notifPromoBody => 'استخدم كود RAFF10 في طلبك الجاي';
+
+  @override
+  String get markAllRead => 'تعليم الكل كمقروء';
+
+  @override
+  String get todayLabel => 'اليوم';
+
+  @override
+  String get earlierLabel => 'سابقًا';
+
+  @override
+  String get emptyNotificationsTitle => 'لا توجد إشعارات';
+
+  @override
+  String get emptyNotificationsSubtitle => 'تحديثات الطلبات والعروض هتظهر هنا';
+
+  @override
+  String get otpTitle => 'رمز التحقق';
+
+  @override
+  String get otpHead => 'أدخل رمز التحقق';
+
+  @override
+  String get otpSub => 'أرسلنا رمز مكوّن من ٤ أرقام لتأكيد رقمك';
+
+  @override
+  String get otpMockHint => 'أي ٤ أرقام هتشتغل في النسخة التجريبية';
+
+  @override
+  String get resendIn => 'إعادة الإرسال بعد';
+
+  @override
+  String get resendNow => 'إعادة الإرسال الآن';
+
+  @override
+  String get verify => 'تحقق';
+
+  @override
+  String get otpSent => 'تم إرسال رمز جديد';
+
+  @override
+  String get addCard => 'إضافة بطاقة جديدة';
+
+  @override
+  String get changeButton => 'تغيير';
+
+  @override
+  String get pointsMsg => 'كل ١٠ ر.س تمنحك نقطة واحدة';
+
+  @override
+  String savedCount(String count) {
+    return '$count محفوظة';
+  }
+
+  @override
+  String ordersOnTheWay(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count طلب في الطريق',
+      many: '$count طلبًا في الطريق',
+      few: '$count طلبات في الطريق',
+      two: 'طلبان في الطريق',
+      one: 'طلب واحد في الطريق',
+    );
+    return '$_temp0';
+  }
 }

@@ -14,7 +14,7 @@ class EmptyView extends StatelessWidget {
     super.key,
     required this.title,
     this.subtitle,
-    this.icon = Icons.inbox_outlined, // أيقونة افتراضية
+    this.icon = Icons.inbox_outlined,
     this.buttonText,
     this.onAction,
   });

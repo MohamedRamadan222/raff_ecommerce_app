@@ -18,9 +18,9 @@ class CartEmptyView extends StatelessWidget {
     final iconBoxColor = isDark
         ? Color.alphaBlend(cs.onSurface.withValues(alpha: 0.08), cs.surface)
         : Color.alphaBlend(
-      cs.outlineVariant.withValues(alpha: 0.55),
-      cs.surface,
-    );
+            cs.outlineVariant.withValues(alpha: 0.55),
+            cs.surface,
+          );
 
     return Center(
       child: Padding(

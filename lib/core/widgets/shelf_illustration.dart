@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ShelfIllustration extends StatelessWidget {
   const ShelfIllustration({super.key});
 
-  // الألوان من الـ prototype (light). عدّل قيم الـ dark بعد ما تقيسها.
   static const _l = (
     vase: 'B9A898',
     vaseDark: '8E7E70',

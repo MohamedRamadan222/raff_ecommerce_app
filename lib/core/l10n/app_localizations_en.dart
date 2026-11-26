@@ -404,4 +404,373 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get emptyCartSubtitle =>
       'You haven\'t added any items yet.\nBrowse our collection and pick your favorites.';
+
+  @override
+  String get guestUser => 'Guest';
+
+  @override
+  String get statOrders => 'Orders';
+
+  @override
+  String get statFavorites => 'Wishlist';
+
+  @override
+  String get statPoints => 'Points';
+
+  @override
+  String get myAccount => 'My account';
+
+  @override
+  String get myOrders => 'My orders';
+
+  @override
+  String get ordersSubtitle => 'Track and review your orders';
+
+  @override
+  String get addresses => 'Addresses';
+
+  @override
+  String get addressesSubtitle => 'Manage your delivery addresses';
+
+  @override
+  String get paymentMethods => 'Payment methods';
+
+  @override
+  String get paymentMethodsSubtitle => 'Apple Pay and cards';
+
+  @override
+  String get notifications => 'Notifications';
+
+  @override
+  String get preferences => 'Preferences';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get darkMode => 'Dark mode';
+
+  @override
+  String get support => 'Support';
+
+  @override
+  String get helpCenter => 'Help center';
+
+  @override
+  String get privacyPolicy => 'Privacy policy';
+
+  @override
+  String get logout => 'Log out';
+
+  @override
+  String get logoutTitle => 'Log out?';
+
+  @override
+  String get logoutMessage =>
+      'You will need to log in again to place new orders.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get appVersion => 'Version';
+
+  @override
+  String get comingSoon => 'Coming soon';
+
+  @override
+  String get pointsMessage => 'Collect points with every order';
+
+  @override
+  String get arabic => 'العربية';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get addAddress => 'Add a new address';
+
+  @override
+  String get editAddress => 'Edit address';
+
+  @override
+  String get addressLabel => 'Address type';
+
+  @override
+  String get labelHome => 'Home';
+
+  @override
+  String get labelWork => 'Work';
+
+  @override
+  String get labelOther => 'Other';
+
+  @override
+  String get addressDetails => 'Address details';
+
+  @override
+  String get addressDetailsHint => 'Street, building, apartment, district';
+
+  @override
+  String get phoneNumber => 'Phone number';
+
+  @override
+  String get setAsDefault => 'Set as default';
+
+  @override
+  String get defaultBadge => 'Default';
+
+  @override
+  String get saveAddress => 'Save address';
+
+  @override
+  String get addressSaved => 'Address saved';
+
+  @override
+  String get addressDeleted => 'Address deleted';
+
+  @override
+  String get emptyAddressesTitle => 'No addresses yet';
+
+  @override
+  String get emptyAddressesSubtitle =>
+      'Add your first address for a faster checkout';
+
+  @override
+  String get checkoutTitle => 'Checkout';
+
+  @override
+  String get stepAddress => 'Address';
+
+  @override
+  String get stepDelivery => 'Delivery';
+
+  @override
+  String get stepPayment => 'Payment';
+
+  @override
+  String get stepReview => 'Review';
+
+  @override
+  String get continueButton => 'Continue';
+
+  @override
+  String get placeOrder => 'Place order';
+
+  @override
+  String get whereDeliver => 'Where should we deliver?';
+
+  @override
+  String get howDeliver => 'Delivery method';
+
+  @override
+  String get deliveryStandard => 'Standard delivery';
+
+  @override
+  String get deliveryStandardSub => 'Within 3-5 days';
+
+  @override
+  String get deliveryExpress => 'Express delivery';
+
+  @override
+  String get deliveryExpressSub => 'Within 1-2 days';
+
+  @override
+  String get deliveryPickup => 'Store pickup';
+
+  @override
+  String get deliveryPickupSub => 'Ready within 24 hours';
+
+  @override
+  String get courierNote => 'Note for the courier';
+
+  @override
+  String get courierNoteHint => 'Optional';
+
+  @override
+  String get howPay => 'Payment method';
+
+  @override
+  String get payAppleSub => 'Fast and secure payment';
+
+  @override
+  String get payCard => 'Bank card';
+
+  @override
+  String get paySplit => 'Split into 4 payments';
+
+  @override
+  String get paySplitSub => 'no interest';
+
+  @override
+  String get payCod => 'Cash on delivery';
+
+  @override
+  String get payCodSub => 'An extra fee applies';
+
+  @override
+  String get securePay => 'All payments are encrypted and secure';
+
+  @override
+  String get reviewOrder => 'Review your order';
+
+  @override
+  String get editButton => 'Edit';
+
+  @override
+  String get orderPlaced => 'Order placed!';
+
+  @override
+  String get orderPlacedSub => 'We will keep you updated on your order';
+
+  @override
+  String get orderNumber => 'Order number';
+
+  @override
+  String get eta => 'Expected delivery';
+
+  @override
+  String get etaValue => '3-5 days';
+
+  @override
+  String get trackOrder => 'Track order';
+
+  @override
+  String get continueShopping => 'Continue shopping';
+
+  @override
+  String get codFeeLabel => 'COD fee';
+
+  @override
+  String get itemsLabel => 'Items';
+
+  @override
+  String get currentTab => 'Current';
+
+  @override
+  String get pastTab => 'Past';
+
+  @override
+  String get statusPlaced => 'Order placed';
+
+  @override
+  String get statusConfirmed => 'Confirmed';
+
+  @override
+  String get statusShipped => 'Shipped';
+
+  @override
+  String get statusOut => 'Out for delivery';
+
+  @override
+  String get statusDelivered => 'Delivered';
+
+  @override
+  String get statusCancelled => 'Cancelled';
+
+  @override
+  String get emptyOrdersTitle => 'No orders yet';
+
+  @override
+  String get emptyOrdersSubtitle => 'Your orders will appear here';
+
+  @override
+  String get orderNotFound => 'Order not found';
+
+  @override
+  String get deliveredOn => 'Delivered on';
+
+  @override
+  String get pendingLabel => 'Pending';
+
+  @override
+  String get shipTo => 'Delivery address';
+
+  @override
+  String itemsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get notifOrderPlacedTitle => 'Order received';
+
+  @override
+  String get notifOrderPlacedBody => 'We are preparing your order now';
+
+  @override
+  String get notifPromoTitle => '10% off';
+
+  @override
+  String get notifPromoBody => 'Use code RAFF10 on your next order';
+
+  @override
+  String get markAllRead => 'Mark all as read';
+
+  @override
+  String get todayLabel => 'Today';
+
+  @override
+  String get earlierLabel => 'Earlier';
+
+  @override
+  String get emptyNotificationsTitle => 'No notifications';
+
+  @override
+  String get emptyNotificationsSubtitle =>
+      'Order updates and offers will appear here';
+
+  @override
+  String get otpTitle => 'Verification code';
+
+  @override
+  String get otpHead => 'Enter the verification code';
+
+  @override
+  String get otpSub => 'We sent a 4-digit code to confirm your number';
+
+  @override
+  String get otpMockHint => 'Any 4 digits work in this demo';
+
+  @override
+  String get resendIn => 'Resend in';
+
+  @override
+  String get resendNow => 'Resend now';
+
+  @override
+  String get verify => 'Verify';
+
+  @override
+  String get otpSent => 'A new code was sent';
+
+  @override
+  String get addCard => 'Add a new card';
+
+  @override
+  String get changeButton => 'Change';
+
+  @override
+  String get pointsMsg => 'Earn 1 point for every SAR 10';
+
+  @override
+  String savedCount(String count) {
+    return '$count saved';
+  }
+
+  @override
+  String ordersOnTheWay(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count orders on the way',
+      one: '1 order on the way',
+    );
+    return '$_temp0';
+  }
 }

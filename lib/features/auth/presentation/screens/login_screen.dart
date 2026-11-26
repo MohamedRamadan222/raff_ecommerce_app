@@ -4,6 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:raff_app/core/errors/failure_message.dart';
 import 'package:raff_app/core/l10n/app_localizations.dart';
+import 'package:raff_app/core/l10n/l10n_extension.dart';
+import 'package:raff_app/core/theme/app_colors.dart';
 import 'package:raff_app/core/widgets/app_button.dart';
 import 'package:raff_app/core/widgets/app_text_field.dart';
 import 'package:raff_app/features/auth/presentation/cubit/login_cubit.dart';
@@ -44,6 +46,17 @@ class _LoginViewState extends State<_LoginView> {
     super.dispose();
   }
 
+  void _showComingSoon(BuildContext context) {
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(context.l10n.comingSoon),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+  }
+
   void _onLoginPressed(BuildContext context) {
     if (_formKey.currentState?.validate() ?? false) {
       FocusScope.of(context).unfocus();
@@ -60,6 +73,7 @@ class _LoginViewState extends State<_LoginView> {
     final cs = theme.colorScheme;
     final tt = theme.textTheme;
     final l10n = AppLocalizations.of(context)!;
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       body: SafeArea(
@@ -101,19 +115,20 @@ class _LoginViewState extends State<_LoginView> {
                             'رَفّ',
                             style: tt.headlineLarge!.copyWith(
                               fontFamily: 'ReemKufi',
-                              fontSize: 32,
+                              fontSize: 34,
                               height: 1.0,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        const Gap(28),
+                        const Gap(16),
 
                         Text(
                           l10n.loginTitle,
                           style: tt.headlineMedium!.copyWith(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                            height: 1.3,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                         const Gap(8),
@@ -121,10 +136,10 @@ class _LoginViewState extends State<_LoginView> {
                           l10n.loginSubtitle,
                           style: tt.bodyMedium!.copyWith(
                             fontSize: 15,
-                            color: cs.onSurface.withValues(alpha: 0.65),
+                            color: cs.onSurfaceVariant,
                           ),
                         ),
-                        const Gap(28),
+                        const Gap(24),
 
                         AppTextField(
                           label: l10n.email,
@@ -179,23 +194,27 @@ class _LoginViewState extends State<_LoginView> {
                                   Text(
                                     l10n.rememberMe,
                                     style: tt.bodyMedium!.copyWith(
-                                      fontWeight: FontWeight.w500,
+                                      fontSize: 14,
+                                      color: cs.onSurfaceVariant,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () => context.push(AppRoutes.otp),
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                foregroundColor: cs.onSurface.withValues(
-                                  alpha: 0.65,
-                                ),
+                                foregroundColor: isDark
+                                    ? AppColors.darkAccent
+                                    : AppColors.accent,
                               ),
                               child: Text(
                                 l10n.forgotPassword,
-                                style: tt.bodySmall!.copyWith(fontSize: 13),
+                                style: tt.bodySmall!.copyWith(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                           ],
@@ -219,7 +238,10 @@ class _LoginViewState extends State<_LoginView> {
                               child: Text(
                                 l10n.orDivider,
                                 style: tt.bodySmall!.copyWith(
-                                  color: cs.onSurface.withValues(alpha: 0.5),
+                                  fontSize: 13,
+                                  color: isDark
+                                      ? AppColors.darkMuted
+                                      : AppColors.muted,
                                 ),
                               ),
                             ),
@@ -231,13 +253,13 @@ class _LoginViewState extends State<_LoginView> {
                         _SocialAuthButton(
                           icon: Icons.apple,
                           label: l10n.continueWithApple,
-                          onPressed: () {},
+                          onPressed: () => _showComingSoon(context),
                         ),
                         const Gap(12),
                         _SocialAuthButton(
                           icon: Icons.g_mobiledata_rounded,
                           label: l10n.continueWithGoogle,
-                          onPressed: () {},
+                          onPressed: () => _showComingSoon(context),
                         ),
                         const Gap(42),
 
@@ -249,7 +271,8 @@ class _LoginViewState extends State<_LoginView> {
                             Text(
                               l10n.dontHaveAccount,
                               style: tt.bodyMedium!.copyWith(
-                                color: cs.onSurface.withValues(alpha: 0.65),
+                                fontSize: 14,
+                                color: cs.onSurfaceVariant,
                               ),
                             ),
 
@@ -258,8 +281,11 @@ class _LoginViewState extends State<_LoginView> {
                               child: Text(
                                 l10n.createAccount,
                                 style: tt.bodyMedium!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  decoration: TextDecoration.underline,
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: isDark
+                                      ? AppColors.darkAccent
+                                      : AppColors.accent,
                                 ),
                               ),
                             ),
@@ -325,7 +351,8 @@ class _SocialAuthButton extends StatelessWidget {
                 label,
                 overflow: TextOverflow.ellipsis,
                 style: tt.bodyMedium!.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                   color: cs.onSurface,
                 ),
               ),

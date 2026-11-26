@@ -8,11 +8,11 @@ import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 
 abstract class CartHelper {
   static void addWithFeedback(
-      BuildContext context,
-      ProductEntity product, {
-        int quantity = 1,
-        String? colorHex,
-      }) {
+    BuildContext context,
+    ProductEntity product, {
+    int quantity = 1,
+    String? colorHex,
+  }) {
     context.read<CartCubit>().addToCart(
       product,
       quantity: quantity,

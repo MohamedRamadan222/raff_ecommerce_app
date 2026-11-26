@@ -96,7 +96,7 @@ class _RegisterViewState extends State<_RegisterView> {
                   ),
                 );
             } else if (state is RegisterSuccess) {
-              context.go(AppRoutes.home);
+              context.go(AppRoutes.otp);
             }
           },
           builder: (context, state) {

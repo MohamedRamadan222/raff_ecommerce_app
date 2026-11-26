@@ -1,0 +1,122 @@
+import 'package:bloc_test/bloc_test.dart';
+import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:raff_app/core/errors/failures.dart';
+import 'package:raff_app/features/orders/domain/entities/order_entity.dart';
+import 'package:raff_app/features/orders/domain/usecases/get_orders_use_case.dart';
+import 'package:raff_app/features/orders/domain/usecases/place_order_use_case.dart';
+import 'package:raff_app/features/orders/presentation/cubit/orders_cubit.dart';
+import 'package:raff_app/features/orders/presentation/cubit/orders_state.dart';
+
+import '../../helpers/fixtures.dart';
+
+class MockGetOrdersUseCase extends Mock implements GetOrdersUseCase {}
+
+class MockPlaceOrderUseCase extends Mock implements PlaceOrderUseCase {}
+
+void main() {
+  late MockGetOrdersUseCase getOrders;
+  late MockPlaceOrderUseCase placeOrder;
+
+  setUpAll(() => registerFallbackValue(fakeOrder()));
+
+  setUp(() {
+    getOrders = MockGetOrdersUseCase();
+    placeOrder = MockPlaceOrderUseCase();
+  });
+
+  OrdersCubit buildCubit() =>
+      OrdersCubit(getOrdersUseCase: getOrders, placeOrderUseCase: placeOrder);
+
+  OrderStatus statusAfter(Duration age) {
+    final order = fakeOrder(createdAt: DateTime.now().subtract(age));
+    when(() => getOrders()).thenReturn(Right([order]));
+    final cubit = buildCubit()..loadOrders();
+    return cubit.state.orders.single.status;
+  }
+
+  group('loadOrders derives the status from the time since creation', () {
+    test('a new order is placed', () {
+      expect(statusAfter(const Duration(seconds: 5)), OrderStatus.placed);
+    });
+
+    test('after 30 seconds it is confirmed', () {
+      expect(statusAfter(const Duration(seconds: 40)), OrderStatus.confirmed);
+    });
+
+    test('after 2 minutes it is shipped', () {
+      expect(statusAfter(const Duration(minutes: 3)), OrderStatus.shipped);
+    });
+
+    test('after 5 minutes it is out for delivery', () {
+      expect(
+        statusAfter(const Duration(minutes: 6)),
+        OrderStatus.outForDelivery,
+      );
+    });
+
+    test('after 10 minutes it is delivered', () {
+      expect(statusAfter(const Duration(minutes: 11)), OrderStatus.delivered);
+    });
+
+    test('a cancelled order never changes', () {
+      final order = fakeOrder(
+        status: OrderStatus.cancelled,
+        createdAt: DateTime.now().subtract(const Duration(hours: 1)),
+      );
+      when(() => getOrders()).thenReturn(Right([order]));
+
+      final cubit = buildCubit()..loadOrders();
+
+      expect(cubit.state.orders.single.status, OrderStatus.cancelled);
+    });
+  });
+
+  blocTest<OrdersCubit, OrdersState>(
+    'loadOrders emits failure when reading fails',
+    build: () {
+      when(() => getOrders()).thenReturn(const Left(UnknownFailure()));
+      return buildCubit();
+    },
+    act: (cubit) => cubit.loadOrders(),
+    expect: () => [
+      const OrdersState(status: OrdersStatus.loading),
+      const OrdersState(
+        status: OrdersStatus.failure,
+        failure: UnknownFailure(),
+      ),
+    ],
+  );
+
+  blocTest<OrdersCubit, OrdersState>(
+    'placeOrder emits success with the new list',
+    build: () {
+      when(() => placeOrder(any()))
+          .thenAnswer((_) async => Right([fakeOrder()]));
+      return buildCubit();
+    },
+    act: (cubit) => cubit.placeOrder(fakeOrder()),
+    verify: (cubit) {
+      expect(cubit.state.status, OrdersStatus.success);
+      expect(cubit.state.orders.single.id, 'RF-1');
+    },
+  );
+
+  group('OrdersState', () {
+    final current = fakeOrder(id: 'a', status: OrderStatus.shipped);
+    final delivered = fakeOrder(id: 'b', status: OrderStatus.delivered);
+    final cancelled = fakeOrder(id: 'c', status: OrderStatus.cancelled);
+    final state = OrdersState(orders: [current, delivered, cancelled]);
+
+    test('splits current and past orders', () {
+      expect(state.currentOrders, [current]);
+      expect(state.pastOrders, [delivered, cancelled]);
+    });
+
+    test('orderById returns the order or null', () {
+      expect(state.orderById('b'), delivered);
+      expect(state.orderById('zzz'), isNull);
+    });
+  });
+}

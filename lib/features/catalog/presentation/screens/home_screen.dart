@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:raff_app/core/errors/failure_message.dart';
 import 'package:raff_app/core/l10n/app_localizations.dart';
 import 'package:raff_app/core/router/app_routes.dart';
+import 'package:raff_app/core/theme/app_colors.dart';
 import 'package:raff_app/core/widgets/app_search_field.dart';
 import 'package:raff_app/core/widgets/error_view.dart';
 import 'package:raff_app/core/widgets/loading_view.dart';
@@ -69,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onRefresh: () => context.read<HomeCubit>().loadHomeData(),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(top: 12, bottom: 24),
+                padding: const EdgeInsets.only(top: 8, bottom: 32),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             context.push(AppRoutes.notifications),
                       ),
                     ),
-                    const Gap(14),
+                    const Gap(16),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: AppSearchField(
@@ -91,21 +92,21 @@ class _HomeScreenState extends State<HomeScreen> {
                         onFilterTap: () => context.push(AppRoutes.search),
                       ),
                     ),
-                    const Gap(16),
+                    const Gap(20),
                     HomeBannerCarousel(
                       controller: _bannerController,
                       onPageChanged: (index) =>
                           setState(() => _currentBannerIndex = index),
                       onShopNowTap: () => context.push(AppRoutes.products),
                     ),
-                    const Gap(10),
+                    const Gap(12),
                     Center(
                       child: PageIndicator(
                         itemCount: 2,
                         currentIndex: _currentBannerIndex,
                       ),
                     ),
-                    const Gap(20),
+                    const Gap(24),
                     _HomeSectionTitle(
                       title: l10n.navCategories,
                       actionText: l10n.seeAll,
@@ -113,12 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Gap(12),
                     SizedBox(
-                      height: 92,
+                      height: 96,
                       child: ListView.separated(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         scrollDirection: Axis.horizontal,
                         itemCount: state.categories.length,
-                        separatorBuilder: (_, _) => const Gap(14),
+                        separatorBuilder: (_, _) => const Gap(12),
                         itemBuilder: (context, index) {
                           final category = state.categories[index];
                           final localizedName = CatalogHelper.localizeCategory(
@@ -140,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
-                    const Gap(20),
+                    const Gap(32),
                     _HomeSectionTitle(
                       title: l10n.newArrivals,
                       actionText: l10n.seeAll,
@@ -148,14 +149,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Gap(12),
                     _ProductsHorizontalList(products: state.products),
-                    const Gap(16),
+                    const Gap(32),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: FreeShippingBanner(
                         onTap: () => context.push(AppRoutes.products),
                       ),
                     ),
-                    const Gap(22),
+                    const Gap(32),
                     _HomeSectionTitle(
                       title: l10n.bestSellers,
                       actionText: l10n.seeAll,
@@ -190,6 +191,7 @@ class _HomeSectionTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -198,15 +200,20 @@ class _HomeSectionTitle extends StatelessWidget {
           Text(
             title,
             style: tt.titleMedium!.copyWith(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+              fontSize: 17,
+              height: 1.4,
+              fontWeight: FontWeight.w600,
             ),
           ),
           GestureDetector(
             onTap: onActionTap,
             child: Text(
               actionText,
-              style: tt.bodySmall!.copyWith(fontWeight: FontWeight.w500),
+              style: tt.bodySmall!.copyWith(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: isDark ? AppColors.darkAccent : AppColors.accent,
+              ),
             ),
           ),
         ],

@@ -21,6 +21,29 @@ import 'package:raff_app/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/auth/data/datasources/auth_local_data_source.dart';
+import '../../features/notifications/data/datasources/notifications_local_data_source.dart';
+import '../../features/notifications/data/repositories/notifications_repository_impl.dart';
+import '../../features/notifications/domain/repositories/notifications_repository.dart';
+import '../../features/notifications/domain/usecases/add_notification_use_case.dart';
+import '../../features/notifications/domain/usecases/get_notifications_use_case.dart';
+import '../../features/notifications/domain/usecases/mark_all_notifications_read_use_case.dart';
+import '../../features/notifications/domain/usecases/mark_notification_read_use_case.dart';
+import '../../features/notifications/presentation/cubit/notifications_cubit.dart';
+import '../../features/orders/data/datasources/orders_local_data_source.dart';
+import '../../features/orders/data/repositories/orders_repository_impl.dart';
+import '../../features/orders/domain/repositories/orders_repository.dart';
+import '../../features/orders/domain/usecases/get_orders_use_case.dart';
+import '../../features/orders/domain/usecases/place_order_use_case.dart';
+import '../../features/orders/presentation/cubit/orders_cubit.dart';
+import '../../features/addresses/data/datasources/addresses_local_data_source.dart';
+import '../../features/addresses/data/repositories/addresses_repository_impl.dart';
+import '../../features/addresses/domain/repositories/addresses_repository.dart';
+import '../../features/addresses/domain/usecases/add_address_use_case.dart';
+import '../../features/addresses/domain/usecases/delete_address_use_case.dart';
+import '../../features/addresses/domain/usecases/get_addresses_use_case.dart';
+import '../../features/addresses/domain/usecases/set_default_address_use_case.dart';
+import '../../features/addresses/domain/usecases/update_address_use_case.dart';
+import '../../features/addresses/presentation/cubit/addresses_cubit.dart';
 import '../../features/cart/data/datasources/cart_local_data_source.dart';
 import '../../features/cart/data/repositories/cart_repository_impl.dart';
 import '../../features/cart/domain/repositories/cart_repository.dart';
@@ -97,24 +120,20 @@ Future<void> setUpGetIt() async {
 
   // ==================== Catalog Feature ====================
 
-  // Data Sources
   sl.registerLazySingleton<CatalogRemoteDataSource>(
     () => CatalogRemoteDataSourceImpl(sl()),
   );
 
-  // Repositories
   sl.registerLazySingleton<CatalogRepository>(
     () => CatalogRepositoryImpl(sl()),
   );
 
-  //  Use Cases
   sl.registerLazySingleton(() => GetCategoriesUseCase(sl()));
   sl.registerLazySingleton(() => GetProductsUseCase(sl()));
   sl.registerLazySingleton(() => GetProductsByCategoryUseCase(sl()));
   sl.registerLazySingleton(() => SearchProductsUseCase(sl()));
   sl.registerLazySingleton(() => GetProductDetailsUseCase(sl()));
 
-  // 4. Cubits
   sl.registerFactory(
     () => HomeCubit(getProductsUseCase: sl(), getCategoriesUseCase: sl()),
   );
@@ -173,6 +192,75 @@ Future<void> setUpGetIt() async {
       updateCartQuantityUseCase: sl(),
       removeFromCartUseCase: sl(),
       clearCartUseCase: sl(),
+    ),
+  );
+
+  // ===> Addresses Feature
+  final addressesBox = await Hive.openBox<String>('addresses_box');
+  sl.registerLazySingleton<Box<String>>(
+    () => addressesBox,
+    instanceName: 'addressesBox',
+  );
+  sl.registerLazySingleton<AddressesLocalDataSource>(
+    () => AddressesLocalDataSourceImpl(sl(instanceName: 'addressesBox')),
+  );
+  sl.registerLazySingleton<AddressesRepository>(
+    () => AddressesRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton(() => GetAddressesUseCase(sl()));
+  sl.registerLazySingleton(() => AddAddressUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateAddressUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteAddressUseCase(sl()));
+  sl.registerLazySingleton(() => SetDefaultAddressUseCase(sl()));
+  sl.registerFactory(
+    () => AddressesCubit(
+      getAddressesUseCase: sl(),
+      addAddressUseCase: sl(),
+      updateAddressUseCase: sl(),
+      deleteAddressUseCase: sl(),
+      setDefaultAddressUseCase: sl(),
+    ),
+  );
+
+  // ===> Orders Feature
+  final ordersBox = await Hive.openBox<String>('orders_box');
+  sl.registerLazySingleton<Box<String>>(
+    () => ordersBox,
+    instanceName: 'ordersBox',
+  );
+  sl.registerLazySingleton<OrdersLocalDataSource>(
+    () => OrdersLocalDataSourceImpl(sl(instanceName: 'ordersBox')),
+  );
+  sl.registerLazySingleton<OrdersRepository>(() => OrdersRepositoryImpl(sl()));
+  sl.registerLazySingleton(() => GetOrdersUseCase(sl()));
+  sl.registerLazySingleton(() => PlaceOrderUseCase(sl()));
+  sl.registerFactory(
+    () => OrdersCubit(getOrdersUseCase: sl(), placeOrderUseCase: sl()),
+  );
+
+  // ===> Notifications Feature
+  final notificationsBox = await Hive.openBox<String>('notifications_box');
+  sl.registerLazySingleton<Box<String>>(
+    () => notificationsBox,
+    instanceName: 'notificationsBox',
+  );
+  sl.registerLazySingleton<NotificationsLocalDataSource>(
+    () =>
+        NotificationsLocalDataSourceImpl(sl(instanceName: 'notificationsBox')),
+  );
+  sl.registerLazySingleton<NotificationsRepository>(
+    () => NotificationsRepositoryImpl(sl()),
+  );
+  sl.registerLazySingleton(() => GetNotificationsUseCase(sl()));
+  sl.registerLazySingleton(() => AddNotificationUseCase(sl()));
+  sl.registerLazySingleton(() => MarkNotificationReadUseCase(sl()));
+  sl.registerLazySingleton(() => MarkAllNotificationsReadUseCase(sl()));
+  sl.registerFactory(
+    () => NotificationsCubit(
+      getNotificationsUseCase: sl(),
+      addNotificationUseCase: sl(),
+      markNotificationReadUseCase: sl(),
+      markAllNotificationsReadUseCase: sl(),
     ),
   );
 }

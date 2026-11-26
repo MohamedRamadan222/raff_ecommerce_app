@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:raff_app/core/theme/app_colors.dart';
 import 'package:raff_app/features/catalog/domain/entities/category_entity.dart';
 import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart';
 
@@ -20,27 +21,25 @@ class HomeCategoryItem extends StatelessWidget {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final tt = theme.textTheme;
+    final isDark = theme.brightness == Brightness.dark;
 
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: 66,
+        width: 68,
         child: Column(
           children: [
             Container(
-              width: 60,
-              height: 60,
+              width: 64,
+              height: 64,
               decoration: BoxDecoration(
-                color: Color.alphaBlend(
-                  cs.onSurface.withValues(alpha: 0.10),
-                  cs.surface,
-                ),
+                color: isDark ? AppColors.darkSunken : AppColors.sunken,
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 CatalogHelper.categoryIcon(category.slug),
-                size: 25,
-                color: cs.onSurface.withValues(alpha: 0.85),
+                size: 26,
+                color: cs.onSurface,
               ),
             ),
             const Gap(8),
@@ -51,8 +50,9 @@ class HomeCategoryItem extends StatelessWidget {
               textAlign: TextAlign.center,
               style: tt.bodySmall!.copyWith(
                 fontSize: 12,
-                color: cs.onSurface.withValues(alpha: 0.78),
-                fontWeight: FontWeight.w500,
+                color: isDark
+                    ? AppColors.darkInkSecondary
+                    : AppColors.inkSecondary,
               ),
             ),
           ],

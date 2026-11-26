@@ -61,24 +61,24 @@ class ProductCard extends StatelessWidget {
                   ),
                   child: imageUrl.isNotEmpty
                       ? CachedNetworkImage(
-                    imageUrl: imageUrl,
-                    fit: BoxFit.contain,
-                    placeholder: (_, _) => Center(
-                      child: SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: cs.outline,
-                        ),
-                      ),
-                    ),
-                    errorWidget: (_, _, _) => Icon(
-                      Icons.image_outlined,
-                      size: 36,
-                      color: cs.outline,
-                    ),
-                  )
+                          imageUrl: imageUrl,
+                          fit: BoxFit.contain,
+                          placeholder: (_, _) => Center(
+                            child: SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: cs.outline,
+                              ),
+                            ),
+                          ),
+                          errorWidget: (_, _, _) => Icon(
+                            Icons.image_outlined,
+                            size: 36,
+                            color: cs.outline,
+                          ),
+                        )
                       : Icon(Icons.image_outlined, size: 36, color: cs.outline),
                 ),
                 PositionedDirectional(

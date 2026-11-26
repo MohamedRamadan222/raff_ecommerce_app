@@ -33,7 +33,7 @@ class AppSearchField extends StatelessWidget {
     final borderColor = isDark ? AppColors.darkLine : AppColors.line;
     final textColor = isDark ? AppColors.darkInk : AppColors.ink;
     final hintColor = isDark ? AppColors.darkMuted : AppColors.muted;
-    final filterBgColor = isDark ? AppColors.darkPaper : AppColors.paper;
+    final filterBgColor = isDark ? AppColors.darkSunken : AppColors.sunken;
 
     return TextField(
       controller: controller,
@@ -54,19 +54,15 @@ class AppSearchField extends StatelessWidget {
         ),
 
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          borderSide: isOutline
-              ? BorderSide(color: borderColor)
-              : BorderSide.none,
+          borderRadius: BorderRadius.circular(14.0),
+          borderSide: BorderSide(color: borderColor),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
-          borderSide: isOutline
-              ? BorderSide(color: borderColor)
-              : BorderSide.none,
+          borderRadius: BorderRadius.circular(14.0),
+          borderSide: BorderSide(color: borderColor),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.0),
+          borderRadius: BorderRadius.circular(14.0),
           borderSide: BorderSide(
             color: isDark ? AppColors.darkInk : AppColors.ink,
           ),
@@ -87,13 +83,13 @@ class AppSearchField extends StatelessWidget {
       child: GestureDetector(
         onTap: onFilterTap,
         child: Container(
-          width: 40,
-          height: 40,
+          width: 36,
+          height: 36,
           decoration: BoxDecoration(
             color: bgColor,
-            borderRadius: BorderRadius.circular(8.0),
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          child: Icon(Icons.tune_rounded, color: iconColor, size: 20),
+          child: Icon(Icons.tune_rounded, color: iconColor, size: 18),
         ),
       ),
     );

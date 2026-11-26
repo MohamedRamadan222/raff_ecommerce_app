@@ -6,6 +6,7 @@ import 'package:raff_app/core/router/main_shell.dart';
 import 'package:raff_app/features/account/presentation/screens/account_screen.dart';
 import 'package:raff_app/features/addresses/presentation/screens/addresses_screen.dart';
 import 'package:raff_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:raff_app/features/auth/presentation/screens/otp_screen.dart';
 import 'package:raff_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:raff_app/features/cart/presentation/screens/cart_screen.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_cubit.dart';
@@ -39,6 +40,7 @@ final appRouter = GoRouter(
       path: AppRoutes.register,
       builder: (_, _) => const RegisterScreen(),
     ),
+    GoRoute(path: AppRoutes.otp, builder: (_, _) => const OtpScreen()),
     StatefulShellRoute.indexedStack(
       builder: (_, _, shell) => BlocProvider(
         create: (_) => sl<HomeCubit>()..loadHomeData(),

@@ -31,6 +31,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<dynamic> clearUser() async {
     await _sharedPrefs.remove(_cachedUserKey);
     await _sharedPrefs.setBool(_isLoggedInKey, false);
+    await _sharedPrefs.setBool(_isGuestKey, false);
   }
 
   @override

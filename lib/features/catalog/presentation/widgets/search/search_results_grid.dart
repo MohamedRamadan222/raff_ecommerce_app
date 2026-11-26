@@ -42,27 +42,24 @@ class SearchResultsGrid extends StatelessWidget {
                   crossAxisSpacing: 14,
                   childAspectRatio: 0.64,
                 ),
-                delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                    final product = products[index];
-                    return BlocBuilder<CartCubit, CartState>(
-                      builder: (context, cartState) {
-                        return ProductGridCard(
-                          product: product,
-                          isFavorite: favState.isFavorite(product.id),
-                          isInCart: cartState.isInCart(product.id),
-                          onFavoriteTap: () => context
-                              .read<FavoritesCubit>()
-                              .toggleFavorite(product),
-                          onAddTap: () =>
-                              CartHelper.addWithFeedback(context, product),
-                          onTap: () => onProductTap(product),
-                        );
-                      },
-                    );
-                  },
-                  childCount: products.length,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final product = products[index];
+                  return BlocBuilder<CartCubit, CartState>(
+                    builder: (context, cartState) {
+                      return ProductGridCard(
+                        product: product,
+                        isFavorite: favState.isFavorite(product.id),
+                        isInCart: cartState.isInCart(product.id),
+                        onFavoriteTap: () => context
+                            .read<FavoritesCubit>()
+                            .toggleFavorite(product),
+                        onAddTap: () =>
+                            CartHelper.addWithFeedback(context, product),
+                        onTap: () => onProductTap(product),
+                      );
+                    },
+                  );
+                }, childCount: products.length),
               ),
             ),
             if (isLoadingMore)

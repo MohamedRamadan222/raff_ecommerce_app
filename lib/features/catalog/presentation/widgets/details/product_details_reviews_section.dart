@@ -95,7 +95,6 @@ class ProductDetailsReviewsSection extends StatelessWidget {
         ),
         const Gap(12),
 
-        // ملخص التقييمات بالأعمدة
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           decoration: BoxDecoration(
@@ -164,7 +163,6 @@ class ProductDetailsReviewsSection extends StatelessWidget {
         ),
         const Gap(16),
 
-        // آراء العملاء
         ...List.generate(reviews.length, (index) {
           final rev = reviews[index];
           return Column(

@@ -25,7 +25,7 @@ class HomeBannerCarousel extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 176,
+      height: 196,
       child: PageView.builder(
         controller: controller,
         padEnds: false,
@@ -33,22 +33,28 @@ class HomeBannerCarousel extends StatelessWidget {
         itemCount: banners.length,
         itemBuilder: (context, index) {
           final item = banners[index];
+          // البانر الثاني فاتح (hero-2) في الديزاين
+          final isLight = index == 1;
+          final heroColor = isLight ? AppColors.heroSecondary : AppColors.hero;
+          final textColor = isLight ? AppColors.ink : AppColors.heroInk;
           return Padding(
             padding: EdgeInsetsDirectional.only(
               start: index == 0 ? 20 : 12,
               end: index == banners.length - 1 ? 20 : 0,
             ),
             child: Container(
-              padding: const EdgeInsets.all(18),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: AppColors.hero,
-                borderRadius: BorderRadius.circular(18),
+                color: heroColor,
+                borderRadius: BorderRadius.circular(20),
                 gradient: RadialGradient(
                   center: const Alignment(-0.35, -0.2),
                   radius: 0.95,
                   colors: [
-                    AppColors.darkLineStrong.withValues(alpha: 0.55),
-                    AppColors.hero,
+                    isLight
+                        ? Colors.white.withValues(alpha: 0.5)
+                        : AppColors.darkLineStrong.withValues(alpha: 0.55),
+                    heroColor,
                   ],
                 ),
               ),
@@ -63,18 +69,17 @@ class HomeBannerCarousel extends StatelessWidget {
                         Text(
                           item.tag,
                           style: tt.bodySmall!.copyWith(
-                            color: AppColors.heroSecondary.withValues(
-                              alpha: 0.85,
-                            ),
+                            fontSize: 12,
+                            color: textColor.withValues(alpha: 0.75),
                           ),
                         ),
                         Text(
                           item.title,
                           style: tt.headlineMedium!.copyWith(
-                            fontSize: 19,
-                            height: 1.25,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.heroInk,
+                            fontSize: 20,
+                            height: 1.4,
+                            fontWeight: FontWeight.w600,
+                            color: textColor,
                           ),
                         ),
                         SizedBox(
@@ -82,20 +87,26 @@ class HomeBannerCarousel extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: onShopNowTap,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.heroInk,
-                              foregroundColor: AppColors.hero,
+                              backgroundColor: isLight
+                                  ? AppColors.ink
+                                  : AppColors.heroInk,
+                              foregroundColor: isLight
+                                  ? AppColors.heroInk
+                                  : AppColors.hero,
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
                               ),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(14),
                               ),
                             ),
                             child: Text(
                               l10n.shopNow,
                               style: tt.labelMedium!.copyWith(
-                                color: AppColors.hero,
-                                fontWeight: FontWeight.bold,
+                                color: isLight
+                                    ? AppColors.heroInk
+                                    : AppColors.hero,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),

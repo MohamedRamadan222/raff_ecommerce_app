@@ -871,6 +871,702 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You haven\'t added any items yet.\nBrowse our collection and pick your favorites.'**
   String get emptyCartSubtitle;
+
+  /// No description provided for @guestUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get guestUser;
+
+  /// No description provided for @statOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'Orders'**
+  String get statOrders;
+
+  /// No description provided for @statFavorites.
+  ///
+  /// In en, this message translates to:
+  /// **'Wishlist'**
+  String get statFavorites;
+
+  /// No description provided for @statPoints.
+  ///
+  /// In en, this message translates to:
+  /// **'Points'**
+  String get statPoints;
+
+  /// No description provided for @myAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'My account'**
+  String get myAccount;
+
+  /// No description provided for @myOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'My orders'**
+  String get myOrders;
+
+  /// No description provided for @ordersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Track and review your orders'**
+  String get ordersSubtitle;
+
+  /// No description provided for @addresses.
+  ///
+  /// In en, this message translates to:
+  /// **'Addresses'**
+  String get addresses;
+
+  /// No description provided for @addressesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage your delivery addresses'**
+  String get addressesSubtitle;
+
+  /// No description provided for @paymentMethods.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment methods'**
+  String get paymentMethods;
+
+  /// No description provided for @paymentMethodsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Pay and cards'**
+  String get paymentMethodsSubtitle;
+
+  /// No description provided for @notifications.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// No description provided for @preferences.
+  ///
+  /// In en, this message translates to:
+  /// **'Preferences'**
+  String get preferences;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @darkMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark mode'**
+  String get darkMode;
+
+  /// No description provided for @support.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get support;
+
+  /// No description provided for @helpCenter.
+  ///
+  /// In en, this message translates to:
+  /// **'Help center'**
+  String get helpCenter;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logout;
+
+  /// No description provided for @logoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out?'**
+  String get logoutTitle;
+
+  /// No description provided for @logoutMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'You will need to log in again to place new orders.'**
+  String get logoutMessage;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @appVersion.
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get appVersion;
+
+  /// No description provided for @comingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Coming soon'**
+  String get comingSoon;
+
+  /// No description provided for @pointsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Collect points with every order'**
+  String get pointsMessage;
+
+  /// No description provided for @arabic.
+  ///
+  /// In en, this message translates to:
+  /// **'العربية'**
+  String get arabic;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @addAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a new address'**
+  String get addAddress;
+
+  /// No description provided for @editAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit address'**
+  String get editAddress;
+
+  /// No description provided for @addressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address type'**
+  String get addressLabel;
+
+  /// No description provided for @labelHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get labelHome;
+
+  /// No description provided for @labelWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Work'**
+  String get labelWork;
+
+  /// No description provided for @labelOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get labelOther;
+
+  /// No description provided for @addressDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Address details'**
+  String get addressDetails;
+
+  /// No description provided for @addressDetailsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Street, building, apartment, district'**
+  String get addressDetailsHint;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number'**
+  String get phoneNumber;
+
+  /// No description provided for @setAsDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Set as default'**
+  String get setAsDefault;
+
+  /// No description provided for @defaultBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get defaultBadge;
+
+  /// No description provided for @saveAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Save address'**
+  String get saveAddress;
+
+  /// No description provided for @addressSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Address saved'**
+  String get addressSaved;
+
+  /// No description provided for @addressDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Address deleted'**
+  String get addressDeleted;
+
+  /// No description provided for @emptyAddressesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No addresses yet'**
+  String get emptyAddressesTitle;
+
+  /// No description provided for @emptyAddressesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first address for a faster checkout'**
+  String get emptyAddressesSubtitle;
+
+  /// No description provided for @checkoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get checkoutTitle;
+
+  /// No description provided for @stepAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get stepAddress;
+
+  /// No description provided for @stepDelivery.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery'**
+  String get stepDelivery;
+
+  /// No description provided for @stepPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get stepPayment;
+
+  /// No description provided for @stepReview.
+  ///
+  /// In en, this message translates to:
+  /// **'Review'**
+  String get stepReview;
+
+  /// No description provided for @continueButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueButton;
+
+  /// No description provided for @placeOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Place order'**
+  String get placeOrder;
+
+  /// No description provided for @whereDeliver.
+  ///
+  /// In en, this message translates to:
+  /// **'Where should we deliver?'**
+  String get whereDeliver;
+
+  /// No description provided for @howDeliver.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery method'**
+  String get howDeliver;
+
+  /// No description provided for @deliveryStandard.
+  ///
+  /// In en, this message translates to:
+  /// **'Standard delivery'**
+  String get deliveryStandard;
+
+  /// No description provided for @deliveryStandardSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Within 3-5 days'**
+  String get deliveryStandardSub;
+
+  /// No description provided for @deliveryExpress.
+  ///
+  /// In en, this message translates to:
+  /// **'Express delivery'**
+  String get deliveryExpress;
+
+  /// No description provided for @deliveryExpressSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Within 1-2 days'**
+  String get deliveryExpressSub;
+
+  /// No description provided for @deliveryPickup.
+  ///
+  /// In en, this message translates to:
+  /// **'Store pickup'**
+  String get deliveryPickup;
+
+  /// No description provided for @deliveryPickupSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready within 24 hours'**
+  String get deliveryPickupSub;
+
+  /// No description provided for @courierNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note for the courier'**
+  String get courierNote;
+
+  /// No description provided for @courierNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get courierNoteHint;
+
+  /// No description provided for @howPay.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment method'**
+  String get howPay;
+
+  /// No description provided for @payAppleSub.
+  ///
+  /// In en, this message translates to:
+  /// **'Fast and secure payment'**
+  String get payAppleSub;
+
+  /// No description provided for @payCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank card'**
+  String get payCard;
+
+  /// No description provided for @paySplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Split into 4 payments'**
+  String get paySplit;
+
+  /// No description provided for @paySplitSub.
+  ///
+  /// In en, this message translates to:
+  /// **'no interest'**
+  String get paySplitSub;
+
+  /// No description provided for @payCod.
+  ///
+  /// In en, this message translates to:
+  /// **'Cash on delivery'**
+  String get payCod;
+
+  /// No description provided for @payCodSub.
+  ///
+  /// In en, this message translates to:
+  /// **'An extra fee applies'**
+  String get payCodSub;
+
+  /// No description provided for @securePay.
+  ///
+  /// In en, this message translates to:
+  /// **'All payments are encrypted and secure'**
+  String get securePay;
+
+  /// No description provided for @reviewOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Review your order'**
+  String get reviewOrder;
+
+  /// No description provided for @editButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get editButton;
+
+  /// No description provided for @orderPlaced.
+  ///
+  /// In en, this message translates to:
+  /// **'Order placed!'**
+  String get orderPlaced;
+
+  /// No description provided for @orderPlacedSub.
+  ///
+  /// In en, this message translates to:
+  /// **'We will keep you updated on your order'**
+  String get orderPlacedSub;
+
+  /// No description provided for @orderNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Order number'**
+  String get orderNumber;
+
+  /// No description provided for @eta.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected delivery'**
+  String get eta;
+
+  /// No description provided for @etaValue.
+  ///
+  /// In en, this message translates to:
+  /// **'3-5 days'**
+  String get etaValue;
+
+  /// No description provided for @trackOrder.
+  ///
+  /// In en, this message translates to:
+  /// **'Track order'**
+  String get trackOrder;
+
+  /// No description provided for @continueShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue shopping'**
+  String get continueShopping;
+
+  /// No description provided for @codFeeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'COD fee'**
+  String get codFeeLabel;
+
+  /// No description provided for @itemsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Items'**
+  String get itemsLabel;
+
+  /// No description provided for @currentTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Current'**
+  String get currentTab;
+
+  /// No description provided for @pastTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Past'**
+  String get pastTab;
+
+  /// No description provided for @statusPlaced.
+  ///
+  /// In en, this message translates to:
+  /// **'Order placed'**
+  String get statusPlaced;
+
+  /// No description provided for @statusConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get statusConfirmed;
+
+  /// No description provided for @statusShipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Shipped'**
+  String get statusShipped;
+
+  /// No description provided for @statusOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Out for delivery'**
+  String get statusOut;
+
+  /// No description provided for @statusDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get statusDelivered;
+
+  /// No description provided for @statusCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get statusCancelled;
+
+  /// No description provided for @emptyOrdersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet'**
+  String get emptyOrdersTitle;
+
+  /// No description provided for @emptyOrdersSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your orders will appear here'**
+  String get emptyOrdersSubtitle;
+
+  /// No description provided for @orderNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Order not found'**
+  String get orderNotFound;
+
+  /// No description provided for @deliveredOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered on'**
+  String get deliveredOn;
+
+  /// No description provided for @pendingLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pendingLabel;
+
+  /// No description provided for @shipTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivery address'**
+  String get shipTo;
+
+  /// No description provided for @itemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item} other{{count} items}}'**
+  String itemsCount(int count);
+
+  /// No description provided for @notifOrderPlacedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order received'**
+  String get notifOrderPlacedTitle;
+
+  /// No description provided for @notifOrderPlacedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'We are preparing your order now'**
+  String get notifOrderPlacedBody;
+
+  /// No description provided for @notifPromoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'10% off'**
+  String get notifPromoTitle;
+
+  /// No description provided for @notifPromoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Use code RAFF10 on your next order'**
+  String get notifPromoBody;
+
+  /// No description provided for @markAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all as read'**
+  String get markAllRead;
+
+  /// No description provided for @todayLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get todayLabel;
+
+  /// No description provided for @earlierLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get earlierLabel;
+
+  /// No description provided for @emptyNotificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications'**
+  String get emptyNotificationsTitle;
+
+  /// No description provided for @emptyNotificationsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Order updates and offers will appear here'**
+  String get emptyNotificationsSubtitle;
+
+  /// No description provided for @otpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Verification code'**
+  String get otpTitle;
+
+  /// No description provided for @otpHead.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the verification code'**
+  String get otpHead;
+
+  /// No description provided for @otpSub.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a 4-digit code to confirm your number'**
+  String get otpSub;
+
+  /// No description provided for @otpMockHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Any 4 digits work in this demo'**
+  String get otpMockHint;
+
+  /// No description provided for @resendIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend in'**
+  String get resendIn;
+
+  /// No description provided for @resendNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend now'**
+  String get resendNow;
+
+  /// No description provided for @verify.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify'**
+  String get verify;
+
+  /// No description provided for @otpSent.
+  ///
+  /// In en, this message translates to:
+  /// **'A new code was sent'**
+  String get otpSent;
+
+  /// No description provided for @addCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a new card'**
+  String get addCard;
+
+  /// No description provided for @changeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get changeButton;
+
+  /// No description provided for @pointsMsg.
+  ///
+  /// In en, this message translates to:
+  /// **'Earn 1 point for every SAR 10'**
+  String get pointsMsg;
+
+  /// No description provided for @savedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} saved'**
+  String savedCount(String count);
+
+  /// No description provided for @ordersOnTheWay.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 order on the way} other{{count} orders on the way}}'**
+  String ordersOnTheWay(int count);
 }
 
 class _AppLocalizationsDelegate

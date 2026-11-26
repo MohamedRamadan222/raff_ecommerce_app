@@ -13,7 +13,7 @@ class DioClint {
           baseUrl: ApiConstants.baseUrl,
           connectTimeout: const Duration(seconds: 15),
           receiveTimeout: const Duration(seconds: 15),
-          headers: {'Accept': 'kkkkkk'},
+          headers: {'Accept': 'application/json'},
         ),
       ) {
     dio.interceptors.addAll([

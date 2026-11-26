@@ -76,62 +76,62 @@ class FavoritesScreen extends StatelessWidget {
                   child: items.isEmpty
                       ? const FavoritesEmptyView()
                       : GridView.builder(
-                    padding: const EdgeInsets.fromLTRB(20, 6, 20, 28),
-                    gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 18,
-                      crossAxisSpacing: 14,
-                      childAspectRatio: 0.64,
-                    ),
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      final product = items[index];
-                      return BlocBuilder<CartCubit, CartState>(
-                        builder: (context, cartState) {
-                          return ProductGridCard(
-                            product: product,
-                            isFavorite: true,
-                            isInCart: cartState.isInCart(product.id),
-                            onFavoriteTap: () {
-                              context
-                                  .read<FavoritesCubit>()
-                                  .toggleFavorite(product);
-                              ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      l10n.removedFromFavorites,
-                                      style: tt.bodyMedium!.copyWith(
-                                        color: cs.onInverseSurface,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    backgroundColor: cs.inverseSurface,
-                                    behavior: SnackBarBehavior.floating,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        14,
-                                      ),
-                                    ),
-                                    duration: const Duration(seconds: 2),
+                          padding: const EdgeInsets.fromLTRB(20, 6, 20, 28),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                mainAxisSpacing: 18,
+                                crossAxisSpacing: 14,
+                                childAspectRatio: 0.64,
+                              ),
+                          itemCount: items.length,
+                          itemBuilder: (context, index) {
+                            final product = items[index];
+                            return BlocBuilder<CartCubit, CartState>(
+                              builder: (context, cartState) {
+                                return ProductGridCard(
+                                  product: product,
+                                  isFavorite: true,
+                                  isInCart: cartState.isInCart(product.id),
+                                  onFavoriteTap: () {
+                                    context
+                                        .read<FavoritesCubit>()
+                                        .toggleFavorite(product);
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            l10n.removedFromFavorites,
+                                            style: tt.bodyMedium!.copyWith(
+                                              color: cs.onInverseSurface,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                          backgroundColor: cs.inverseSurface,
+                                          behavior: SnackBarBehavior.floating,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                              14,
+                                            ),
+                                          ),
+                                          duration: const Duration(seconds: 2),
+                                        ),
+                                      );
+                                  },
+                                  onAddTap: () => CartHelper.addWithFeedback(
+                                    context,
+                                    product,
+                                  ),
+                                  onTap: () => context.push(
+                                    AppRoutes.productDetails,
+                                    extra: product.id,
                                   ),
                                 );
-                            },
-                            onAddTap: () => CartHelper.addWithFeedback(
-                              context,
-                              product,
-                            ),
-                            onTap: () => context.push(
-                              AppRoutes.productDetails,
-                              extra: product.id,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
+                              },
+                            );
+                          },
+                        ),
                 ),
               ],
             );
