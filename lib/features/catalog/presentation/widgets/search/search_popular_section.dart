@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:raff_app/core/l10n/app_localizations.dart';
+import 'package:raff_app/core/widgets/app_image_cache.dart';
 import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 
 class SearchPopularSection extends StatelessWidget {
@@ -83,6 +84,9 @@ class SearchPopularSection extends StatelessWidget {
                       child: product.thumbnail.isNotEmpty
                           ? CachedNetworkImage(
                               imageUrl: product.thumbnail,
+                              cacheManager: AppImageCache.manager,
+                              memCacheWidth: 150,
+                              maxWidthDiskCache: 150,
                               fit: BoxFit.contain,
                               errorWidget: (_, _, _) => Icon(
                                 Icons.image_outlined,

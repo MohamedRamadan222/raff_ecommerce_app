@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:raff_app/core/l10n/app_localizations.dart';
 import 'package:raff_app/core/theme/app_colors.dart';
+import 'package:raff_app/core/widgets/app_image_cache.dart';
 import 'package:raff_app/core/widgets/favorite_button.dart';
 import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart';
@@ -62,6 +63,9 @@ class ProductGridCard extends StatelessWidget {
                   child: product.thumbnail.isNotEmpty
                       ? CachedNetworkImage(
                           imageUrl: product.thumbnail,
+                          cacheManager: AppImageCache.manager,
+                          memCacheWidth: 480,
+                          maxWidthDiskCache: 480,
                           fit: BoxFit.contain,
                           placeholder: (_, _) => Center(
                             child: SizedBox(

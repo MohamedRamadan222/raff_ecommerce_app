@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:raff_app/core/l10n/app_localizations.dart';
+import 'package:raff_app/core/widgets/summary_row.dart';
 import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
 
 class CartSummarySection extends StatelessWidget {
@@ -129,26 +130,29 @@ class CartSummarySection extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _SummaryRow(
+              SummaryRow(
                 label: l10n.subtotalLabel,
                 value:
                     '${state.subtotal.toStringAsFixed(0)} ${l10n.currencySar}',
+                emphasized: true,
               ),
               if (state.discountAmount > 0) ...[
                 const Gap(10),
-                _SummaryRow(
+                SummaryRow(
                   label: l10n.discountRowLabel,
                   value:
                       '-${state.discountAmount.toStringAsFixed(0)} ${l10n.currencySar}',
+                  emphasized: true,
                   valueColor: const Color(0xFF55A665),
                 ),
               ],
               const Gap(10),
-              _SummaryRow(
+              SummaryRow(
                 label: l10n.shippingLabel,
                 value: state.hasFreeShipping
                     ? l10n.freeLabel
                     : '${state.shippingFee.toStringAsFixed(0)} ${l10n.currencySar}',
+                emphasized: true,
                 valueColor: state.hasFreeShipping
                     ? const Color(0xFF55A665)
                     : null,
@@ -191,46 +195,6 @@ class CartSummarySection extends StatelessWidget {
                 ],
               ),
             ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SummaryRow extends StatelessWidget {
-  final String label;
-  final String value;
-  final Color? valueColor;
-
-  const _SummaryRow({
-    required this.label,
-    required this.value,
-    this.valueColor,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final cs = theme.colorScheme;
-    final tt = theme.textTheme;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          label,
-          style: tt.bodyMedium!.copyWith(
-            fontSize: 13.5,
-            color: cs.onSurface.withValues(alpha: 0.65),
-          ),
-        ),
-        Text(
-          value,
-          style: tt.bodyMedium!.copyWith(
-            fontSize: 13.5,
-            fontWeight: FontWeight.bold,
-            color: valueColor ?? cs.onSurface,
           ),
         ),
       ],

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:raff_app/core/errors/failure_message.dart';
 import 'package:raff_app/core/l10n/app_localizations.dart';
 import 'package:raff_app/core/router/app_routes.dart';
+import 'package:raff_app/core/widgets/empty_view.dart';
 import 'package:raff_app/core/widgets/error_view.dart';
 import 'package:raff_app/core/widgets/loading_view.dart';
 import 'package:raff_app/features/cart/presentation/cubit/cart_cubit.dart';
@@ -11,7 +12,6 @@ import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:raff_app/features/cart/presentation/utils/cart_helper.dart';
 import 'package:raff_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:raff_app/features/favorites/presentation/cubit/favorites_state.dart';
-import 'package:raff_app/features/favorites/presentation/widgets/favorites_empty_view.dart';
 
 import '../../../catalog/presentation/widgets/categories/product_grid_card.dart';
 
@@ -74,25 +74,33 @@ class FavoritesScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: items.isEmpty
-                      ? const FavoritesEmptyView()
-                      : GridView.builder(
-                          padding: const EdgeInsets.fromLTRB(20, 6, 20, 28),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                mainAxisSpacing: 18,
-                                crossAxisSpacing: 14,
-                                childAspectRatio: 0.64,
-                              ),
-                          itemCount: items.length,
-                          itemBuilder: (context, index) {
-                            final product = items[index];
-                            return BlocBuilder<CartCubit, CartState>(
-                              builder: (context, cartState) {
+                      ? EmptyView(
+                          title: l10n.emptyFavoritesTitle,
+                          subtitle: l10n.emptyFavoritesSubtitle,
+                          icon: Icons.favorite_border_rounded,
+                          buttonText: l10n.startShopping,
+                          onAction: () => context.go(AppRoutes.home),
+                        )
+                      : BlocBuilder<CartCubit, CartState>(
+                          builder: (context, cartState) {
+                            final cartIds = cartState.productIds;
+
+                            return GridView.builder(
+                              padding: const EdgeInsets.fromLTRB(20, 6, 20, 28),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    mainAxisSpacing: 18,
+                                    crossAxisSpacing: 14,
+                                    childAspectRatio: 0.64,
+                                  ),
+                              itemCount: items.length,
+                              itemBuilder: (context, index) {
+                                final product = items[index];
                                 return ProductGridCard(
                                   product: product,
                                   isFavorite: true,
-                                  isInCart: cartState.isInCart(product.id),
+                                  isInCart: cartIds.contains(product.id),
                                   onFavoriteTap: () {
                                     context
                                         .read<FavoritesCubit>()

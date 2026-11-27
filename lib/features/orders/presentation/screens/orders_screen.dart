@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart' as intl;
+import 'package:raff_app/core/errors/failure_message.dart';
 import 'package:raff_app/core/l10n/l10n_extension.dart';
+import 'package:raff_app/core/router/app_routes.dart';
 import 'package:raff_app/core/theme/app_colors.dart';
+import 'package:raff_app/core/utils/app_formatters.dart';
 import 'package:raff_app/core/widgets/app_app_bar.dart';
+import 'package:raff_app/core/widgets/app_image_cache.dart';
 import 'package:raff_app/core/widgets/empty_view.dart';
+import 'package:raff_app/core/widgets/error_view.dart';
+import 'package:raff_app/core/widgets/loading_view.dart';
 import 'package:raff_app/features/orders/domain/entities/order_entity.dart';
 import 'package:raff_app/features/orders/presentation/cubit/orders_cubit.dart';
 import 'package:raff_app/features/orders/presentation/cubit/orders_state.dart';
@@ -26,8 +31,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
   @override
   void initState() {
     super.initState();
-    // بنعيد التحميل عشان الحالات المشتقة تتحدث بآخر وقت
-    context.read<OrdersCubit>().loadOrders();
+    // تحميل أول مرة فقط، وبعدها تحديث الحالات المشتقة من الذاكرة بدون Hive.
+    final ordersCubit = context.read<OrdersCubit>();
+    ordersCubit.ensureLoaded();
+    ordersCubit.refreshStatuses();
   }
 
   @override
@@ -35,61 +42,76 @@ class _OrdersScreenState extends State<OrdersScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppAppBar(title: l10n.myOrders, showBackButton: true),
+      appBar: AppAppBar(title: l10n.myOrders),
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
-          final list = _showCurrent ? state.currentOrders : state.pastOrders;
+          switch (state) {
+            case OrdersInitial():
+            case OrdersLoading():
+              return const LoadingView();
 
-          return Column(
-            children: [
-              const Gap(8),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? AppColors.darkSunken
-                        : AppColors.sunken,
-                    borderRadius: BorderRadius.circular(14),
+            case OrdersFailure(failure: final failure):
+              return ErrorView(
+                message: failure.message(context),
+                onRetry: () => context.read<OrdersCubit>().loadOrders(),
+              );
+
+            case final OrdersSuccess success:
+              final list = _showCurrent
+                  ? success.currentOrders
+                  : success.pastOrders;
+
+              return Column(
+                children: [
+                  const Gap(8),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? AppColors.darkSunken
+                            : AppColors.sunken,
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      child: Row(
+                        children: [
+                          _TabButton(
+                            label: l10n.currentTab,
+                            count: success.currentOrders.length,
+                            selected: _showCurrent,
+                            onTap: () => setState(() => _showCurrent = true),
+                          ),
+                          _TabButton(
+                            label: l10n.pastTab,
+                            selected: !_showCurrent,
+                            onTap: () => setState(() => _showCurrent = false),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Row(
-                    children: [
-                      _TabButton(
-                        label: l10n.currentTab,
-                        count: state.currentOrders.length,
-                        selected: _showCurrent,
-                        onTap: () => setState(() => _showCurrent = true),
-                      ),
-                      _TabButton(
-                        label: l10n.pastTab,
-                        selected: !_showCurrent,
-                        onTap: () => setState(() => _showCurrent = false),
-                      ),
-                    ],
+                  const Gap(8),
+                  Expanded(
+                    child: list.isEmpty
+                        ? EmptyView(
+                            title: l10n.emptyOrdersTitle,
+                            subtitle: l10n.emptyOrdersSubtitle,
+                            icon: Icons.shopping_bag_outlined,
+                            buttonText: l10n.startShopping,
+                            onAction: () => context.go(AppRoutes.home),
+                          )
+                        : ListView.separated(
+                            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                            itemCount: list.length,
+                            separatorBuilder: (_, _) => const Gap(12),
+                            itemBuilder: (context, index) =>
+                                _OrderCard(order: list[index]),
+                          ),
                   ),
-                ),
-              ),
-              const Gap(8),
-              Expanded(
-                child: list.isEmpty
-                    ? EmptyView(
-                        title: l10n.emptyOrdersTitle,
-                        subtitle: l10n.emptyOrdersSubtitle,
-                        icon: Icons.shopping_bag_outlined,
-                        buttonText: l10n.startShopping,
-                        onAction: () => context.go('/home'),
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-                        itemCount: list.length,
-                        separatorBuilder: (_, _) => const Gap(12),
-                        itemBuilder: (context, index) =>
-                            _OrderCard(order: list[index]),
-                      ),
-              ),
-            ],
-          );
+                ],
+              );
+          }
         },
       ),
     );
@@ -114,7 +136,7 @@ class _TabButton extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final digits = intl.NumberFormat('#,##0', context.l10n.localeName);
+    final digits = AppFormatters.number(context.l10n.localeName);
 
     return Expanded(
       child: GestureDetector(
@@ -185,10 +207,10 @@ class _OrderCard extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final l10n = context.l10n;
-    final dateFormat = intl.DateFormat.yMMMd(l10n.localeName);
+    final dateFormat = AppFormatters.dateMedium(l10n.localeName);
 
     return InkWell(
-      onTap: () => context.push('/orders/${order.id}/track'),
+      onTap: () => context.push(AppRoutes.trackOrderFor(order.id)),
       borderRadius: BorderRadius.circular(20),
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -239,6 +261,9 @@ class _OrderCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: CachedNetworkImage(
                     imageUrl: order.items[index].thumbnail,
+                    cacheManager: AppImageCache.manager,
+                    memCacheWidth: 140,
+                    maxWidthDiskCache: 140,
                     width: 44,
                     height: 44,
                     fit: BoxFit.cover,
@@ -265,7 +290,7 @@ class _OrderCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${intl.NumberFormat('#,##0', l10n.localeName).format(order.total.round())} ${l10n.currencySar}',
+                  '${AppFormatters.number(l10n.localeName).format(order.total.round())} ${l10n.currencySar}',
                   style: tt.titleSmall!.copyWith(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,

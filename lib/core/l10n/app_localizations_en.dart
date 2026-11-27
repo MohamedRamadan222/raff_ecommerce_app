@@ -10,19 +10,16 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Raff';
-
-  @override
   String get errorNetwork => 'Check your internet connection';
 
   @override
   String get errorTimeout => 'Connection timed out';
 
   @override
-  String get errorServer => 'Server error';
+  String get errorUnknown => 'An unexpected error occurred';
 
   @override
-  String get errorUnknown => 'An unexpected error occurred';
+  String get errorServer => 'Server error. Please try again.';
 
   @override
   String get navHome => 'Home';
@@ -41,9 +38,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get splashTagline => 'Everything your home needs, on one shelf';
-
-  @override
-  String get splashTapToContinue => 'Tap to continue';
 
   @override
   String get onbSkip => 'Skip';
@@ -118,9 +112,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fieldRequired => 'This field is required';
 
   @override
-  String get loading => 'Loading...';
-
-  @override
   String get email => 'Email';
 
   @override
@@ -153,34 +144,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get alreadyHaveAccount => 'Already have an account?';
 
   @override
-  String get homeTitle => 'Raff';
-
-  @override
   String get searchHint => 'Search for a product...';
-
-  @override
-  String get categories => 'Categories';
 
   @override
   String get seeAll => 'See All';
 
   @override
-  String get featuredProducts => 'Featured Products';
-
-  @override
   String get allProducts => 'All Products';
 
   @override
-  String get searchProductsPrompt => 'Type a product name to search';
-
-  @override
   String get noResultsFound => 'No matching products found';
-
-  @override
-  String get productDetails => 'Product Details';
-
-  @override
-  String get description => 'Description';
 
   @override
   String get inStock => 'In Stock';
@@ -327,9 +300,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get totalLabel => 'Total';
 
   @override
-  String get addedToCartMessage => 'Added to cart';
-
-  @override
   String get categoryLabel => 'Category';
 
   @override
@@ -347,9 +317,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get removedFromFavorites => 'Removed from favorites';
-
-  @override
-  String get addedToFavorites => 'Added to favorites';
 
   @override
   String get freeShippingUnlocked => 'You unlocked free shipping';
@@ -424,13 +391,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myOrders => 'My orders';
 
   @override
-  String get ordersSubtitle => 'Track and review your orders';
-
-  @override
   String get addresses => 'Addresses';
-
-  @override
-  String get addressesSubtitle => 'Manage your delivery addresses';
 
   @override
   String get paymentMethods => 'Payment methods';
@@ -477,9 +438,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comingSoon => 'Coming soon';
-
-  @override
-  String get pointsMessage => 'Collect points with every order';
 
   @override
   String get arabic => 'العربية';
@@ -613,9 +571,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reviewOrder => 'Review your order';
-
-  @override
-  String get editButton => 'Edit';
 
   @override
   String get orderPlaced => 'Order placed!';

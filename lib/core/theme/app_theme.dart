@@ -6,7 +6,7 @@ import 'app_text_styles.dart';
 class AppTheme {
   AppTheme._();
 
-  static ThemeData get lightTheme => _buildTheme(
+  static final ThemeData lightTheme = _buildTheme(
     brightness: Brightness.light,
     background: AppColors.paper,
     surface: AppColors.surface,
@@ -21,7 +21,7 @@ class AppTheme {
     error: AppColors.danger,
   );
 
-  static ThemeData get darkTheme => _buildTheme(
+  static final ThemeData darkTheme = _buildTheme(
     brightness: Brightness.dark,
     background: AppColors.darkPaper,
     surface: AppColors.darkSurface,

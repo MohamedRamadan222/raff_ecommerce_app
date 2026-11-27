@@ -30,9 +30,9 @@ class MainShell extends StatelessWidget {
             label: l10n.navCategories,
           ),
           NavigationDestination(
-            icon: BlocBuilder<CartCubit, CartState>(
-              builder: (context, cartState) {
-                final count = cartState.totalItemsCount;
+            icon: BlocSelector<CartCubit, CartState, int>(
+              selector: (cartState) => cartState.totalItemsCount,
+              builder: (context, count) {
                 return Badge(
                   isLabelVisible: count > 0,
                   label: Text(

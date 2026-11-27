@@ -19,44 +19,61 @@ class NotificationsCubit extends Cubit<NotificationsState> {
     required this.addNotificationUseCase,
     required this.markNotificationReadUseCase,
     required this.markAllNotificationsReadUseCase,
-  }) : super(const NotificationsState());
+  }) : super(const NotificationsInitial());
+
+  /// Clears in-memory notifications state after the user-scoped storage is
+  /// wiped.
+  void reset() => emit(const NotificationsInitial());
+
+  /// Loads only when there is no usable state yet. Safe to call from screens.
+  void ensureLoaded() {
+    switch (state) {
+      case NotificationsInitial():
+      case NotificationsFailure():
+        loadNotifications();
+        break;
+      case NotificationsLoading():
+      case NotificationsSuccess():
+        break;
+    }
+  }
 
   Future<void> loadNotifications() async {
-    emit(state.copyWith(status: NotificationsStatus.loading));
+    if (isClosed || state is NotificationsLoading) return;
+
+    emit(const NotificationsLoading());
 
     final result = getNotificationsUseCase();
-    if (result.isLeft()) {
-      result.fold(
-        (failure) => emit(
-          state.copyWith(status: NotificationsStatus.failure, failure: failure),
-        ),
-        (_) {},
-      );
-      return;
-    }
+    if (isClosed) return;
 
-    var items = result.getOrElse(() => <NotificationEntity>[]);
+    switch (result) {
+      case Left(value: final failure):
+        emit(NotificationsFailure(failure));
+        return;
+      case Right(value: final loaded):
+        if (loaded.isNotEmpty) {
+          emit(NotificationsSuccess(loaded));
+          return;
+        }
+    }
 
     // أول مرة يفتح التطبيق: نزرع إشعار ترحيب بالبرومو كود
     // عشان الشاشة متفتحش فاضية
-    if (items.isEmpty) {
-      final seed = await addNotificationUseCase(
-        NotificationEntity(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
-          type: NotificationType.promo,
-          createdAt: DateTime.now(),
-        ),
-      );
-      items = seed.getOrElse(() => <NotificationEntity>[]);
-    }
-
-    emit(
-      state.copyWith(
-        status: NotificationsStatus.success,
-        notifications: items,
-        clearFailure: true,
+    final seedResult = await addNotificationUseCase(
+      NotificationEntity(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        type: NotificationType.promo,
+        createdAt: DateTime.now(),
       ),
     );
+
+    if (isClosed) return;
+
+    final seeded = seedResult.fold(
+      (_) => const <NotificationEntity>[],
+      (items) => items,
+    );
+    emit(NotificationsSuccess(seeded));
   }
 
   Future<void> addNotification(NotificationEntity notification) async {
@@ -76,17 +93,14 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   void _emitResult(Either<Failure, List<NotificationEntity>> result) {
     if (isClosed) return;
-    result.fold(
-      (failure) => emit(
-        state.copyWith(status: NotificationsStatus.failure, failure: failure),
-      ),
-      (items) => emit(
-        state.copyWith(
-          status: NotificationsStatus.success,
-          notifications: items,
-          clearFailure: true,
-        ),
-      ),
-    );
+
+    switch (result) {
+      case Left(value: final failure):
+        emit(NotificationsFailure(failure));
+        break;
+      case Right(value: final items):
+        emit(NotificationsSuccess(items));
+        break;
+    }
   }
 }

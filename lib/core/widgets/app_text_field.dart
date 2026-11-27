@@ -9,7 +9,6 @@ class AppTextField extends StatefulWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final IconData? prefixIcon;
-  final Widget? prefix;
 
   const AppTextField({
     super.key,
@@ -20,7 +19,6 @@ class AppTextField extends StatefulWidget {
     this.obscureText = false,
     this.keyboardType,
     this.prefixIcon,
-    this.prefix,
   });
 
   @override
@@ -50,12 +48,6 @@ class _AppTextFieldState extends State<AppTextField> {
             prefixIcon: widget.prefixIcon == null
                 ? null
                 : Icon(widget.prefixIcon, size: 20),
-            prefix: widget.prefix == null
-                ? null
-                : Padding(
-                    padding: const EdgeInsetsDirectional.only(end: 8),
-                    child: widget.prefix,
-                  ),
             suffixIcon: widget.obscureText
                 ? IconButton(
                     icon: Icon(

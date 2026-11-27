@@ -43,25 +43,11 @@ abstract class AppTextStyles {
     height: 1.55,
   );
 
-  static const TextStyle buttonSecondary = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 13,
-    fontWeight: FontWeight.w400,
-    height: 1.55,
-  );
-
   // Labels
   static const TextStyle sectionLabel = TextStyle(
     fontFamily: fontFamily,
     fontSize: 12,
     fontWeight: FontWeight.w500,
-    height: 1.55,
-  );
-
-  static const TextStyle navigationLabel = TextStyle(
-    fontFamily: fontFamily,
-    fontSize: 12,
-    fontWeight: FontWeight.w400,
     height: 1.55,
   );
 

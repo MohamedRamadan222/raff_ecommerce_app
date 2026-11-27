@@ -1,20 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
-import 'package:raff_app/features/checkout/presentation/utils/checkout_totals.dart';
+import 'package:raff_app/features/cart/domain/value_objects/cart_pricing.dart';
+import 'package:raff_app/features/checkout/domain/entities/checkout_totals.dart';
 
 import '../../helpers/fixtures.dart';
 
 void main() {
-  final smallCart = CartState(items: [fakeCartItem(price: 100)]);
-  final bigCart = CartState(items: [fakeCartItem(price: 300)]);
+  final smallCart = CartPricing.from([fakeCartItem(price: 100)], null);
+  final bigCart = CartPricing.from([fakeCartItem(price: 300)], null);
 
   CheckoutTotals totalsFor(
-    CartState cart, {
+    CartPricing pricing, {
     String delivery = 'standard',
     String payment = 'card',
   }) {
     return CheckoutTotals.from(
-      cart,
+      pricing,
       deliveryMethod: delivery,
       paymentMethod: payment,
     );
@@ -22,7 +22,7 @@ void main() {
 
   group('shipping', () {
     test('standard delivery is charged below the free shipping threshold', () {
-      expect(totalsFor(smallCart).shippingFee, CartState.standardShippingFee);
+      expect(totalsFor(smallCart).shippingFee, CartPricing.standardShippingFee);
       expect(totalsFor(smallCart).total, 125);
     });
 
@@ -59,7 +59,7 @@ void main() {
   });
 
   test('the promo discount is subtracted from the total', () {
-    final cart = bigCart.copyWith(appliedPromoCode: 'RAFF10');
+    final cart = CartPricing.from([fakeCartItem(price: 300)], 'RAFF10');
     final totals = totalsFor(cart);
 
     expect(totals.discount, 30);

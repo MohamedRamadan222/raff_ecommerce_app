@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:raff_app/core/l10n/app_localizations.dart';
 import 'package:raff_app/core/theme/app_colors.dart';
 
 import 'app_button.dart';
@@ -11,6 +12,7 @@ class ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final textColor = isDark ? AppColors.darkInk : AppColors.ink;
     final iconColor = isDark ? AppColors.darkDanger : AppColors.danger;
@@ -34,7 +36,7 @@ class ErrorView extends StatelessWidget {
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,
-                child: AppButton(onPressed: onRetry, label: 'اعادة المحاولة'),
+                child: AppButton(onPressed: onRetry, label: l10n.retry),
               ),
             ],
           ],

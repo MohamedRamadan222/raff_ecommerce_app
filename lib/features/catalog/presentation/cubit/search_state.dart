@@ -35,12 +35,15 @@ class SearchSuccess extends SearchState {
     bool? hasMore,
     bool? isLoadingMore,
     Failure? paginationFailure,
+    bool clearPaginationFailure = false,
   }) {
     return SearchSuccess(
       products: products ?? this.products,
       hasMore: hasMore ?? this.hasMore,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
-      paginationFailure: paginationFailure,
+      paginationFailure: clearPaginationFailure
+          ? null
+          : (paginationFailure ?? this.paginationFailure),
     );
   }
 

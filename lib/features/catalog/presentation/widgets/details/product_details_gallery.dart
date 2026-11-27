@@ -2,29 +2,41 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:raff_app/core/widgets/app_image_cache.dart';
 import 'package:raff_app/core/widgets/favorite_button.dart';
 import 'package:raff_app/core/widgets/page_indicator.dart';
 
-class ProductDetailsGallery extends StatelessWidget {
+class ProductDetailsGallery extends StatefulWidget {
   final List<String> images;
-  final int selectedIndex;
   final bool isFavorite;
-  final ValueChanged<int> onPageChanged;
   final VoidCallback onFavoriteTap;
   final VoidCallback onShareTap;
 
   const ProductDetailsGallery({
     super.key,
     required this.images,
-    required this.selectedIndex,
     required this.isFavorite,
-    required this.onPageChanged,
     required this.onFavoriteTap,
     required this.onShareTap,
   });
 
   @override
+  State<ProductDetailsGallery> createState() => _ProductDetailsGalleryState();
+}
+
+class _ProductDetailsGalleryState extends State<ProductDetailsGallery> {
+  final _controller = PageController();
+  int _selectedIndex = 0;
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final images = widget.images;
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
     final isDark = theme.brightness == Brightness.dark;
@@ -46,8 +58,9 @@ class ProductDetailsGallery extends StatelessWidget {
       child: Stack(
         children: [
           PageView.builder(
+            controller: _controller,
             itemCount: images.length,
-            onPageChanged: onPageChanged,
+            onPageChanged: (index) => setState(() => _selectedIndex = index),
             itemBuilder: (context, index) {
               final url = images[index];
               return Padding(
@@ -55,6 +68,9 @@ class ProductDetailsGallery extends StatelessWidget {
                 child: url.isNotEmpty
                     ? CachedNetworkImage(
                         imageUrl: url,
+                        cacheManager: AppImageCache.manager,
+                        memCacheWidth: 900,
+                        maxWidthDiskCache: 900,
                         fit: BoxFit.contain,
                         placeholder: (_, _) => Center(
                           child: CircularProgressIndicator(
@@ -96,7 +112,7 @@ class ProductDetailsGallery extends StatelessWidget {
                   Row(
                     children: [
                       _CircleActionButton(
-                        onTap: onShareTap,
+                        onTap: widget.onShareTap,
                         child: Icon(
                           Icons.share_outlined,
                           size: 18,
@@ -106,8 +122,8 @@ class ProductDetailsGallery extends StatelessWidget {
                       const Gap(10),
                       _CircleActionButton(
                         child: FavoriteButton(
-                          isFavorite: isFavorite,
-                          onTap: onFavoriteTap,
+                          isFavorite: widget.isFavorite,
+                          onTap: widget.onFavoriteTap,
                         ),
                       ),
                     ],
@@ -124,7 +140,7 @@ class ProductDetailsGallery extends StatelessWidget {
             child: Center(
               child: PageIndicator(
                 itemCount: images.length,
-                currentIndex: selectedIndex,
+                currentIndex: _selectedIndex,
               ),
             ),
           ),

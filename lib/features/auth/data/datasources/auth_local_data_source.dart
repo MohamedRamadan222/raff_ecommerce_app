@@ -8,6 +8,10 @@ abstract class AuthLocalDataSource {
 
   UserModel? getCacheUser();
 
+  bool get isLoggedIn;
+
+  bool get isGuest;
+
   Future clearUser();
 }
 
@@ -38,6 +42,21 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   UserModel? getCacheUser() {
     final jsonString = _sharedPrefs.getString(_cachedUserKey);
     if (jsonString == null) return null;
-    return UserModel.fromJson(jsonDecode(jsonString));
+
+    try {
+      final decoded = jsonDecode(jsonString);
+      if (decoded is! Map<String, dynamic>) return null;
+      return UserModel.fromJson(decoded);
+    } catch (_) {
+      // Corrupt/stale cache must not block app startup.
+      _sharedPrefs.remove(_cachedUserKey);
+      return null;
+    }
   }
+
+  @override
+  bool get isLoggedIn => _sharedPrefs.getBool(_isLoggedInKey) ?? false;
+
+  @override
+  bool get isGuest => _sharedPrefs.getBool(_isGuestKey) ?? false;
 }

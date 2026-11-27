@@ -5,11 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:raff_app/core/errors/failure_message.dart';
 import 'package:raff_app/core/l10n/app_localizations.dart';
 import 'package:raff_app/core/router/app_routes.dart';
+import 'package:raff_app/core/widgets/empty_view.dart';
 import 'package:raff_app/core/widgets/error_view.dart';
 import 'package:raff_app/core/widgets/loading_view.dart';
 import 'package:raff_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
-import 'package:raff_app/features/cart/presentation/widgets/cart_empty_view.dart';
 import 'package:raff_app/features/cart/presentation/widgets/cart_item_tile.dart';
 import 'package:raff_app/features/cart/presentation/widgets/cart_shipping_banner.dart';
 import 'package:raff_app/features/cart/presentation/widgets/cart_summary_section.dart';
@@ -174,65 +174,88 @@ class _CartScreenState extends State<CartScreen> {
 
                 Expanded(
                   child: items.isEmpty
-                      ? const CartEmptyView()
-                      : ListView(
+                      ? EmptyView(
+                          title: l10n.emptyCartTitle,
+                          subtitle: l10n.emptyCartSubtitle,
+                          icon: Icons.shopping_bag_outlined,
+                          buttonText: l10n.startShopping,
+                          onAction: () => context.go(AppRoutes.home),
+                        )
+                      : ListView.builder(
                           padding: const EdgeInsets.fromLTRB(20, 4, 20, 28),
-                          children: [
-                            CartShippingBanner(
-                              hasFreeShipping: state.hasFreeShipping,
-                              remainingAmount: state.remainingForFreeShipping,
-                              progress: state.freeShippingProgress,
-                            ),
-                            const Gap(8),
-                            ...List.generate(items.length, (index) {
-                              final item = items[index];
+                          itemCount: items.length + 2,
+                          itemBuilder: (context, index) {
+                            if (index == 0) {
                               return Column(
                                 children: [
-                                  CartItemTile(
-                                    item: item,
-                                    onTap: () => context.push(
-                                      AppRoutes.productDetails,
-                                      extra: item.product.id,
-                                    ),
-                                    onIncrement: () => context
-                                        .read<CartCubit>()
-                                        .incrementQuantity(item.product.id),
-                                    onDecrement: () {
-                                      final willRemove = item.quantity <= 1;
-                                      context
-                                          .read<CartCubit>()
-                                          .decrementQuantity(item.product.id);
-                                      if (willRemove) {
-                                        _showRemovedSnackBar(context);
-                                      }
-                                    },
-                                    onRemove: () {
-                                      context.read<CartCubit>().removeFromCart(
-                                        item.product.id,
-                                      );
-                                      _showRemovedSnackBar(context);
-                                    },
+                                  CartShippingBanner(
+                                    hasFreeShipping: state.hasFreeShipping,
+                                    remainingAmount:
+                                        state.remainingForFreeShipping,
+                                    progress: state.freeShippingProgress,
                                   ),
-                                  Divider(height: 1, color: cs.outlineVariant),
+                                  const Gap(8),
                                 ],
                               );
-                            }),
-                            const Gap(18),
-                            CartSummarySection(
-                              state: state,
-                              promoController: _promoController,
-                              onApplyPromo: () {
-                                FocusScope.of(context).unfocus();
-                                context.read<CartCubit>().applyPromoCode(
-                                  _promoController.text,
-                                );
-                              },
-                              onRemovePromo: () {
-                                _promoController.clear();
-                                context.read<CartCubit>().removePromoCode();
-                              },
-                            ),
-                          ],
+                            }
+
+                            if (index == items.length + 1) {
+                              return Column(
+                                children: [
+                                  const Gap(18),
+                                  CartSummarySection(
+                                    state: state,
+                                    promoController: _promoController,
+                                    onApplyPromo: () {
+                                      FocusScope.of(context).unfocus();
+                                      context.read<CartCubit>().applyPromoCode(
+                                        _promoController.text,
+                                      );
+                                    },
+                                    onRemovePromo: () {
+                                      _promoController.clear();
+                                      context
+                                          .read<CartCubit>()
+                                          .removePromoCode();
+                                    },
+                                  ),
+                                ],
+                              );
+                            }
+
+                            final item = items[index - 1];
+                            return Column(
+                              key: ValueKey(item.product.id),
+                              children: [
+                                CartItemTile(
+                                  item: item,
+                                  onTap: () => context.push(
+                                    AppRoutes.productDetails,
+                                    extra: item.product.id,
+                                  ),
+                                  onIncrement: () => context
+                                      .read<CartCubit>()
+                                      .incrementQuantity(item.product.id),
+                                  onDecrement: () {
+                                    final willRemove = item.quantity <= 1;
+                                    context.read<CartCubit>().decrementQuantity(
+                                      item.product.id,
+                                    );
+                                    if (willRemove) {
+                                      _showRemovedSnackBar(context);
+                                    }
+                                  },
+                                  onRemove: () {
+                                    context.read<CartCubit>().removeFromCart(
+                                      item.product.id,
+                                    );
+                                    _showRemovedSnackBar(context);
+                                  },
+                                ),
+                                Divider(height: 1, color: cs.outlineVariant),
+                              ],
+                            );
+                          },
                         ),
                 ),
               ],

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:raff_app/core/l10n/app_localizations.dart';
+import 'package:raff_app/core/widgets/app_image_cache.dart';
 import 'package:raff_app/features/cart/domain/entities/cart_item_entity.dart';
 import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart';
 
@@ -77,6 +78,9 @@ class CartItemTile extends StatelessWidget {
               child: product.thumbnail.isNotEmpty
                   ? CachedNetworkImage(
                       imageUrl: product.thumbnail,
+                      cacheManager: AppImageCache.manager,
+                      memCacheWidth: 260,
+                      maxWidthDiskCache: 260,
                       fit: BoxFit.contain,
                       errorWidget: (_, _, _) => Icon(
                         Icons.image_outlined,

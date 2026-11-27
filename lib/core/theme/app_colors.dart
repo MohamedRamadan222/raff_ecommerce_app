@@ -24,17 +24,13 @@ abstract final class AppColors {
   // Status
   static const Color success = Color(0xFF4F6B4A);
   static const Color danger = Color(0xFFA3483A);
-  static const Color star = Color(0xFFB08D57);
 
   // Hero
   static const Color hero = Color(0xFF2F2F2B);
   static const Color heroInk = Color(0xFFF2F1EC);
   static const Color heroSecondary = Color(0xFFDCDAD3);
 
-  static const Color bezel = Color(0xFF1D1D1B);
-
   // Dark backgrounds
-  static const Color darkStage = Color(0xFF141512);
   static const Color darkPaper = Color(0xFF191917);
   static const Color darkSurface = Color(0xFF252620);
   static const Color darkSunken = Color(0xFF191A16);
@@ -57,9 +53,4 @@ abstract final class AppColors {
   static const Color darkSuccess = Color(0xFF9BB891);
   static const Color darkDanger = Color(0xFFE18B7D);
   static const Color darkStar = Color(0xFFD4B47D);
-
-  // Dark hero
-  static const Color darkHero = Color(0xFF303129);
-  static const Color darkHeroInk = Color(0xFFF2F1EC);
-  static const Color darkHeroSecondary = Color(0xFFC5C3B9);
 }

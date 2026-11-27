@@ -18,6 +18,8 @@ class FavoritesState extends Equatable {
   bool isFavorite(int productId) =>
       favorites.any((item) => item.id == productId);
 
+  Set<int> get favoriteProductIds => favorites.map((item) => item.id).toSet();
+
   FavoritesState copyWith({
     FavoritesStatus? status,
     List<ProductEntity>? favorites,

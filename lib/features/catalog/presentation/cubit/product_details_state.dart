@@ -19,25 +19,11 @@ class ProductDetailsLoading extends ProductDetailsState {
 
 class ProductDetailsSuccess extends ProductDetailsState {
   final ProductEntity product;
-  final int selectedImageIndex;
 
-  const ProductDetailsSuccess({
-    required this.product,
-    this.selectedImageIndex = 0,
-  });
-
-  ProductDetailsSuccess copyWith({
-    ProductEntity? product,
-    int? selectedImageIndex,
-  }) {
-    return ProductDetailsSuccess(
-      product: product ?? this.product,
-      selectedImageIndex: selectedImageIndex ?? this.selectedImageIndex,
-    );
-  }
+  const ProductDetailsSuccess({required this.product});
 
   @override
-  List<Object?> get props => [product, selectedImageIndex];
+  List<Object?> get props => [product];
 }
 
 class ProductDetailsFailure extends ProductDetailsState {

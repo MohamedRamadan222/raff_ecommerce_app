@@ -45,6 +45,72 @@ void main() {
 
       expect(result.map((o) => o.id), ['new', 'old']);
     });
+
+    test(
+      'placing an existing order id updates it without duplicating',
+      () async {
+        await dataSource.placeOrder(OrderModel.fromEntity(fakeOrder(id: 'a')));
+        final result = await dataSource.placeOrder(
+          OrderModel.fromEntity(
+            fakeOrder(id: 'a', createdAt: DateTime(2026, 1, 1)),
+          ),
+        );
+
+        expect(result, hasLength(1));
+        expect(result.single.createdAt, DateTime(2026, 1, 1));
+      },
+    );
+
+    test(
+      'caps retained history at the newest 200 orders without duplicates',
+      () async {
+        const total = 205;
+        final start = DateTime(2026, 1, 1);
+        for (var i = 0; i < total; i++) {
+          await dataSource.placeOrder(
+            OrderModel.fromEntity(
+              fakeOrder(
+                id: 'order-$i',
+                createdAt: start.add(Duration(minutes: i)),
+              ),
+            ),
+          );
+        }
+
+        final orders = dataSource.getOrders();
+
+        expect(orders, hasLength(200));
+        expect(orders.map((o) => o.id).toSet(), hasLength(200));
+        expect(orders.first.id, 'order-${total - 1}');
+        expect(orders.last.id, 'order-${total - 200}');
+
+        await dataSource.clearAll();
+
+        expect(dataSource.getOrders(), isEmpty);
+        expect(box.isEmpty, isTrue);
+      },
+    );
+
+    test('the returned list is a copy that cannot change the cache', () async {
+      await dataSource.placeOrder(OrderModel.fromEntity(fakeOrder(id: 'a')));
+
+      final orders = dataSource.getOrders();
+
+      expect(
+        () => orders.add(OrderModel.fromEntity(fakeOrder(id: 'b'))),
+        throwsUnsupportedError,
+      );
+      expect(dataSource.getOrders(), hasLength(1));
+    });
+
+    test('clearAll empties the box and the cache', () async {
+      await dataSource.placeOrder(OrderModel.fromEntity(fakeOrder(id: 'a')));
+
+      await dataSource.clearAll();
+
+      expect(dataSource.getOrders(), isEmpty);
+      expect(box.isEmpty, isTrue);
+    });
   });
 
   group('OrdersRepositoryImpl', () {

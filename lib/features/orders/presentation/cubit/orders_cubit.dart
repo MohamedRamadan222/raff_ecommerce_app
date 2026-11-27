@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:raff_app/features/orders/domain/entities/order_entity.dart';
 import 'package:raff_app/features/orders/domain/usecases/get_orders_use_case.dart';
 import 'package:raff_app/features/orders/domain/usecases/place_order_use_case.dart';
+import 'package:raff_app/features/orders/domain/value_objects/order_status_policy.dart';
 import 'package:raff_app/features/orders/presentation/cubit/orders_state.dart';
 
 class OrdersCubit extends Cubit<OrdersState> {
@@ -9,39 +10,59 @@ class OrdersCubit extends Cubit<OrdersState> {
   final PlaceOrderUseCase placeOrderUseCase;
 
   OrdersCubit({required this.getOrdersUseCase, required this.placeOrderUseCase})
-    : super(const OrdersState());
+    : super(const OrdersInitial());
 
   void loadOrders() {
-    emit(state.copyWith(status: OrdersStatus.loading));
+    if (isClosed) return;
+    emit(const OrdersLoading());
 
     final result = getOrdersUseCase();
+    if (isClosed) return;
+
     result.fold(
-      (failure) =>
-          emit(state.copyWith(status: OrdersStatus.failure, failure: failure)),
-      (orders) => emit(
-        state.copyWith(
-          status: OrdersStatus.success,
-          orders: _refreshStatuses(orders),
-          clearFailure: true,
-        ),
-      ),
+      (failure) => emit(OrdersFailure(failure)),
+      (orders) => emit(OrdersSuccess(_refreshStatuses(orders))),
     );
   }
+
+  /// بتحمّل الطلبات بس لو لسه ما اتحمّلتش أو فشل تحميلها؛ آمنة للنداء
+  /// المتكرر من الشاشات من غير قراءة جديدة من التخزين كل مرة.
+  void ensureLoaded() {
+    if (state is OrdersInitial || state is OrdersFailure) {
+      loadOrders();
+    }
+  }
+
+  /// بتحدّث الحالات المشتقة من الوقت الحالي من غير حالة loading.
+  /// مش بتطلع emit لو مفيش طلب اتغيرت حالته.
+  void refreshStatuses() {
+    final current = state;
+    if (current is! OrdersSuccess) return;
+
+    final refreshed = _refreshStatuses(current.orders);
+
+    var changed = false;
+    for (var i = 0; i < current.orders.length; i++) {
+      if (current.orders[i].status != refreshed[i].status) {
+        changed = true;
+        break;
+      }
+    }
+    if (!changed || isClosed) return;
+
+    emit(OrdersSuccess(refreshed));
+  }
+
+  /// بتصفّر الحالة عند الخروج من الحساب.
+  void reset() => emit(const OrdersInitial());
 
   Future<void> placeOrder(OrderEntity order) async {
     final result = await placeOrderUseCase(order);
     if (isClosed) return;
 
     result.fold(
-      (failure) =>
-          emit(state.copyWith(status: OrdersStatus.failure, failure: failure)),
-      (orders) => emit(
-        state.copyWith(
-          status: OrdersStatus.success,
-          orders: orders,
-          clearFailure: true,
-        ),
-      ),
+      (failure) => emit(OrdersFailure(failure)),
+      (orders) => emit(OrdersSuccess(orders)),
     );
   }
 
@@ -50,20 +71,10 @@ class OrdersCubit extends Cubit<OrdersState> {
   /// "الحالة المشتقة" (derived state) بدل ما نخزنها وننسى نحدثها.
   List<OrderEntity> _refreshStatuses(List<OrderEntity> orders) {
     return orders.map((order) {
-      if (order.status == OrderStatus.cancelled) return order;
-      final elapsed = DateTime.now().difference(order.createdAt);
-      final OrderStatus derived;
-      if (elapsed >= const Duration(minutes: 10)) {
-        derived = OrderStatus.delivered;
-      } else if (elapsed >= const Duration(minutes: 5)) {
-        derived = OrderStatus.outForDelivery;
-      } else if (elapsed >= const Duration(minutes: 2)) {
-        derived = OrderStatus.shipped;
-      } else if (elapsed >= const Duration(seconds: 30)) {
-        derived = OrderStatus.confirmed;
-      } else {
-        derived = OrderStatus.placed;
-      }
+      final derived = OrderStatusPolicy.deriveStatus(
+        current: order.status,
+        createdAt: order.createdAt,
+      );
       return derived == order.status ? order : order.copyWith(status: derived);
     }).toList();
   }

@@ -13,9 +13,15 @@ class AppRoutes {
   static const productDetails = '/product/:id';
   static const search = '/search';
   static const checkout = '/checkout';
-  static const orderConfirmation = '/order-confirmation';
+  static const orderConfirmation = '/order-confirmation/:id';
   static const orders = '/orders';
   static const trackOrder = '/orders/:id/track';
   static const notifications = '/notifications';
   static const addresses = '/addresses';
+
+  static String orderConfirmationFor(String id) =>
+      '/order-confirmation/${Uri.encodeComponent(id)}';
+
+  static String trackOrderFor(String id) =>
+      '/orders/${Uri.encodeComponent(id)}/track';
 }

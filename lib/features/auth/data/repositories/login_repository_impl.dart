@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:raff_app/core/errors/failures.dart';
+import 'package:raff_app/core/network/failure_mapper.dart';
 
 import '../../domain/entities/user_entity.dart';
 import '../../domain/repositories/login_repository.dart';
@@ -23,22 +24,7 @@ class LoginRepositoryImpl implements LoginRepository {
       await localDataSource.cacheUser(userModel);
       return Right(userModel);
     } on DioException catch (e) {
-      switch (e.type) {
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.sendTimeout:
-        case DioExceptionType.receiveTimeout:
-          return const Left(TimeoutFailure());
-
-        case DioExceptionType.connectionError:
-          return const Left(NetworkFailure());
-
-        case DioExceptionType.badResponse:
-          final errorMessage = e.response?.data['message'] ?? 'خطأ في السيرفر';
-          return Left(ServerFailure(errorMessage));
-
-        default:
-          return const Left(UnknownFailure());
-      }
+      return Left(FailureMapper.fromDio(e));
     } catch (e) {
       return const Left(UnknownFailure());
     }

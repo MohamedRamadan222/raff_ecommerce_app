@@ -34,6 +34,7 @@ void main() {
     type: NotificationType.promo,
     createdAt: DateTime(2026, 1, 1),
   );
+  final readPromo = promo.copyWith(isRead: true);
 
   setUpAll(() => registerFallbackValue(promo));
 
@@ -51,6 +52,46 @@ void main() {
     markAllNotificationsReadUseCase: markAllRead,
   );
 
+  group('NotificationsState', () {
+    test('non-success states expose safe empty collections', () {
+      const states = <NotificationsState>[
+        NotificationsInitial(),
+        NotificationsLoading(),
+        NotificationsFailure(UnknownFailure()),
+      ];
+
+      for (final state in states) {
+        expect(state.notifications, isEmpty);
+        expect(state.unreadCount, 0);
+        expect(state.todayNotifications, isEmpty);
+        expect(state.earlierNotifications, isEmpty);
+      }
+
+      const failure = NotificationsFailure(UnknownFailure());
+      expect(failure.failure, const UnknownFailure());
+    });
+
+    test('success exposes unread count and time groups', () {
+      final today = NotificationEntity(
+        id: 'today',
+        type: NotificationType.general,
+        createdAt: DateTime.now(),
+      );
+      final earlier = NotificationEntity(
+        id: 'earlier',
+        type: NotificationType.orderPlaced,
+        createdAt: DateTime.now().subtract(const Duration(days: 2)),
+        isRead: true,
+      );
+
+      final state = NotificationsSuccess([today, earlier]);
+
+      expect(state.unreadCount, 1);
+      expect(state.todayNotifications.map((n) => n.id), ['today']);
+      expect(state.earlierNotifications.map((n) => n.id), ['earlier']);
+    });
+  });
+
   blocTest<NotificationsCubit, NotificationsState>(
     'loadNotifications shows the saved notifications',
     build: () {
@@ -59,11 +100,8 @@ void main() {
     },
     act: (cubit) => cubit.loadNotifications(),
     expect: () => [
-      const NotificationsState(status: NotificationsStatus.loading),
-      NotificationsState(
-        status: NotificationsStatus.success,
-        notifications: [promo],
-      ),
+      const NotificationsLoading(),
+      NotificationsSuccess([promo]),
     ],
     verify: (_) => verifyNever(() => addNotification(any())),
   );
@@ -77,13 +115,17 @@ void main() {
       return buildCubit();
     },
     act: (cubit) => cubit.loadNotifications(),
+    expect: () => [
+      const NotificationsLoading(),
+      NotificationsSuccess([promo]),
+    ],
     verify: (cubit) {
       final captured = verify(() => addNotification(captureAny())).captured;
       expect(
         (captured.single as NotificationEntity).type,
         NotificationType.promo,
       );
-      expect(cubit.state.notifications, [promo]);
+      expect(cubit.state, NotificationsSuccess([promo]));
     },
   );
 
@@ -95,33 +137,92 @@ void main() {
     },
     act: (cubit) => cubit.loadNotifications(),
     expect: () => [
-      const NotificationsState(status: NotificationsStatus.loading),
-      const NotificationsState(
-        status: NotificationsStatus.failure,
-        failure: UnknownFailure(),
-      ),
+      const NotificationsLoading(),
+      const NotificationsFailure(UnknownFailure()),
     ],
+  );
+
+  blocTest<NotificationsCubit, NotificationsState>(
+    'ensureLoaded loads from the initial state',
+    build: () {
+      when(() => getNotifications()).thenReturn(Right([promo]));
+      return buildCubit();
+    },
+    act: (cubit) => cubit.ensureLoaded(),
+    expect: () => [
+      const NotificationsLoading(),
+      NotificationsSuccess([promo]),
+    ],
+  );
+
+  blocTest<NotificationsCubit, NotificationsState>(
+    'ensureLoaded retries after a failure',
+    build: () {
+      when(() => getNotifications()).thenReturn(Right([promo]));
+      return buildCubit();
+    },
+    seed: () => const NotificationsFailure(NetworkFailure()),
+    act: (cubit) => cubit.ensureLoaded(),
+    expect: () => [
+      const NotificationsLoading(),
+      NotificationsSuccess([promo]),
+    ],
+  );
+
+  blocTest<NotificationsCubit, NotificationsState>(
+    'ensureLoaded does not reload when data already exists',
+    build: buildCubit,
+    seed: () => NotificationsSuccess([promo]),
+    act: (cubit) => cubit.ensureLoaded(),
+    expect: () => const <NotificationsState>[],
+    verify: (_) => verifyNever(() => getNotifications()),
+  );
+
+  blocTest<NotificationsCubit, NotificationsState>(
+    'reset returns to the initial state',
+    build: buildCubit,
+    seed: () => NotificationsSuccess([promo]),
+    act: (cubit) => cubit.reset(),
+    expect: () => [const NotificationsInitial()],
   );
 
   blocTest<NotificationsCubit, NotificationsState>(
     'markRead emits the updated list',
     build: () {
-      when(() => markRead('1'))
-          .thenAnswer((_) async => Right([promo.copyWith(isRead: true)]));
+      when(() => markRead('1')).thenAnswer((_) async => Right([readPromo]));
       return buildCubit();
     },
     act: (cubit) => cubit.markRead('1'),
-    verify: (cubit) => expect(cubit.state.notifications.single.isRead, isTrue),
+    expect: () => [
+      NotificationsSuccess([readPromo]),
+    ],
+    verify: (cubit) {
+      expect(cubit.state, NotificationsSuccess([readPromo]));
+      expect(cubit.state.unreadCount, 0);
+    },
+  );
+
+  blocTest<NotificationsCubit, NotificationsState>(
+    'markRead emits failure when the update fails',
+    build: () {
+      when(() => markRead('1'))
+          .thenAnswer((_) async => const Left(NetworkFailure()));
+      return buildCubit();
+    },
+    act: (cubit) => cubit.markRead('1'),
+    expect: () => [const NotificationsFailure(NetworkFailure())],
   );
 
   blocTest<NotificationsCubit, NotificationsState>(
     'markAllRead emits the updated list',
     build: () {
-      when(() => markAllRead())
-          .thenAnswer((_) async => Right([promo.copyWith(isRead: true)]));
+      when(() => markAllRead()).thenAnswer((_) async => Right([readPromo]));
       return buildCubit();
     },
     act: (cubit) => cubit.markAllRead(),
-    verify: (cubit) => expect(cubit.state.status, NotificationsStatus.success),
+    expect: () => [
+      NotificationsSuccess([readPromo]),
+    ],
+    verify: (cubit) => expect(cubit.state, NotificationsSuccess([readPromo])),
   );
 }

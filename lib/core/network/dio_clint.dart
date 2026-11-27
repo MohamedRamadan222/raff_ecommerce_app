@@ -17,7 +17,7 @@ class DioClint {
         ),
       ) {
     dio.interceptors.addAll([
-      if (kDebugMode) LogInterceptor(requestBody: true, responseBody: true),
+      if (kDebugMode) LogInterceptor(requestBody: false, responseBody: false),
       ErrorInterceptor(),
     ]);
   }

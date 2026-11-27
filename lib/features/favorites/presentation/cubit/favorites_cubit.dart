@@ -13,6 +13,9 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     required this.toggleFavoriteUseCase,
   }) : super(const FavoritesState());
 
+  /// Clears in-memory favorites state after the user-scoped storage is wiped.
+  void reset() => emit(const FavoritesState());
+
   void loadFavorites() {
     emit(state.copyWith(status: FavoritesStatus.loading));
 

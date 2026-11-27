@@ -9,7 +9,8 @@ extension FailureMessage on Failure {
     return switch (this) {
       NetworkFailure() => l10n.errorNetwork,
       TimeoutFailure() => l10n.errorTimeout,
-      ServerFailure(message: final apiMessage) => apiMessage,
+      ServerFailure(message: final apiMessage) =>
+        apiMessage.trim().isEmpty ? l10n.errorServer : apiMessage,
       _ => l10n.errorUnknown,
     };
   }

@@ -98,12 +98,6 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
-  /// No description provided for @appTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Raff'**
-  String get appTitle;
-
   /// No description provided for @errorNetwork.
   ///
   /// In en, this message translates to:
@@ -116,17 +110,17 @@ abstract class AppLocalizations {
   /// **'Connection timed out'**
   String get errorTimeout;
 
-  /// No description provided for @errorServer.
-  ///
-  /// In en, this message translates to:
-  /// **'Server error'**
-  String get errorServer;
-
   /// No description provided for @errorUnknown.
   ///
   /// In en, this message translates to:
   /// **'An unexpected error occurred'**
   String get errorUnknown;
+
+  /// No description provided for @errorServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again.'**
+  String get errorServer;
 
   /// No description provided for @navHome.
   ///
@@ -163,12 +157,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Everything your home needs, on one shelf'**
   String get splashTagline;
-
-  /// No description provided for @splashTapToContinue.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to continue'**
-  String get splashTapToContinue;
 
   /// No description provided for @onbSkip.
   ///
@@ -308,12 +296,6 @@ abstract class AppLocalizations {
   /// **'This field is required'**
   String get fieldRequired;
 
-  /// No description provided for @loading.
-  ///
-  /// In en, this message translates to:
-  /// **'Loading...'**
-  String get loading;
-
   /// No description provided for @email.
   ///
   /// In en, this message translates to:
@@ -374,23 +356,11 @@ abstract class AppLocalizations {
   /// **'Already have an account?'**
   String get alreadyHaveAccount;
 
-  /// No description provided for @homeTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Raff'**
-  String get homeTitle;
-
   /// No description provided for @searchHint.
   ///
   /// In en, this message translates to:
   /// **'Search for a product...'**
   String get searchHint;
-
-  /// No description provided for @categories.
-  ///
-  /// In en, this message translates to:
-  /// **'Categories'**
-  String get categories;
 
   /// No description provided for @seeAll.
   ///
@@ -398,41 +368,17 @@ abstract class AppLocalizations {
   /// **'See All'**
   String get seeAll;
 
-  /// No description provided for @featuredProducts.
-  ///
-  /// In en, this message translates to:
-  /// **'Featured Products'**
-  String get featuredProducts;
-
   /// No description provided for @allProducts.
   ///
   /// In en, this message translates to:
   /// **'All Products'**
   String get allProducts;
 
-  /// No description provided for @searchProductsPrompt.
-  ///
-  /// In en, this message translates to:
-  /// **'Type a product name to search'**
-  String get searchProductsPrompt;
-
   /// No description provided for @noResultsFound.
   ///
   /// In en, this message translates to:
   /// **'No matching products found'**
   String get noResultsFound;
-
-  /// No description provided for @productDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'Product Details'**
-  String get productDetails;
-
-  /// No description provided for @description.
-  ///
-  /// In en, this message translates to:
-  /// **'Description'**
-  String get description;
 
   /// No description provided for @inStock.
   ///
@@ -722,12 +668,6 @@ abstract class AppLocalizations {
   /// **'Total'**
   String get totalLabel;
 
-  /// No description provided for @addedToCartMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Added to cart'**
-  String get addedToCartMessage;
-
   /// No description provided for @categoryLabel.
   ///
   /// In en, this message translates to:
@@ -763,12 +703,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Removed from favorites'**
   String get removedFromFavorites;
-
-  /// No description provided for @addedToFavorites.
-  ///
-  /// In en, this message translates to:
-  /// **'Added to favorites'**
-  String get addedToFavorites;
 
   /// No description provided for @freeShippingUnlocked.
   ///
@@ -908,23 +842,11 @@ abstract class AppLocalizations {
   /// **'My orders'**
   String get myOrders;
 
-  /// No description provided for @ordersSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Track and review your orders'**
-  String get ordersSubtitle;
-
   /// No description provided for @addresses.
   ///
   /// In en, this message translates to:
   /// **'Addresses'**
   String get addresses;
-
-  /// No description provided for @addressesSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage your delivery addresses'**
-  String get addressesSubtitle;
 
   /// No description provided for @paymentMethods.
   ///
@@ -1015,12 +937,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Coming soon'**
   String get comingSoon;
-
-  /// No description provided for @pointsMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Collect points with every order'**
-  String get pointsMessage;
 
   /// No description provided for @arabic.
   ///
@@ -1285,12 +1201,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Review your order'**
   String get reviewOrder;
-
-  /// No description provided for @editButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit'**
-  String get editButton;
 
   /// No description provided for @orderPlaced.
   ///

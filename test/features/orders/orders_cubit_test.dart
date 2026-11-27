@@ -29,11 +29,17 @@ void main() {
   OrdersCubit buildCubit() =>
       OrdersCubit(getOrdersUseCase: getOrders, placeOrderUseCase: placeOrder);
 
+  OrdersSuccess successState(OrdersCubit cubit) {
+    final state = cubit.state;
+    expect(state, isA<OrdersSuccess>());
+    return state as OrdersSuccess;
+  }
+
   OrderStatus statusAfter(Duration age) {
     final order = fakeOrder(createdAt: DateTime.now().subtract(age));
     when(() => getOrders()).thenReturn(Right([order]));
     final cubit = buildCubit()..loadOrders();
-    return cubit.state.orders.single.status;
+    return successState(cubit).orders.single.status;
   }
 
   group('loadOrders derives the status from the time since creation', () {
@@ -69,7 +75,7 @@ void main() {
 
       final cubit = buildCubit()..loadOrders();
 
-      expect(cubit.state.orders.single.status, OrderStatus.cancelled);
+      expect(successState(cubit).orders.single.status, OrderStatus.cancelled);
     });
   });
 
@@ -81,13 +87,75 @@ void main() {
     },
     act: (cubit) => cubit.loadOrders(),
     expect: () => [
-      const OrdersState(status: OrdersStatus.loading),
-      const OrdersState(
-        status: OrdersStatus.failure,
-        failure: UnknownFailure(),
-      ),
+      const OrdersLoading(),
+      const OrdersFailure(UnknownFailure()),
     ],
   );
+
+  group('ensureLoaded', () {
+    test('loads orders when the state is initial', () {
+      when(() => getOrders()).thenReturn(Right([fakeOrder()]));
+
+      final cubit = buildCubit()..ensureLoaded();
+
+      expect(cubit.state, isA<OrdersSuccess>());
+      verify(() => getOrders()).called(1);
+    });
+
+    test('does not reload when orders are already loaded', () {
+      when(() => getOrders()).thenReturn(Right([fakeOrder()]));
+
+      buildCubit()
+        ..ensureLoaded()
+        ..ensureLoaded();
+
+      verify(() => getOrders()).called(1);
+    });
+  });
+
+  group('refreshStatuses', () {
+    test('does nothing outside the success state', () {
+      final cubit = buildCubit()..refreshStatuses();
+
+      expect(cubit.state, const OrdersInitial());
+      verifyNever(() => getOrders());
+    });
+
+    blocTest<OrdersCubit, OrdersState>(
+      'emits a new success when a derived status changed',
+      build: () => buildCubit(),
+      seed: () => OrdersSuccess([
+        fakeOrder(
+          createdAt: DateTime.now().subtract(const Duration(seconds: 40)),
+        ),
+      ]),
+      act: (cubit) => cubit.refreshStatuses(),
+      expect: () => [
+        isA<OrdersSuccess>().having(
+          (state) => state.orders.single.status,
+          'status',
+          OrderStatus.confirmed,
+        ),
+      ],
+    );
+
+    blocTest<OrdersCubit, OrdersState>(
+      'does not emit when nothing changed',
+      build: () => buildCubit(),
+      seed: () => OrdersSuccess([fakeOrder()]),
+      act: (cubit) => cubit.refreshStatuses(),
+      expect: () => const <OrdersState>[],
+    );
+  });
+
+  test('reset returns to initial', () {
+    when(() => getOrders()).thenReturn(Right([fakeOrder()]));
+
+    final cubit = buildCubit()..loadOrders();
+    cubit.reset();
+
+    expect(cubit.state, const OrdersInitial());
+  });
 
   blocTest<OrdersCubit, OrdersState>(
     'placeOrder emits success with the new list',
@@ -98,16 +166,34 @@ void main() {
     },
     act: (cubit) => cubit.placeOrder(fakeOrder()),
     verify: (cubit) {
-      expect(cubit.state.status, OrdersStatus.success);
-      expect(cubit.state.orders.single.id, 'RF-1');
+      expect(successState(cubit).orders.single.id, 'RF-1');
     },
   );
+
+  blocTest<OrdersCubit, OrdersState>(
+    'placeOrder emits failure when placing fails',
+    build: () {
+      when(() => placeOrder(any()))
+          .thenAnswer((_) async => const Left(UnknownFailure()));
+      return buildCubit();
+    },
+    act: (cubit) => cubit.placeOrder(fakeOrder()),
+    expect: () => [const OrdersFailure(UnknownFailure())],
+  );
+
+  test('placeOrder does not emit after the cubit is closed', () async {
+    when(() => placeOrder(any())).thenAnswer((_) async => Right([fakeOrder()]));
+
+    final cubit = buildCubit();
+    await cubit.close();
+    await cubit.placeOrder(fakeOrder());
+  });
 
   group('OrdersState', () {
     final current = fakeOrder(id: 'a', status: OrderStatus.shipped);
     final delivered = fakeOrder(id: 'b', status: OrderStatus.delivered);
     final cancelled = fakeOrder(id: 'c', status: OrderStatus.cancelled);
-    final state = OrdersState(orders: [current, delivered, cancelled]);
+    final state = OrdersSuccess([current, delivered, cancelled]);
 
     test('splits current and past orders', () {
       expect(state.currentOrders, [current]);
@@ -117,6 +203,25 @@ void main() {
     test('orderById returns the order or null', () {
       expect(state.orderById('b'), delivered);
       expect(state.orderById('zzz'), isNull);
+    });
+
+    test('isEmpty reflects the orders list', () {
+      expect(state.isEmpty, isFalse);
+      expect(const OrdersSuccess([]).isEmpty, isTrue);
+    });
+
+    test('non-success states expose safe empty defaults', () {
+      const initial = OrdersInitial();
+      expect(initial.orders, isEmpty);
+      expect(initial.currentOrders, isEmpty);
+      expect(initial.pastOrders, isEmpty);
+      expect(initial.orderById('b'), isNull);
+
+      const failure = OrdersFailure(UnknownFailure());
+      expect(failure.orders, isEmpty);
+      expect(failure.currentOrders, isEmpty);
+      expect(failure.pastOrders, isEmpty);
+      expect(failure.orderById('b'), isNull);
     });
   });
 }

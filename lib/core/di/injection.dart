@@ -2,6 +2,9 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_ce/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:raff_app/core/network/dio_clint.dart';
+import 'package:raff_app/core/session/session_cleaner.dart';
+import 'package:raff_app/core/session/session_cubit.dart';
+import 'package:raff_app/core/widgets/app_image_cache.dart';
 import 'package:raff_app/features/auth/data/datasources/login_remote_data_source.dart';
 import 'package:raff_app/features/auth/data/datasources/register_remote_data_source.dart';
 import 'package:raff_app/features/auth/data/repositories/login_repository_impl.dart';
@@ -12,6 +15,7 @@ import 'package:raff_app/features/auth/domain/usecases/login_use_case.dart';
 import 'package:raff_app/features/auth/domain/usecases/register_use_case.dart';
 import 'package:raff_app/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:raff_app/features/auth/presentation/cubit/register_cubit.dart';
+import 'package:raff_app/features/checkout/presentation/cubit/checkout_cubit.dart';
 import 'package:raff_app/features/onboarding/data/repositories/onboarding_repository_impl.dart';
 import 'package:raff_app/features/onboarding/domain/repositories/onboarding_repository.dart';
 import 'package:raff_app/features/onboarding/presentation/cubit/onboarding_cubit.dart';
@@ -60,6 +64,7 @@ import '../../features/catalog/domain/usecases/get_categories_use_case.dart';
 import '../../features/catalog/domain/usecases/get_product_details_use_case.dart';
 import '../../features/catalog/domain/usecases/get_products_by_category_use_case.dart';
 import '../../features/catalog/domain/usecases/get_products_use_case.dart';
+import '../../features/catalog/domain/usecases/invalidate_catalog_cache_use_case.dart';
 import '../../features/catalog/domain/usecases/search_products_use_case.dart';
 import '../../features/catalog/presentation/cubit/home_cubit.dart';
 import '../../features/catalog/presentation/cubit/product_details_cubit.dart';
@@ -91,11 +96,14 @@ Future<void> setUpGetIt() async {
     () => OnboardingRepositoryImpl(sharedPrefs: sl()),
   );
 
-  sl.registerFactory<OnboardingCubit>(() => OnboardingCubit(repository: sl()));
+  sl.registerFactory<OnboardingCubit>(
+    () => OnboardingCubit(repository: sl(), session: sl()),
+  );
   // Auth => Local
   sl.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImpl(sl()),
   );
+  sl.registerLazySingleton<SessionCubit>(() => SessionCubit(sl()));
 
   // Auth => Login
   sl.registerLazySingleton<DioClint>(() => DioClint());
@@ -106,7 +114,7 @@ Future<void> setUpGetIt() async {
     () => LoginRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<LoginUseCase>(() => LoginUseCase(sl()));
-  sl.registerFactory<LoginCubit>(() => LoginCubit(sl()));
+  sl.registerFactory<LoginCubit>(() => LoginCubit(sl(), session: sl()));
 
   // Auth => Register
   sl.registerLazySingleton<RegisterRemoteDataSource>(
@@ -116,7 +124,7 @@ Future<void> setUpGetIt() async {
     () => RegisterRepositoryImpl(sl(), sl()),
   );
   sl.registerLazySingleton<RegisterUseCase>(() => RegisterUseCase(sl()));
-  sl.registerFactory<RegisterCubit>(() => RegisterCubit(sl()));
+  sl.registerFactory<RegisterCubit>(() => RegisterCubit(sl(), session: sl()));
 
   // ==================== Catalog Feature ====================
 
@@ -133,15 +141,21 @@ Future<void> setUpGetIt() async {
   sl.registerLazySingleton(() => GetProductsByCategoryUseCase(sl()));
   sl.registerLazySingleton(() => SearchProductsUseCase(sl()));
   sl.registerLazySingleton(() => GetProductDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => InvalidateCatalogCacheUseCase(sl()));
 
   sl.registerFactory(
-    () => HomeCubit(getProductsUseCase: sl(), getCategoriesUseCase: sl()),
+    () => HomeCubit(
+      getProductsUseCase: sl(),
+      getCategoriesUseCase: sl(),
+      invalidateCatalogCacheUseCase: sl(),
+    ),
   );
 
   sl.registerFactory(
     () => ProductsCubit(
       getProductsUseCase: sl(),
       getProductsByCategoryUseCase: sl(),
+      invalidateCatalogCacheUseCase: sl(),
     ),
   );
 
@@ -150,16 +164,28 @@ Future<void> setUpGetIt() async {
   sl.registerFactory(() => ProductDetailsCubit(sl()));
 
   // Local Storage (Hive)
+  // The boxes are independent; open them concurrently instead of serially
+  // blocking startup on each disk read.
   final appDir = await getApplicationDocumentsDirectory();
   Hive.init(appDir.path);
 
-  final favoritesBox = await Hive.openBox<String>('favorites_box');
+  final boxes = await Future.wait<Box<String>>([
+    Hive.openBox<String>('favorites_box'),
+    Hive.openBox<String>('cart_box'),
+    Hive.openBox<String>('addresses_box'),
+    Hive.openBox<String>('orders_box'),
+    Hive.openBox<String>('notifications_box'),
+  ]);
+  final favoritesBox = boxes[0];
+  final cartBox = boxes[1];
+  final addressesBox = boxes[2];
+  final ordersBox = boxes[3];
+  final notificationsBox = boxes[4];
+
   sl.registerLazySingleton<Box<String>>(
     () => favoritesBox,
     instanceName: 'favoritesBox',
   );
-
-  final cartBox = await Hive.openBox<String>('cart_box');
   sl.registerLazySingleton<Box<String>>(() => cartBox, instanceName: 'cartBox');
   // ==================== Favorites Feature ====================
   sl.registerLazySingleton<FavoritesLocalDataSource>(
@@ -196,7 +222,6 @@ Future<void> setUpGetIt() async {
   );
 
   // ===> Addresses Feature
-  final addressesBox = await Hive.openBox<String>('addresses_box');
   sl.registerLazySingleton<Box<String>>(
     () => addressesBox,
     instanceName: 'addressesBox',
@@ -223,7 +248,6 @@ Future<void> setUpGetIt() async {
   );
 
   // ===> Orders Feature
-  final ordersBox = await Hive.openBox<String>('orders_box');
   sl.registerLazySingleton<Box<String>>(
     () => ordersBox,
     instanceName: 'ordersBox',
@@ -239,7 +263,6 @@ Future<void> setUpGetIt() async {
   );
 
   // ===> Notifications Feature
-  final notificationsBox = await Hive.openBox<String>('notifications_box');
   sl.registerLazySingleton<Box<String>>(
     () => notificationsBox,
     instanceName: 'notificationsBox',
@@ -261,6 +284,29 @@ Future<void> setUpGetIt() async {
       addNotificationUseCase: sl(),
       markNotificationReadUseCase: sl(),
       markAllNotificationsReadUseCase: sl(),
+    ),
+  );
+
+  // ===> Session / logout
+  sl.registerLazySingleton<SessionCleaner>(
+    () => SessionCleaner(
+      cartLocalDataSource: sl(),
+      favoritesLocalDataSource: sl(),
+      addressesLocalDataSource: sl(),
+      ordersLocalDataSource: sl(),
+      notificationsLocalDataSource: sl(),
+      authLocalDataSource: sl(),
+      sharedPreferences: sl(),
+      clearDiskImageCache: AppImageCache.manager.emptyCache,
+    ),
+  );
+
+  // ===> Checkout
+  sl.registerFactory(
+    () => CheckoutCubit(
+      placeOrderUseCase: sl(),
+      addNotificationUseCase: sl(),
+      clearCartUseCase: sl(),
     ),
   );
 }

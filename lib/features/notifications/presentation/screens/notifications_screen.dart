@@ -2,17 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart' as intl;
+import 'package:raff_app/core/errors/failure_message.dart';
 import 'package:raff_app/core/l10n/l10n_extension.dart';
+import 'package:raff_app/core/router/app_routes.dart';
 import 'package:raff_app/core/theme/app_colors.dart';
+import 'package:raff_app/core/utils/app_formatters.dart';
 import 'package:raff_app/core/widgets/app_app_bar.dart';
 import 'package:raff_app/core/widgets/empty_view.dart';
+import 'package:raff_app/core/widgets/error_view.dart';
+import 'package:raff_app/core/widgets/loading_view.dart';
 import 'package:raff_app/features/notifications/domain/entities/notification_entity.dart';
 import 'package:raff_app/features/notifications/presentation/cubit/notifications_cubit.dart';
 import 'package:raff_app/features/notifications/presentation/cubit/notifications_state.dart';
 
-class NotificationsScreen extends StatelessWidget {
+class NotificationsScreen extends StatefulWidget {
   const NotificationsScreen({super.key});
+
+  @override
+  State<NotificationsScreen> createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends State<NotificationsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // The app-scoped cubit survives logout; reload after a reset or first use.
+    context.read<NotificationsCubit>().ensureLoaded();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +37,6 @@ class NotificationsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppAppBar(
         title: l10n.notifications,
-        showBackButton: true,
         actions: [
           BlocBuilder<NotificationsCubit, NotificationsState>(
             builder: (context, state) {
@@ -37,43 +52,71 @@ class NotificationsScreen extends StatelessWidget {
       ),
       body: BlocBuilder<NotificationsCubit, NotificationsState>(
         builder: (context, state) {
-          if (state.notifications.isEmpty) {
-            return EmptyView(
-              title: l10n.emptyNotificationsTitle,
-              subtitle: l10n.emptyNotificationsSubtitle,
-              icon: Icons.notifications_none_rounded,
-            );
+          switch (state) {
+            case NotificationsInitial():
+            case NotificationsLoading():
+              return const LoadingView();
+
+            case NotificationsFailure(:final failure):
+              return ErrorView(
+                message: failure.message(context),
+                onRetry: () =>
+                    context.read<NotificationsCubit>().loadNotifications(),
+              );
+
+            case final NotificationsSuccess success:
+              if (success.notifications.isEmpty) {
+                return EmptyView(
+                  title: l10n.emptyNotificationsTitle,
+                  subtitle: l10n.emptyNotificationsSubtitle,
+                  icon: Icons.notifications_none_rounded,
+                );
+              }
+
+              final today = success.todayNotifications;
+              final earlier = success.earlierNotifications;
+
+              final entries = <Object>[
+                if (today.isNotEmpty) ...[
+                  l10n.todayLabel,
+                  const _SpacerEntry(8),
+                  for (final n in today) ...[n, const _SpacerEntry(12)],
+                  const _SpacerEntry(12),
+                ],
+                if (earlier.isNotEmpty) ...[
+                  l10n.earlierLabel,
+                  const _SpacerEntry(8),
+                  for (final n in earlier) ...[n, const _SpacerEntry(12)],
+                ],
+              ];
+
+              return ListView.builder(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
+                itemCount: entries.length,
+                itemBuilder: (context, index) {
+                  final entry = entries[index];
+                  return switch (entry) {
+                    String label => _GroupLabel(text: label),
+                    NotificationEntity notification => _NotificationTile(
+                      key: ValueKey(notification.id),
+                      notification: notification,
+                    ),
+                    _SpacerEntry spacer => Gap(spacer.height),
+                    _ => const SizedBox.shrink(),
+                  };
+                },
+              );
           }
-
-          final today = state.todayNotifications;
-          final earlier = state.earlierNotifications;
-
-          return ListView(
-            padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
-            children: [
-              if (today.isNotEmpty) ...[
-                _GroupLabel(text: l10n.todayLabel),
-                const Gap(8),
-                for (final n in today) ...[
-                  _NotificationTile(notification: n),
-                  const Gap(12),
-                ],
-                const Gap(12),
-              ],
-              if (earlier.isNotEmpty) ...[
-                _GroupLabel(text: l10n.earlierLabel),
-                const Gap(8),
-                for (final n in earlier) ...[
-                  _NotificationTile(notification: n),
-                  const Gap(12),
-                ],
-              ],
-            ],
-          );
         },
       ),
     );
   }
+}
+
+class _SpacerEntry {
+  final double height;
+
+  const _SpacerEntry(this.height);
 }
 
 class _GroupLabel extends StatelessWidget {
@@ -103,7 +146,7 @@ class _GroupLabel extends StatelessWidget {
 class _NotificationTile extends StatelessWidget {
   final NotificationEntity notification;
 
-  const _NotificationTile({required this.notification});
+  const _NotificationTile({super.key, required this.notification});
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +175,7 @@ class _NotificationTile extends StatelessWidget {
       ),
     };
 
-    final timeFormat = intl.DateFormat.jm(l10n.localeName);
+    final timeFormat = AppFormatters.timeShort(l10n.localeName);
     final accent = isDark ? AppColors.darkAccent : AppColors.accent;
 
     return InkWell(
@@ -222,7 +265,7 @@ class _NotificationTile extends StatelessWidget {
     context.read<NotificationsCubit>().markRead(notification.id);
     final orderId = notification.orderId;
     if (orderId != null) {
-      context.push('/orders/$orderId/track');
+      context.push(AppRoutes.trackOrderFor(orderId));
     }
   }
 }

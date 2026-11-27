@@ -226,5 +226,41 @@ void main() {
 
       expect(dataSource.getAddresses().map((a) => a.id), ['1']);
     });
+
+    test('updateAddress edits in place without duplicating', () async {
+      await dataSource.addAddress(model('1'));
+      await dataSource.addAddress(model('2'));
+
+      final result = await dataSource.updateAddress(
+        AddressModel(
+          id: '1',
+          label: AddressLabel.work,
+          fullAddress: 'New address',
+          phone: '051',
+        ),
+      );
+
+      expect(result.map((a) => a.id), ['1', '2']);
+      expect(result.first.fullAddress, 'New address');
+      expect(result.first.label, AddressLabel.work);
+    });
+
+    test('the returned list is a copy that cannot change the cache', () async {
+      await dataSource.addAddress(model('1'));
+
+      final addresses = dataSource.getAddresses();
+
+      expect(() => addresses.clear(), throwsUnsupportedError);
+      expect(dataSource.getAddresses(), hasLength(1));
+    });
+
+    test('clearAll empties the box and the cache', () async {
+      await dataSource.addAddress(model('1'));
+
+      await dataSource.clearAll();
+
+      expect(dataSource.getAddresses(), isEmpty);
+      expect(box.isEmpty, isTrue);
+    });
   });
 }

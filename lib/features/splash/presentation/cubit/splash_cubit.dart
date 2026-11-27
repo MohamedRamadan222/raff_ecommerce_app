@@ -9,13 +9,16 @@ class SplashCubit extends Cubit<SplashState> {
 
   Future<void> determineDestination() async {
     final hasSeenOnboarding = await splashRepository.checkHasSeenOnboarding();
+    if (isClosed) return;
     if (!hasSeenOnboarding) {
       emit(NavigateToOnboarding());
       return;
     }
 
     final isLoggedIn = await splashRepository.checkIsLoggedIn();
+    if (isClosed) return;
     final isGuest = await splashRepository.checkIsGuest();
+    if (isClosed) return;
 
     if (isLoggedIn || isGuest) {
       emit(NavigateToHome());

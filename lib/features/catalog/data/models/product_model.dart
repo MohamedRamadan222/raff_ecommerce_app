@@ -1,3 +1,4 @@
+import 'package:raff_app/features/catalog/data/mappers/product_mapper.dart';
 import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 
 class ProductModel extends ProductEntity {
@@ -16,19 +17,19 @@ class ProductModel extends ProductEntity {
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
+    final product = ProductMapper.fromJson(json);
     return ProductModel(
-      id: json['id'] ?? 0,
-      title: json['title'] ?? '',
-      description: json['description'] ?? '',
-      category: json['category'] ?? '',
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
-      discountPercentage:
-          (json['discountPercentage'] as num?)?.toDouble() ?? 0.0,
-      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      stock: json['stock'] ?? 0,
-      brand: json['brand'],
-      thumbnail: json['thumbnail'] ?? '',
-      images: List<String>.from(json['images'] ?? []),
+      id: product.id,
+      title: product.title,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      discountPercentage: product.discountPercentage,
+      rating: product.rating,
+      stock: product.stock,
+      brand: product.brand,
+      thumbnail: product.thumbnail,
+      images: product.images,
     );
   }
 }

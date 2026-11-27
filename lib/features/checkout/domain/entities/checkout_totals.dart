@@ -1,6 +1,9 @@
-import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
+import 'package:raff_app/features/cart/domain/value_objects/cart_pricing.dart';
 
-/// قاعدة الشحن العادي نفس قاعدة الكارت: مجاني فوق حد معين.
+/// Totals for the checkout flow, derived from [CartPricing].
+///
+/// Standard shipping follows the cart rule (free above the threshold);
+/// express and cash-on-delivery add their own fees.
 class CheckoutTotals {
   static const double expressFee = 35.0;
   static const double codFeeAmount = 10.0;
@@ -20,29 +23,27 @@ class CheckoutTotals {
   });
 
   factory CheckoutTotals.from(
-    CartState cartState, {
+    CartPricing pricing, {
     required String deliveryMethod,
     required String paymentMethod,
   }) {
-    final subtotal = cartState.subtotal;
-    final discount = cartState.discountAmount;
-
     final shipping = switch (deliveryMethod) {
       'pickup' => 0.0,
       'express' => expressFee,
-      _ => cartState.hasFreeShipping ? 0.0 : CartState.standardShippingFee,
+      _ => pricing.shippingFee,
     };
 
     final codFee = paymentMethod == 'cod' ? codFeeAmount : 0.0;
 
-    final total = (subtotal - discount + shipping + codFee).clamp(
-      0.0,
-      double.infinity,
-    );
+    final total =
+        (pricing.subtotal - pricing.discountAmount + shipping + codFee).clamp(
+          0.0,
+          double.infinity,
+        );
 
     return CheckoutTotals(
-      subtotal: subtotal,
-      discount: discount,
+      subtotal: pricing.subtotal,
+      discount: pricing.discountAmount,
       shippingFee: shipping,
       codFee: codFee,
       total: total,

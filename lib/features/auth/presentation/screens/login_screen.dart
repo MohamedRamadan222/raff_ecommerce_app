@@ -90,7 +90,21 @@ class _LoginViewState extends State<_LoginView> {
                   ),
                 );
             } else if (state is LoginSuccess) {
-              context.go(AppRoutes.home);
+              const authPaths = {
+                AppRoutes.login,
+                AppRoutes.register,
+                AppRoutes.otp,
+              };
+              final from = GoRouterState.of(context)
+                  .uri
+                  .queryParameters['from'];
+              final destination =
+                  from != null &&
+                      from.startsWith('/') &&
+                      !authPaths.contains(from)
+                  ? from
+                  : AppRoutes.home;
+              context.go(destination);
             }
           },
           builder: (context, state) {

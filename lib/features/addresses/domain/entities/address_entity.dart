@@ -3,6 +3,8 @@ import 'package:equatable/equatable.dart';
 enum AddressLabel { home, work, other }
 
 class AddressEntity extends Equatable {
+  static final RegExp _titleSeparator = RegExp(r'[،,]');
+
   final String id;
   final AddressLabel label;
   final String fullAddress;
@@ -20,7 +22,7 @@ class AddressEntity extends Equatable {
   /// عنوان مختصر بيظهر في الأماكن الضيقة زي هيدر الصفحة الرئيسية:
   /// بيرجع أول جزء من العنوان (قبل أول فاصلة).
   String get shortTitle {
-    final first = fullAddress.split(RegExp(r'[،,]')).first.trim();
+    final first = fullAddress.split(_titleSeparator).first.trim();
     return first.isNotEmpty ? first : fullAddress;
   }
 

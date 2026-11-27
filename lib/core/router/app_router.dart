@@ -2,14 +2,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:raff_app/core/di/injection.dart';
 import 'package:raff_app/core/router/app_routes.dart';
+import 'package:raff_app/core/router/go_router_refresh_stream.dart';
 import 'package:raff_app/core/router/main_shell.dart';
+import 'package:raff_app/core/session/session_cubit.dart';
 import 'package:raff_app/features/account/presentation/screens/account_screen.dart';
 import 'package:raff_app/features/addresses/presentation/screens/addresses_screen.dart';
 import 'package:raff_app/features/auth/presentation/screens/login_screen.dart';
 import 'package:raff_app/features/auth/presentation/screens/otp_screen.dart';
 import 'package:raff_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:raff_app/features/cart/presentation/screens/cart_screen.dart';
-import 'package:raff_app/features/catalog/presentation/cubit/home_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/product_details_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/products_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/search_cubit.dart';
@@ -27,8 +28,34 @@ import 'package:raff_app/features/orders/presentation/screens/orders_screen.dart
 import 'package:raff_app/features/orders/presentation/screens/track_order_screen.dart';
 import 'package:raff_app/features/splash/presentation/screens/splash_screen.dart';
 
+const _publicRoutes = {
+  AppRoutes.splash,
+  AppRoutes.onboarding,
+  AppRoutes.login,
+  AppRoutes.register,
+};
+
 final appRouter = GoRouter(
   initialLocation: AppRoutes.splash,
+  refreshListenable: GoRouterRefreshStream(sl<SessionCubit>().stream),
+  redirect: (context, state) {
+    final session = sl<SessionCubit>().state;
+    final location = state.matchedLocation;
+    final isPublicRoute = _publicRoutes.contains(location);
+
+    if (!session.isAllowed && !isPublicRoute) {
+      final from = Uri.encodeComponent(state.uri.toString());
+      return '${AppRoutes.login}?from=$from';
+    }
+
+    // Authenticated/guest users do not need the login/register screens.
+    if (session.isAllowed &&
+        (location == AppRoutes.login || location == AppRoutes.register)) {
+      return AppRoutes.home;
+    }
+
+    return null;
+  },
   routes: [
     GoRoute(path: AppRoutes.splash, builder: (_, _) => const SplashScreen()),
     GoRoute(
@@ -42,10 +69,7 @@ final appRouter = GoRouter(
     ),
     GoRoute(path: AppRoutes.otp, builder: (_, _) => const OtpScreen()),
     StatefulShellRoute.indexedStack(
-      builder: (_, _, shell) => BlocProvider(
-        create: (_) => sl<HomeCubit>()..loadHomeData(),
-        child: MainShell(shell: shell),
-      ),
+      builder: (_, _, shell) => MainShell(shell: shell),
       branches: [
         StatefulShellBranch(
           routes: [
@@ -101,7 +125,6 @@ final appRouter = GoRouter(
               create: (_) =>
                   sl<ProductsCubit>()..loadProducts(categorySlug: categorySlug),
             ),
-            BlocProvider(create: (_) => sl<HomeCubit>()..loadHomeData()),
           ],
           child: ProductsScreen(
             initialCategorySlug: categorySlug,
@@ -122,7 +145,6 @@ final appRouter = GoRouter(
               create: (_) =>
                   sl<ProductDetailsCubit>()..loadProductDetails(productId),
             ),
-            BlocProvider(create: (_) => sl<HomeCubit>()..loadHomeData()),
           ],
           child: const ProductDetailsScreen(),
         );
@@ -131,10 +153,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.search,
       builder: (_, _) => MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (_) => sl<SearchCubit>()),
-          BlocProvider(create: (_) => sl<HomeCubit>()..loadHomeData()),
-        ],
+        providers: [BlocProvider(create: (_) => sl<SearchCubit>())],
         child: const SearchScreen(),
       ),
     ),

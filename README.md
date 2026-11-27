@@ -10,7 +10,7 @@ An Arabic-first (RTL) e-commerce app built with Flutter, clean architecture and 
 ![Dart](https://img.shields.io/badge/Dart-3.13+-0175C2?logo=dart&logoColor=white)
 ![State](https://img.shields.io/badge/State-flutter__bloc-1f6feb)
 ![Architecture](https://img.shields.io/badge/Architecture-Clean-2ea44f)
-![Tests](https://img.shields.io/badge/tests-137%20passing-2ea44f)
+![Tests](https://img.shields.io/badge/tests-214%20passing-2ea44f)
 ![Platforms](https://img.shields.io/badge/platform-Android%20%7C%20iOS%20%7C%20Linux-lightgrey)
 
 </div>
@@ -49,10 +49,10 @@ The screens follow a design prototype: [raff-prototype.pages.dev](https://raff-p
 | State management | `flutter_bloc`, `bloc`, `equatable` |
 | Navigation | `go_router` |
 | Networking | `dio` with an error interceptor that maps errors to typed failures |
-| Local storage | `hive_ce`, `shared_preferences`, `flutter_secure_storage` |
+| Local storage | `hive_ce`, `shared_preferences` |
 | Dependency injection | `get_it` |
 | Functional error handling | `dartz` (`Either<Failure, T>`) |
-| UI | `gap`, `cached_network_image`, `flutter_svg`, `flutter_screenutil_plus`, Readex Pro font |
+| UI | `gap`, `cached_network_image`, `flutter_svg`, Readex Pro font |
 | Localization | `flutter_localizations`, `intl` |
 | Testing | `flutter_test`, `mocktail`, `bloc_test` |
 
@@ -134,7 +134,7 @@ flutter test test/features/cart     # one feature
 flutter test --coverage             # writes coverage/lcov.info
 ```
 
-The suite has **137 tests** and needs no device or internet.
+The suite has **214 tests** and needs no device or internet.
 
 | What | How |
 | --- | --- |

@@ -187,5 +187,15 @@ void main() {
       expect(dataSource.getCacheUser(), isNull);
       expect(prefs.getBool('isLoggedIn'), isFalse);
     });
+
+    test('corrupt cached user data is ignored instead of crashing', () async {
+      SharedPreferences.setMockInitialValues({
+        'CACHED_USER_DATA': '{"id": broken json',
+      });
+      prefs = await SharedPreferences.getInstance();
+      dataSource = AuthLocalDataSourceImpl(prefs);
+
+      expect(dataSource.getCacheUser(), isNull);
+    });
   });
 }

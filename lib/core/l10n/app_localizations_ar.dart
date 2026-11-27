@@ -10,19 +10,16 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get appTitle => 'رف';
-
-  @override
   String get errorNetwork => 'تأكد من اتصالك بالإنترنت';
 
   @override
   String get errorTimeout => 'انتهت مهلة الاتصال';
 
   @override
-  String get errorServer => 'خطأ من السيرفر';
+  String get errorUnknown => 'حدث خطأ غير متوقع';
 
   @override
-  String get errorUnknown => 'حدث خطأ غير متوقع';
+  String get errorServer => 'حدث خطأ في السيرفر. حاول مرة أخرى.';
 
   @override
   String get navHome => 'الرئيسية';
@@ -41,9 +38,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get splashTagline => 'كل ما يحتاجه بيتك، على رفّ واحد';
-
-  @override
-  String get splashTapToContinue => 'اضغط للمتابعة';
 
   @override
   String get onbSkip => 'تخطَّ';
@@ -118,9 +112,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get fieldRequired => 'هذا الحقل مطلوب';
 
   @override
-  String get loading => 'جاري التحميل...';
-
-  @override
   String get email => 'البريد الإلكتروني';
 
   @override
@@ -152,34 +143,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get alreadyHaveAccount => 'لديك حساب؟';
 
   @override
-  String get homeTitle => 'رَفّ';
-
-  @override
   String get searchHint => 'ابحث عن منتج...';
-
-  @override
-  String get categories => 'التصنيفات';
 
   @override
   String get seeAll => 'عرض الكل';
 
   @override
-  String get featuredProducts => 'أحدث المنتجات';
-
-  @override
   String get allProducts => 'جميع المنتجات';
 
   @override
-  String get searchProductsPrompt => 'اكتب اسم المنتج للبحث';
-
-  @override
   String get noResultsFound => 'لا توجد نتائج مطابقة لبحثك';
-
-  @override
-  String get productDetails => 'تفاصيل المنتج';
-
-  @override
-  String get description => 'الوصف';
 
   @override
   String get inStock => 'متوفر في المخزون';
@@ -326,9 +299,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get totalLabel => 'الإجمالي';
 
   @override
-  String get addedToCartMessage => 'تمت إضافة المنتج إلى السلة';
-
-  @override
   String get categoryLabel => 'القسم';
 
   @override
@@ -346,9 +316,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get removedFromFavorites => 'أُزيلت من المفضلة';
-
-  @override
-  String get addedToFavorites => 'أُضيفت إلى المفضلة';
 
   @override
   String get freeShippingUnlocked => 'حصلت على الشحن المجاني';
@@ -423,13 +390,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get myOrders => 'طلباتي';
 
   @override
-  String get ordersSubtitle => 'تابع حالة طلباتك وراجعها';
-
-  @override
   String get addresses => 'العناوين';
-
-  @override
-  String get addressesSubtitle => 'إدارة عناوين التوصيل';
 
   @override
   String get paymentMethods => 'طرق الدفع';
@@ -476,9 +437,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get comingSoon => 'قريبًا';
-
-  @override
-  String get pointsMessage => 'اجمع النقاط مع كل طلب';
 
   @override
   String get arabic => 'العربية';
@@ -612,9 +570,6 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get reviewOrder => 'راجع طلبك';
-
-  @override
-  String get editButton => 'تعديل';
 
   @override
   String get orderPlaced => 'تم استلام طلبك!';

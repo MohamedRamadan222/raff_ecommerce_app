@@ -153,7 +153,7 @@ void main() {
       );
 
       expect(find.text('Failed'), findsOneWidget);
-      await tester.tap(find.text('اعادة المحاولة'));
+      await tester.tap(find.text('Retry'));
       expect(retried, isTrue);
     });
 
@@ -162,7 +162,7 @@ void main() {
     ) async {
       await tester.pumpApp(const ErrorView(message: 'Failed'));
 
-      expect(find.text('اعادة المحاولة'), findsNothing);
+      expect(find.text('Retry'), findsNothing);
     });
   });
 }

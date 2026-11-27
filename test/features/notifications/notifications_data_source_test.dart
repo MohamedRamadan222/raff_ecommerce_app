@@ -55,4 +55,42 @@ void main() {
 
     expect(result.every((n) => n.isRead), isTrue);
   });
+
+  test('only the 100 newest notifications are kept', () async {
+    final base = DateTime(2026, 1, 1);
+    for (var i = 0; i < 105; i++) {
+      await dataSource.addNotification(
+        notification('n$i', base.add(Duration(minutes: i))),
+      );
+    }
+
+    final result = dataSource.getNotifications();
+
+    expect(result, hasLength(100));
+    expect(box.length, 100);
+    expect(result.first.id, 'n104');
+    expect(result.last.id, 'n5');
+    expect(result.any((n) => n.id == 'n0'), isFalse);
+  });
+
+  test('the returned list is a copy that cannot change the cache', () async {
+    await dataSource.addNotification(notification('a', DateTime(2026, 1, 1)));
+
+    final list = dataSource.getNotifications();
+
+    expect(
+      () => list.add(notification('b', DateTime(2026, 1, 2))),
+      throwsUnsupportedError,
+    );
+    expect(dataSource.getNotifications(), hasLength(1));
+  });
+
+  test('clearAll empties the box and the cache', () async {
+    await dataSource.addNotification(notification('a', DateTime(2026, 1, 1)));
+
+    await dataSource.clearAll();
+
+    expect(dataSource.getNotifications(), isEmpty);
+    expect(box.isEmpty, isTrue);
+  });
 }

@@ -33,7 +33,7 @@ class _AddressesView extends StatelessWidget {
     final l10n = context.l10n;
 
     return Scaffold(
-      appBar: AppAppBar(title: l10n.addresses, showBackButton: true),
+      appBar: AppAppBar(title: l10n.addresses),
       body: BlocBuilder<AddressesCubit, AddressesState>(
         builder: (context, state) {
           if (state.status == AddressesStatus.loading &&

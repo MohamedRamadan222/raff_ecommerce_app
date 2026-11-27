@@ -13,6 +13,7 @@ import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_cubit.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_state.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/products_cubit.dart';
+import 'package:raff_app/features/catalog/presentation/cubit/products_filter.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/products_state.dart';
 import 'package:raff_app/features/catalog/presentation/utils/catalog_helper.dart';
 import 'package:raff_app/features/catalog/presentation/widgets/categories/product_grid_card.dart';
@@ -45,9 +46,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
 
   late String? _selectedCategorySlug;
   late String? _selectedCategoryName;
-  ProductSortOption _sortOption = ProductSortOption.popular;
-  bool _discountsOnly = false;
-  double _maxPrice = 5000;
 
   @override
   void initState() {
@@ -71,26 +69,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
     if (pos.pixels >= pos.maxScrollExtent - 220) {
       context.read<ProductsCubit>().loadMoreProducts();
     }
-  }
-
-  List<ProductEntity> _applySortAndFilter(List<ProductEntity> raw) {
-    final filtered = raw.where((p) {
-      if (_discountsOnly && p.discountPercentage < 5) return false;
-      if (p.price > _maxPrice) return false;
-      return true;
-    }).toList();
-
-    switch (_sortOption) {
-      case ProductSortOption.popular:
-        break;
-      case ProductSortOption.priceLowToHigh:
-        filtered.sort((a, b) => a.price.compareTo(b.price));
-      case ProductSortOption.priceHighToLow:
-        filtered.sort((a, b) => b.price.compareTo(a.price));
-      case ProductSortOption.highestRated:
-        filtered.sort((a, b) => b.rating.compareTo(a.rating));
-    }
-    return filtered;
   }
 
   void _onCategoryChanged(CategoryEntity? category) {
@@ -118,16 +96,17 @@ class _ProductsScreenState extends State<ProductsScreen> {
         ? _selectedCategoryName!
         : l10n.allProducts;
 
-    final hasActiveFilters = _discountsOnly || _maxPrice < 5000;
-
     return Scaffold(
       body: SafeArea(
         bottom: false,
         child: BlocBuilder<ProductsCubit, ProductsState>(
           builder: (context, state) {
+            final productsCubit = context.read<ProductsCubit>();
             final displayedProducts = state is ProductsSuccess
-                ? _applySortAndFilter(state.products)
+                ? state.products
                 : <ProductEntity>[];
+            final hasActiveFilters =
+                productsCubit.discountsOnly || productsCubit.maxPrice < 5000;
 
             return Column(
               children: [
@@ -143,30 +122,30 @@ class _ProductsScreenState extends State<ProductsScreen> {
                         : <CategoryEntity>[];
 
                     return ProductsFilterBar(
-                      sortLabel: _sortOption.label(l10n),
+                      sortLabel: productsCubit.sortOption.label(l10n),
                       hasActiveFilters: hasActiveFilters,
                       selectedCategorySlug: _selectedCategorySlug,
                       categories: categories,
                       onSortTap: () async {
                         final picked = await showProductsSortSheet(
                           context,
-                          current: _sortOption,
+                          current: productsCubit.sortOption,
                         );
                         if (picked != null && mounted) {
-                          setState(() => _sortOption = picked);
+                          productsCubit.setSortOption(picked);
                         }
                       },
                       onFilterTap: () async {
                         final res = await showProductsFilterSheet(
                           context,
-                          initialDiscountsOnly: _discountsOnly,
-                          initialMaxPrice: _maxPrice,
+                          initialDiscountsOnly: productsCubit.discountsOnly,
+                          initialMaxPrice: productsCubit.maxPrice,
                         );
                         if (res != null && mounted) {
-                          setState(() {
-                            _discountsOnly = res.discountsOnly;
-                            _maxPrice = res.maxPrice;
-                          });
+                          productsCubit.setFilters(
+                            discountsOnly: res.discountsOnly,
+                            maxPrice: res.maxPrice,
+                          );
                         }
                       },
                       onCategorySelected: _onCategoryChanged,
@@ -212,34 +191,39 @@ class _ProductsScreenState extends State<ProductsScreen> {
       return EmptyView(title: l10n.noResultsFound);
     }
 
-    return RefreshIndicator(
-      color: cs.primary,
-      onRefresh: () => context.read<ProductsCubit>().loadProducts(
-        categorySlug: _selectedCategorySlug,
-      ),
-      child: CustomScrollView(
-        controller: _scrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        slivers: [
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
-            sliver: SliverGrid(
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 18,
-                crossAxisSpacing: 14,
-                childAspectRatio: 0.64,
+    return BlocBuilder<FavoritesCubit, FavoritesState>(
+      builder: (context, favState) {
+        return BlocBuilder<CartCubit, CartState>(
+          builder: (context, cartState) {
+            final favoriteIds = favState.favoriteProductIds;
+            final cartIds = cartState.productIds;
+
+            return RefreshIndicator(
+              color: cs.primary,
+              onRefresh: () => context.read<ProductsCubit>().loadProducts(
+                categorySlug: _selectedCategorySlug,
+                forceRefresh: true,
               ),
-              delegate: SliverChildBuilderDelegate((context, index) {
-                final product = products[index];
-                return BlocBuilder<FavoritesCubit, FavoritesState>(
-                  builder: (context, favState) {
-                    return BlocBuilder<CartCubit, CartState>(
-                      builder: (context, cartState) {
+              child: CustomScrollView(
+                controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+                    sliver: SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 18,
+                            crossAxisSpacing: 14,
+                            childAspectRatio: 0.64,
+                          ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        final product = products[index];
                         return ProductGridCard(
                           product: product,
-                          isFavorite: favState.isFavorite(product.id),
-                          isInCart: cartState.isInCart(product.id),
+                          isFavorite: favoriteIds.contains(product.id),
+                          isInCart: cartIds.contains(product.id),
                           onFavoriteTap: () => context
                               .read<FavoritesCubit>()
                               .toggleFavorite(product),
@@ -250,24 +234,47 @@ class _ProductsScreenState extends State<ProductsScreen> {
                             extra: product.id,
                           ),
                         );
-                      },
-                    );
-                  },
-                );
-              }, childCount: products.length),
-            ),
-          ),
-          if (state.isLoadingMore)
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: Center(
-                  child: CircularProgressIndicator(color: cs.primary),
-                ),
+                      }, childCount: products.length),
+                    ),
+                  ),
+                  if (state.isLoadingMore)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: Center(
+                          child: CircularProgressIndicator(color: cs.primary),
+                        ),
+                      ),
+                    ),
+                  if (state.paginationFailure != null)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              state.paginationFailure!.message(context),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: cs.error),
+                            ),
+                            TextButton(
+                              onPressed: () => context
+                                  .read<ProductsCubit>()
+                                  .loadMoreProducts(),
+                              child: Text(l10n.retry),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
               ),
-            ),
-        ],
-      ),
+            );
+          },
+        );
+      },
     );
   }
 }

@@ -5,6 +5,9 @@ import 'package:raff_app/features/catalog/domain/entities/paginated_products_ent
 import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 
 abstract class CatalogRepository {
+  /// Drops cached catalog responses so a pull-to-refresh hits the network.
+  void invalidateCache();
+
   Future<Either<Failure, PaginatedProductsEntity>> getProducts({
     int limit = 10,
     int skip = 0,

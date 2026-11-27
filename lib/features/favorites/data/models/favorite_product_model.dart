@@ -1,3 +1,4 @@
+import 'package:raff_app/features/catalog/data/mappers/product_mapper.dart';
 import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 
 class FavoriteProductModel extends ProductEntity {
@@ -32,39 +33,21 @@ class FavoriteProductModel extends ProductEntity {
   }
 
   factory FavoriteProductModel.fromJson(Map<String, dynamic> json) {
+    final product = ProductMapper.fromJson(json);
     return FavoriteProductModel(
-      id: (json['id'] as num).toInt(),
-      title: json['title'] as String? ?? '',
-      description: json['description'] as String? ?? '',
-      category: json['category'] as String? ?? '',
-      price: (json['price'] as num?)?.toDouble() ?? 0.0,
-      discountPercentage:
-          (json['discountPercentage'] as num?)?.toDouble() ?? 0.0,
-      rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
-      stock: (json['stock'] as num?)?.toInt() ?? 0,
-      brand: json['brand'] as String?,
-      thumbnail: json['thumbnail'] as String? ?? '',
-      images:
-          (json['images'] as List<dynamic>?)
-              ?.map((e) => e.toString())
-              .toList() ??
-          const [],
+      id: product.id,
+      title: product.title,
+      description: product.description,
+      category: product.category,
+      price: product.price,
+      discountPercentage: product.discountPercentage,
+      rating: product.rating,
+      stock: product.stock,
+      brand: product.brand,
+      thumbnail: product.thumbnail,
+      images: product.images,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'category': category,
-      'price': price,
-      'discountPercentage': discountPercentage,
-      'rating': rating,
-      'stock': stock,
-      'brand': brand,
-      'thumbnail': thumbnail,
-      'images': images,
-    };
-  }
+  Map<String, dynamic> toJson() => ProductMapper.toSummaryJson(this);
 }

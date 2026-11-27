@@ -24,6 +24,9 @@ class AddressesCubit extends Cubit<AddressesState> {
     required this.setDefaultAddressUseCase,
   }) : super(const AddressesState());
 
+  /// Clears in-memory addresses state after the user-scoped storage is wiped.
+  void reset() => emit(const AddressesState());
+
   void loadAddresses() {
     emit(state.copyWith(status: AddressesStatus.loading));
 

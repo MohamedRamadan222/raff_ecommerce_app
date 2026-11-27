@@ -9,7 +9,6 @@ import 'package:raff_app/core/theme/app_colors.dart';
 import 'package:raff_app/core/widgets/app_search_field.dart';
 import 'package:raff_app/core/widgets/error_view.dart';
 import 'package:raff_app/core/widgets/loading_view.dart';
-import 'package:raff_app/core/widgets/page_indicator.dart';
 import 'package:raff_app/core/widgets/product_card.dart';
 import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 import 'package:raff_app/features/catalog/presentation/cubit/home_cubit.dart';
@@ -25,22 +24,8 @@ import 'package:raff_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:raff_app/features/cart/presentation/utils/cart_helper.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final _bannerController = PageController(viewportFraction: 0.90);
-  int _currentBannerIndex = 0;
-
-  @override
-  void dispose() {
-    _bannerController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
             return RefreshIndicator(
               color: cs.primary,
-              onRefresh: () => context.read<HomeCubit>().loadHomeData(),
+              onRefresh: () =>
+                  context.read<HomeCubit>().loadHomeData(forceRefresh: true),
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.only(top: 8, bottom: 32),
@@ -94,17 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     const Gap(20),
                     HomeBannerCarousel(
-                      controller: _bannerController,
-                      onPageChanged: (index) =>
-                          setState(() => _currentBannerIndex = index),
                       onShopNowTap: () => context.push(AppRoutes.products),
-                    ),
-                    const Gap(12),
-                    Center(
-                      child: PageIndicator(
-                        itemCount: 2,
-                        currentIndex: _currentBannerIndex,
-                      ),
                     ),
                     const Gap(24),
                     _HomeSectionTitle(
@@ -233,6 +209,9 @@ class _ProductsHorizontalList extends StatelessWidget {
       builder: (context, favState) {
         return BlocBuilder<CartCubit, CartState>(
           builder: (context, cartState) {
+            final favoriteIds = favState.favoriteProductIds;
+            final cartIds = cartState.productIds;
+
             return SizedBox(
               height: 245,
               child: ListView.separated(
@@ -250,8 +229,8 @@ class _ProductsHorizontalList extends StatelessWidget {
                     ),
                     price: product.price.toStringAsFixed(0),
                     imageUrl: product.thumbnail,
-                    isFavorite: favState.isFavorite(product.id),
-                    isInCart: cartState.isInCart(product.id),
+                    isFavorite: favoriteIds.contains(product.id),
+                    isInCart: cartIds.contains(product.id),
                     onFavoriteTap: () =>
                         context.read<FavoritesCubit>().toggleFavorite(product),
                     onAddTap: () =>

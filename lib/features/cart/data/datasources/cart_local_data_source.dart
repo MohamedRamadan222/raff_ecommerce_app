@@ -13,6 +13,8 @@ abstract class CartLocalDataSource {
   Future<void> removeFromCart(int productId);
 
   Future<void> clearCart();
+
+  Future<void> clearAll();
 }
 
 class CartLocalDataSourceImpl implements CartLocalDataSource {
@@ -20,22 +22,40 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
 
   CartLocalDataSourceImpl(this.box);
 
+  /// الأصناف بترتيب العرض (الأحدث الأول) عشان ما نفكش الـ JSON غير مرة واحدة.
+  List<CartItemModel>? _itemsCache;
+
+  void _ensureLoaded() {
+    if (_itemsCache != null) return;
+    final items = box.values
+        .map(
+          (raw) =>
+              CartItemModel.fromJson(jsonDecode(raw) as Map<String, dynamic>),
+        )
+        .toList();
+    // الـ Box بيحفظ الأقدم الأول، والشاشة بتعرض الأحدث الأول.
+    _itemsCache = items.reversed.toList();
+  }
+
+  List<CartItemModel> get _items {
+    _ensureLoaded();
+    return _itemsCache!;
+  }
+
   @override
   List<CartItemModel> getCartItems() {
-    return box.values.toList().reversed.map((raw) {
-      final map = jsonDecode(raw) as Map<String, dynamic>;
-      return CartItemModel.fromJson(map);
-    }).toList();
+    return List<CartItemModel>.unmodifiable(_items);
   }
 
   @override
   Future<void> addToCart(CartItemModel item) async {
     final key = item.product.id.toString();
     final maxStock = item.product.stock > 0 ? item.product.stock : 99;
+    final items = _items;
 
-    if (box.containsKey(key)) {
-      final existingMap = jsonDecode(box.get(key)!) as Map<String, dynamic>;
-      final existing = CartItemModel.fromJson(existingMap);
+    final index = items.indexWhere((e) => e.product.id == item.product.id);
+    if (index >= 0) {
+      final existing = items[index];
       final updatedQty = (existing.quantity + item.quantity).clamp(1, maxStock);
 
       final updatedModel = CartItemModel(
@@ -43,6 +63,7 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
         quantity: updatedQty,
         colorHex: item.colorHex ?? existing.colorHex,
       );
+      items[index] = updatedModel;
       await box.put(key, jsonEncode(updatedModel.toJson()));
     } else {
       final clampedModel = CartItemModel(
@@ -50,22 +71,25 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
         quantity: item.quantity.clamp(1, maxStock),
         colorHex: item.colorHex,
       );
+      // المنتج الجديد بيتضاف آخر الـ Box، يعني أول قائمة العرض.
+      items.insert(0, clampedModel);
       await box.put(key, jsonEncode(clampedModel.toJson()));
     }
   }
 
   @override
   Future<void> updateQuantity(int productId, int quantity) async {
-    final key = productId.toString();
-    if (!box.containsKey(key)) return;
+    final items = _items;
+    final index = items.indexWhere((e) => e.product.id == productId);
+    if (index < 0) return;
 
     if (quantity <= 0) {
-      await box.delete(key);
+      items.removeAt(index);
+      await box.delete(productId.toString());
       return;
     }
 
-    final existingMap = jsonDecode(box.get(key)!) as Map<String, dynamic>;
-    final existing = CartItemModel.fromJson(existingMap);
+    final existing = items[index];
     final maxStock = existing.product.stock > 0 ? existing.product.stock : 99;
 
     final updatedModel = CartItemModel(
@@ -73,16 +97,23 @@ class CartLocalDataSourceImpl implements CartLocalDataSource {
       quantity: quantity.clamp(1, maxStock),
       colorHex: existing.colorHex,
     );
-    await box.put(key, jsonEncode(updatedModel.toJson()));
+    items[index] = updatedModel;
+    await box.put(productId.toString(), jsonEncode(updatedModel.toJson()));
   }
 
   @override
   Future<void> removeFromCart(int productId) async {
+    final items = _items;
+    items.removeWhere((e) => e.product.id == productId);
     await box.delete(productId.toString());
   }
 
   @override
   Future<void> clearCart() async {
     await box.clear();
+    _itemsCache = <CartItemModel>[];
   }
+
+  @override
+  Future<void> clearAll() => clearCart();
 }

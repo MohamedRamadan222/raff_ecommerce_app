@@ -87,7 +87,7 @@ class _OtpScreenState extends State<OtpScreen> {
     final muted = isDark ? AppColors.darkMuted : AppColors.muted;
 
     return Scaffold(
-      appBar: AppAppBar(title: l10n.otpTitle, showBackButton: true),
+      appBar: AppAppBar(title: l10n.otpTitle),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 24),
@@ -201,7 +201,7 @@ class _OtpScreenState extends State<OtpScreen> {
               AppButton(
                 label: l10n.verify,
                 isLoading: _isVerifying,
-                onPressed: _isComplete ? _verify : () {},
+                onPressed: _isComplete ? _verify : null,
               ),
             ],
           ),

@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:raff_app/core/errors/failures.dart';
 import 'package:raff_app/features/cart/domain/entities/cart_item_entity.dart';
+import 'package:raff_app/features/cart/domain/value_objects/cart_pricing.dart';
 
 enum CartStatus { initial, loading, success, failure }
 
 class CartState extends Equatable {
-  static const double freeShippingThreshold = 200.0;
-  static const double standardShippingFee = 25.0;
+  static const double freeShippingThreshold = CartPricing.freeShippingThreshold;
+  static const double standardShippingFee = CartPricing.standardShippingFee;
 
   final CartStatus status;
   final List<CartItemEntity> items;
@@ -22,29 +23,28 @@ class CartState extends Equatable {
     this.failure,
   });
 
+  CartPricing get _pricing => CartPricing.from(items, appliedPromoCode);
+
   int get totalItemsCount => items.fold(0, (sum, item) => sum + item.quantity);
 
-  double get subtotal => items.fold(0.0, (sum, item) => sum + item.totalPrice);
+  double get subtotal => _pricing.subtotal;
 
-  bool get hasFreeShipping => subtotal >= freeShippingThreshold;
+  bool get hasFreeShipping => _pricing.hasFreeShipping;
 
-  double get remainingForFreeShipping =>
-      (freeShippingThreshold - subtotal).clamp(0.0, freeShippingThreshold);
+  double get remainingForFreeShipping => _pricing.remainingForFreeShipping;
 
-  double get freeShippingProgress =>
-      (subtotal / freeShippingThreshold).clamp(0.0, 1.0);
+  double get freeShippingProgress => _pricing.freeShippingProgress;
 
-  double get shippingFee =>
-      (items.isEmpty || hasFreeShipping) ? 0.0 : standardShippingFee;
+  double get shippingFee => _pricing.shippingFee;
 
-  double get discountAmount =>
-      appliedPromoCode == 'RAFF10' ? subtotal * 0.10 : 0.0;
+  double get discountAmount => _pricing.discountAmount;
 
-  double get total =>
-      (subtotal - discountAmount + shippingFee).clamp(0.0, double.infinity);
+  double get total => _pricing.total;
 
   bool isInCart(int productId) =>
       items.any((item) => item.product.id == productId);
+
+  Set<int> get productIds => items.map((item) => item.product.id).toSet();
 
   CartState copyWith({
     CartStatus? status,

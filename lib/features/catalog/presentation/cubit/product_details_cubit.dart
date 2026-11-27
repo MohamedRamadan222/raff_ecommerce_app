@@ -8,23 +8,18 @@ class ProductDetailsCubit extends Cubit<ProductDetailsState> {
   ProductDetailsCubit(this.getProductDetailsUseCase)
     : super(const ProductDetailsInitial());
 
+  int _generation = 0;
+
   Future<void> loadProductDetails(int id) async {
+    final generation = ++_generation;
     emit(const ProductDetailsLoading());
 
     final result = await getProductDetailsUseCase(id);
-    if (isClosed) return;
+    if (isClosed || generation != _generation) return;
 
     result.fold(
       (failure) => emit(ProductDetailsFailure(failure)),
       (product) => emit(ProductDetailsSuccess(product: product)),
     );
-  }
-
-  void selectImage(int index) {
-    final currentState = state;
-    if (currentState is! ProductDetailsSuccess) return;
-    if (index < 0 || index >= currentState.product.images.length) return;
-
-    emit(currentState.copyWith(selectedImageIndex: index));
   }
 }

@@ -34,6 +34,7 @@ class _SearchScreenState extends State<SearchScreen> {
   final _searchController = TextEditingController();
   final _scrollController = ScrollController();
   List<String> _recentSearches = [];
+  String? _lastSavedQuery;
 
   @override
   void initState() {
@@ -61,6 +62,9 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<void> _saveSearchQuery(String query) async {
     final trimmed = query.trim();
     if (trimmed.length < 2) return;
+    // منع إعادة حفظ نفس الاستعلام مع كل صفحة نتائج إضافية
+    if (trimmed == _lastSavedQuery) return;
+    _lastSavedQuery = trimmed;
 
     final updated = [
       trimmed,
@@ -72,8 +76,16 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<void> _clearRecentSearches() async {
+    _lastSavedQuery = null;
     setState(() => _recentSearches = []);
     await sl<SharedPreferences>().remove(_recentKey);
+  }
+
+  void _onSearchChanged(String value) {
+    if (value.trim().isEmpty) {
+      _lastSavedQuery = null;
+    }
+    context.read<SearchCubit>().onSearchChanged(value);
   }
 
   void _selectRecentQuery(String query) {
@@ -114,8 +126,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       hintText: l10n.searchHint,
                       autofocus: true,
                       isOutline: true,
-                      onChanged: (value) =>
-                          context.read<SearchCubit>().onSearchChanged(value),
+                      onChanged: _onSearchChanged,
                     ),
                   ),
                 ],
@@ -182,6 +193,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       controller: _scrollController,
                       products: state.products,
                       isLoadingMore: state.isLoadingMore,
+                      paginationError: state.paginationFailure?.message(
+                        context,
+                      ),
+                      onRetry: () =>
+                          context.read<SearchCubit>().loadMoreResults(),
                       onProductTap: (product) {
                         _saveSearchQuery(_searchController.text);
                         context.push(

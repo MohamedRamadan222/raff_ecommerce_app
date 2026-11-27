@@ -91,11 +91,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   builder: (context, favState) {
                     return ProductDetailsGallery(
                       images: galleryImages,
-                      selectedIndex: state.selectedImageIndex,
                       isFavorite: favState.isFavorite(product.id),
-                      onPageChanged: (index) => context
-                          .read<ProductDetailsCubit>()
-                          .selectImage(index),
                       onFavoriteTap: () => context
                           .read<FavoritesCubit>()
                           .toggleFavorite(product),
@@ -152,6 +148,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       builder: (context, favState) {
                         return BlocBuilder<CartCubit, CartState>(
                           builder: (context, cartState) {
+                            final favoriteIds = favState.favoriteProductIds;
+                            final cartIds = cartState.productIds;
+
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -188,10 +187,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             ),
                                         price: item.price.toStringAsFixed(0),
                                         imageUrl: item.thumbnail,
-                                        isFavorite: favState.isFavorite(
+                                        isFavorite: favoriteIds.contains(
                                           item.id,
                                         ),
-                                        isInCart: cartState.isInCart(item.id),
+                                        isInCart: cartIds.contains(item.id),
                                         onFavoriteTap: () => context
                                             .read<FavoritesCubit>()
                                             .toggleFavorite(item),

@@ -4,6 +4,7 @@ import 'package:raff_app/features/cart/domain/usecases/clear_cart_use_case.dart'
 import 'package:raff_app/features/cart/domain/usecases/get_cart_items_use_case.dart';
 import 'package:raff_app/features/cart/domain/usecases/remove_from_cart_use_case.dart';
 import 'package:raff_app/features/cart/domain/usecases/update_cart_quantity_use_case.dart';
+import 'package:raff_app/features/cart/domain/value_objects/promo_code_policy.dart';
 import 'package:raff_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:raff_app/features/catalog/domain/entities/product_entity.dart';
 
@@ -21,6 +22,9 @@ class CartCubit extends Cubit<CartState> {
     required this.removeFromCartUseCase,
     required this.clearCartUseCase,
   }) : super(const CartState());
+
+  /// Clears in-memory cart state after the user-scoped storage is wiped.
+  void reset() => emit(const CartState());
 
   void loadCart() {
     emit(state.copyWith(status: CartStatus.loading));
@@ -155,11 +159,11 @@ class CartCubit extends Cubit<CartState> {
   }
 
   bool applyPromoCode(String rawCode) {
-    final code = rawCode.trim().toUpperCase();
+    final code = PromoCodePolicy.normalize(rawCode);
     if (code.isEmpty) return false;
 
-    if (code == 'RAFF10') {
-      emit(state.copyWith(appliedPromoCode: 'RAFF10', isPromoInvalid: false));
+    if (PromoCodePolicy.isValid(code)) {
+      emit(state.copyWith(appliedPromoCode: code, isPromoInvalid: false));
       return true;
     }
 
@@ -170,6 +174,4 @@ class CartCubit extends Cubit<CartState> {
   void removePromoCode() {
     emit(state.copyWith(clearPromoCode: true, isPromoInvalid: false));
   }
-
-  bool isInCart(int productId) => state.isInCart(productId);
 }
